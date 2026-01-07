@@ -16,7 +16,7 @@ import java.util.Map;
 @Setter
 @Entity
 @jakarta.persistence.Table(name = "tables")
-public class Table {
+public class Tables {
     @Id
     @ColumnDefault("nextval('tables_table_id_seq'")
     @Column(name = "table_id", nullable = false)
