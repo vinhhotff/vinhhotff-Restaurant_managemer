@@ -1,12 +1,13 @@
 package com.example.project1.Models;
 
-import jakarta.persistence.*;
+import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
 
+import javax.persistence.*;
 import java.time.Instant;
 import java.util.Map;
 
@@ -14,10 +15,12 @@ import java.util.Map;
 @Setter
 @Entity
 @Table(name = "reviews")
+@TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
 public class Review {
+
     @Id
-    @ColumnDefault("nextval('reviews_review_id_seq'")
-    @Column(name = "review_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "review_id")
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -38,7 +41,7 @@ public class Review {
     @Column(name = "title", length = 200)
     private String title;
 
-    @Column(name = "comment", length = Integer.MAX_VALUE)
+    @Column(name = "comment", columnDefinition = "text")
     private String comment;
 
     @Column(name = "food_rating")
@@ -50,8 +53,9 @@ public class Review {
     @Column(name = "ambiance_rating")
     private Integer ambianceRating;
 
-    @Column(name = "photos")
-    @JdbcTypeCode(SqlTypes.JSON)
+    // ✅ FIX CHÍNH Ở ĐÂY
+    @Type(type = "jsonb")
+    @Column(name = "photos", columnDefinition = "jsonb")
     private Map<String, Object> photos;
 
     @ColumnDefault("false")
@@ -59,17 +63,10 @@ public class Review {
     private Boolean isVerifiedBooking;
 
     @ColumnDefault("CURRENT_TIMESTAMP")
-    @Column(name = "created_at")
+    @Column(name = "created_at", updatable = false)
     private Instant createdAt;
+
     @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "updated_at")
     private Instant updatedAt;
-
-/*
- TODO [Reverse Engineering] create field to map the 'status' column
- Available actions: Define target Java type | Uncomment as is | Remove column mapping
-    @ColumnDefault("pending")
-    @Column(name = "status", columnDefinition = "review_status")
-    private Object status;
-*/
 }

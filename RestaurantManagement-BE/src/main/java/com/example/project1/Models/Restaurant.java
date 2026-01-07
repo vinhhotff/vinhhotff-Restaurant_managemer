@@ -1,11 +1,12 @@
 package com.example.project1.Models;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -15,6 +16,7 @@ import java.util.Map;
 @Setter
 @Entity
 @Table(name = "restaurants")
+@TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
 public class Restaurant {
     @Id
     @ColumnDefault("nextval('restaurants_restaurant_id_seq'")
@@ -58,8 +60,8 @@ public class Restaurant {
     @Column(name = "website", length = 200)
     private String website;
 
-    @Column(name = "opening_hours")
-    @JdbcTypeCode(SqlTypes.JSON)
+    @Type(type = "jsonb")
+    @Column(name = "opening_hours", columnDefinition = "jsonb")
     private Map<String, Object> openingHours;
 
     @Column(name = "price_range", length = 20)
@@ -76,12 +78,12 @@ public class Restaurant {
     @Column(name = "cover_image", length = 500)
     private String coverImage;
 
-    @Column(name = "gallery")
-    @JdbcTypeCode(SqlTypes.JSON)
+    @Type(type = "jsonb")
+    @Column(name = "gallery", columnDefinition = "jsonb")
     private Map<String, Object> gallery;
 
-    @Column(name = "features")
-    @JdbcTypeCode(SqlTypes.JSON)
+    @Type(type = "jsonb")
+    @Column(name = "features", columnDefinition = "jsonb")
     private Map<String, Object> features;
 
     @ColumnDefault("CURRENT_TIMESTAMP")

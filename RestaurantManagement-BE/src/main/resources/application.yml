@@ -1,0 +1,4 @@
+jwt:
+  secret: "THIS_IS_A_VERY_LONG_SECRET_KEY_AT_LEAST_32_BYTES"
+  access-token-expiration: 900000
+  refresh-token-expiration: 604800000

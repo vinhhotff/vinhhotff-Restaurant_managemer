@@ -1,13 +1,14 @@
 package com.example.project1.Models;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.hibernate.type.SqlTypes;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 
 import java.time.Instant;
 import java.util.Map;
@@ -15,7 +16,8 @@ import java.util.Map;
 @Getter
 @Setter
 @Entity
-@jakarta.persistence.Table(name = "tables")
+@javax.persistence.Table(name = "tables")
+@TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
 public class Tables {
     @Id
     @ColumnDefault("nextval('tables_table_id_seq'")
@@ -28,7 +30,6 @@ public class Tables {
     private Restaurant restaurant;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @OnDelete(action = OnDeleteAction.SET_NULL)
     @JoinColumn(name = "area_id")
     private RestaurantArea area;
 
@@ -48,8 +49,8 @@ public class Tables {
     @Column(name = "position_description", length = Integer.MAX_VALUE)
     private String positionDescription;
 
-    @Column(name = "features")
-    @JdbcTypeCode(SqlTypes.JSON)
+    @Type(type = "jsonb")
+    @Column(name = "features", columnDefinition = "jsonb")
     private Map<String, Object> features;
 
     @ColumnDefault("CURRENT_TIMESTAMP")
