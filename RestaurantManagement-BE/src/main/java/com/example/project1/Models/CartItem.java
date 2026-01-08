@@ -1,12 +1,12 @@
 package com.example.project1.Models;
 
-import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import javax.persistence.*;
 import java.time.Instant;
 
 @Getter
@@ -14,8 +14,9 @@ import java.time.Instant;
 @Entity
 @Table(name = "cart_items")
 public class CartItem {
+
     @Id
-    @ColumnDefault("nextval('cart_items_cart_item_id_seq'")
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Tự tăng ID
     @Column(name = "cart_item_id", nullable = false)
     private Integer id;
 
@@ -32,15 +33,15 @@ public class CartItem {
     @JoinColumn(name = "menu_id", nullable = false)
     private Menu menu;
 
-    @ColumnDefault("1")
-    @Column(name = "quantity")
-    private Integer quantity;
+    @Column(name = "quantity", nullable = false)
+    private Integer quantity = 1; // Giá trị mặc định
 
-    @Column(name = "special_instructions", length = Integer.MAX_VALUE)
+    @Lob
+    @Column(name = "special_instructions")
     private String specialInstructions;
 
-    @ColumnDefault("CURRENT_TIMESTAMP")
-    @Column(name = "created_at")
+    @CreationTimestamp
+    @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
 
 }

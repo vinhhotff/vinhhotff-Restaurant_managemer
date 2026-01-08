@@ -1,6 +1,7 @@
 package com.example.project1.Controller;
 
 import com.example.project1.dto.request.CreateUserRequest;
+import com.example.project1.dto.request.UpdateUserRequest;
 import com.example.project1.dto.response.ApiResponse;
 import com.example.project1.dto.response.UserResponse;
 import com.example.project1.Models.User;
@@ -45,25 +46,33 @@ public class UserController {
 
     // CREATE USER
     @PostMapping
-    public ResponseEntity<ApiResponse<UserResponse>> createUser(
-            @RequestBody @Valid CreateUserRequest request
-    ) {
-        User savedUser = userService.createUser(request);
-
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(ApiResponse.success(
-                        UserResponse.from(savedUser),
-                        "User created successfully"
-                ));
+    public ResponseEntity<ApiResponse<User>> createUser(@RequestBody CreateUserRequest request) {
+        User user = userService.createUser(request);
+        ApiResponse<User> response = ApiResponse.success(user, "User created successfully");
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
+
 
     // DELETE USER (soft delete)
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<Void>> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
-
         return ResponseEntity.ok(
                 ApiResponse.success(null, "User deleted successfully")
         );
     }
+
+    //UPDATE USER
+    @PatchMapping("/{id}")
+    public ResponseEntity<ApiResponse<UserResponse>> updateUser(
+            @PathVariable Long id,
+            @RequestBody UpdateUserRequest request) {
+
+        User updatedUser = userService.updateUser(id, request);
+
+        return ResponseEntity.ok(
+                ApiResponse.success(UserResponse.from(updatedUser), "User updated successfully")
+        );
+    }
+
 }

@@ -3,6 +3,7 @@ package com.example.project1.dto.request;
 
 import lombok.Data;
 
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
