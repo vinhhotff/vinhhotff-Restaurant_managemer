@@ -48,7 +48,7 @@ public class User {
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
 
-    @Column(name = "is_verified", nullable = false)
+    @Column(name = "is_verified", nullable = true)
     private Boolean isVerified = false;
 
     @org.hibernate.annotations.Type(type = "jsonb")

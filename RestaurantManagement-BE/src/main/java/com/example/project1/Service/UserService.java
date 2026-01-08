@@ -6,18 +6,19 @@ import com.example.project1.dto.request.CreateUserRequest;
 import com.example.project1.dto.request.UpdateUserRequest;
 import com.example.project1.exception.AppException;
 import com.example.project1.exception.EmailAlreadyExistsException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
-    @Autowired
-    private UserRepository userRepository;
 
-    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
@@ -25,7 +26,7 @@ public class UserService {
 
     public User getUserById(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new AppException("User not found", 404));
     }
 
     public User createUser(CreateUserRequest request) {
@@ -46,8 +47,7 @@ public class UserService {
     public void deleteUser(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new AppException(
-                        "No class User entity with id " + id + " exists!", 404
-                ));
+                        "No class User entity with id " + id + " exists!", 404));
 
         userRepository.delete(user);
     }
@@ -56,8 +56,7 @@ public class UserService {
         // Lấy user, nếu không có -> throw AppException 404
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new AppException(
-                        "No class User entity with id " + id + " exists!", 404
-                ));
+                        "No class User entity with id " + id + " exists!", 404));
 
         // Kiểm tra email mới có bị trùng không (nếu thay đổi)
         if (!user.getEmail().equals(request.getEmail()) &&
