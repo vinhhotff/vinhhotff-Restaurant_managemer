@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.time.Instant;
 
@@ -13,6 +14,7 @@ import java.time.Instant;
 @Setter
 @Entity
 @Table(name = "restaurant_owners")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class RestaurantOwner {
     @Id
     @ColumnDefault("nextval('restaurant_owners_owner_id_seq'")

@@ -4,6 +4,7 @@ import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -13,24 +14,25 @@ import java.time.LocalTime;
 @Setter
 @Entity
 @Table(name = "reservations")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Reservation {
     @Id
-    @ColumnDefault("nextval('reservations_reservation_id_seq'")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "reservation_id", nullable = false)
-    private Integer id;
+    private Long id;
 
     @Column(name = "reservation_code", nullable = false, length = 20)
     private String reservationCode;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "table_id", nullable = false)
     private Tables tables;
 
@@ -55,9 +57,13 @@ public class Reservation {
 
     @Column(name = "cancellation_reason", length = Integer.MAX_VALUE)
     private String cancellationReason;
+    
     @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "updated_at")
     private Instant updatedAt;
+    
+    @Column(name = "deleted_at")
+    private Instant deletedAt;
 
 /*
  TODO [Reverse Engineering] create field to map the 'occasion' column
