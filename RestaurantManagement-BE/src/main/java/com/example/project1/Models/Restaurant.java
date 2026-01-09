@@ -7,6 +7,7 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -17,6 +18,7 @@ import java.util.Map;
 @Entity
 @Table(name = "restaurants")
 @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Restaurant {
     @Id
     @ColumnDefault("nextval('restaurants_restaurant_id_seq'")
@@ -80,11 +82,11 @@ public class Restaurant {
 
     @Type(type = "jsonb")
     @Column(name = "gallery", columnDefinition = "jsonb")
-    private Map<String, Object> gallery;
+    private Object gallery;
 
     @Type(type = "jsonb")
     @Column(name = "features", columnDefinition = "jsonb")
-    private Map<String, Object> features;
+    private Object features;
 
     @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "created_at")

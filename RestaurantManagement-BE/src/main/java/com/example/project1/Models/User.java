@@ -7,6 +7,7 @@ import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -20,6 +21,7 @@ import java.util.Map;
 @SQLDelete(sql = "UPDATE users SET deleted_at = NOW() WHERE user_id = ?")
 @Where(clause = "deleted_at IS NULL")
 @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User {
 
     @Id

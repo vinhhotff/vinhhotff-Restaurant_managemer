@@ -6,11 +6,13 @@ import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "restaurant_areas")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class RestaurantArea {
     @Id
     @ColumnDefault("nextval('restaurant_areas_area_id_seq'")

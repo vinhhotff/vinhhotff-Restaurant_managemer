@@ -9,6 +9,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.time.Instant;
 import java.util.Map;
@@ -18,6 +19,7 @@ import java.util.Map;
 @Entity
 @javax.persistence.Table(name = "tables")
 @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Tables {
     @Id
     @ColumnDefault("nextval('tables_table_id_seq'")
@@ -51,7 +53,7 @@ public class Tables {
 
     @Type(type = "jsonb")
     @Column(name = "features", columnDefinition = "jsonb")
-    private Map<String, Object> features;
+    private Object features;
 
     @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "created_at")
