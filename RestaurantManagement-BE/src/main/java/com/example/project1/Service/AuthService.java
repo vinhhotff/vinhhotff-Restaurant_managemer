@@ -12,6 +12,7 @@ import com.example.project1.exception.UnauthorizedException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -28,11 +29,17 @@ public class AuthService {
             throw new AppException("Email already exists", 409);
         }
 
+        // Validate password is required for local registration
+        if (request.getPassword() == null || request.getPassword().trim().isEmpty()) {
+            throw new AppException("Password is required for registration", 400);
+        }
+
         User user = new User();
         user.setEmail(request.getEmail());
         user.setPasswordHash(passwordEncoder.encode(request.getPassword()));
         user.setFullName(request.getFullName());
         user.setPhone(request.getPhone());
+        user.setAuthProvider("local"); // Mark as local account
 
         userRepository.save(user);
 
@@ -46,6 +53,16 @@ public class AuthService {
     public AuthResponse login(LoginRequest request) {
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new AppException("Incorrect email or password", 200));
+
+        // Check if user registered with OAuth (Google, Facebook, etc.)
+        if (user.getAuthProvider() != null && !user.getAuthProvider().equals("local")) {
+            throw new AppException("This account was registered with " + user.getAuthProvider() + ". Please use " + user.getAuthProvider() + " login.", 400);
+        }
+
+        // Validate password exists
+        if (user.getPasswordHash() == null || user.getPasswordHash().isEmpty()) {
+            throw new AppException("This account has no password. Please use OAuth login.", 400);
+        }
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPasswordHash())) {
             throw new AppException("Incorrect email or password", 200);
@@ -71,6 +88,12 @@ public class AuthService {
     }
 
     public void logout(String refreshToken) {
+
         refreshTokenService.revokeToken(refreshToken);
+    }
+
+    // Method for Google OAuth to create refresh token
+    public String createRefreshTokenForUser(User user) {
+        return refreshTokenService.createRefreshToken(user);
     }
 }

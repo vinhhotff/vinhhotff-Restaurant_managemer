@@ -32,14 +32,21 @@ public class User {
     @Column(nullable = false, unique = true, length = 100)
     private String email;
 
-    @Column(name = "password_hash", nullable = false)
-    private String passwordHash;
+    @Column(name = "password_hash")
+    private String passwordHash; // Can be null for OAuth users
 
     @Column(name = "full_name", nullable = false, length = 100)
     private String fullName;
 
-    @Column(nullable = false, length = 20)
-    private String phone;
+    @Column(length = 20)
+    private String phone; // Can be null initially
+
+    // OAuth2 fields
+    @Column(name = "auth_provider", length = 50)
+    private String authProvider; // "local", "google", etc.
+
+    @Column(name = "provider_id", length = 255)
+    private String providerId; // Google ID
 
     @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
