@@ -4,20 +4,20 @@ import { AuthForm } from "@/components/forms/auth-form";
 
 export default function LoginPage() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-950 p-4">
-      <div className="w-full max-w-md space-y-8 rounded-2xl border border-slate-800 bg-slate-900/50 p-8 backdrop-blur-xl shadow-2xl">
+    <div className="flex min-h-screen items-center justify-center p-4 animate-fade-in-up">
+      <Card className="w-full max-w-md space-y-8">
         <div className="text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-slate-100">
+          <h2 className="text-3xl font-bold tracking-tight text-foreground">
             Welcome back
           </h2>
-          <p className="mt-2 text-sm text-slate-400">
+          <p className="mt-2 text-sm text-muted-foreground">
             Sign in to access your dashboard
           </p>
         </div>
 
         <AuthForm mode="login" />
 
-        <div className="text-center text-sm text-slate-500">
+        <div className="text-center text-sm text-muted-foreground">
           Not a member?{" "}
           <Link
             href="/register"
@@ -26,7 +26,7 @@ export default function LoginPage() {
             Create an account
           </Link>
         </div>
-      </div>
+      </Card>
     </div>
   );
 }
