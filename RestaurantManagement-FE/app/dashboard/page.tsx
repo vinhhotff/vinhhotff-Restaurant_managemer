@@ -70,29 +70,29 @@ export default function DashboardPage() {
   return (
     <Card>
       <div className="mb-6 space-y-2">
-        <h1 className="text-2xl font-semibold text-slate-100">Dashboard</h1>
-        <p className="text-sm text-slate-400">
+        <h1 className="text-2xl font-semibold text-foreground">Dashboard</h1>
+        <p className="text-sm text-muted-foreground">
           A quick view of your most recent reservations. Use this area as a
           starting point for your management tools.
         </p>
       </div>
 
       {status === "loading" && (
-        <p className="text-sm text-slate-400">Loading reservations…</p>
+        <p className="text-sm text-muted-foreground">Loading reservations…</p>
       )}
       {status === "error" && (
-        <p className="text-sm text-red-400">{errorMessage}</p>
+        <p className="text-sm text-destructive">{errorMessage}</p>
       )}
 
       {status === "ready" && reservations.length > 0 && (
-        <ul className="mb-6 space-y-3 text-sm text-slate-200">
+        <ul className="mb-6 space-y-3 text-sm text-foreground">
           {reservations.map((reservation) => (
             <li
               key={reservation.id}
-              className="flex items-center justify-between rounded-md border border-slate-800 bg-slate-900/80 px-4 py-3"
+              className="flex items-center justify-between rounded-md border border-border bg-card/60 px-4 py-3"
             >
               <span className="font-medium">{reservation.reservationCode}</span>
-              <span className="text-slate-400">
+              <span className="text-muted-foreground">
                 {reservation.reservationDate}
               </span>
             </li>
@@ -101,14 +101,14 @@ export default function DashboardPage() {
       )}
 
       {status === "ready" && reservations.length === 0 && (
-        <p className="text-sm text-slate-300">
+        <p className="text-sm text-muted-foreground">
           No reservations found yet. Start by creating a new reservation in the
           management console.
         </p>
       )}
 
       <div className="mt-8 flex flex-col gap-3 text-sm">
-        <Link href="/" className="text-primary">
+        <Link href="/" className="text-primary hover:underline">
           Return home
         </Link>
         <Button variant="ghost" onClick={handleLogout}>
