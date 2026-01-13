@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} min-h-screen bg-background antialiased selection:bg-primary/30`}>
+      <body suppressHydrationWarning className={`${inter.className} min-h-screen bg-background antialiased selection:bg-primary/30`}>
         <div className="flex min-h-screen flex-col relative overflow-hidden">
              {/* Decorative background blobs */}
             <div className="fixed -top-24 -left-24 w-96 h-96 bg-primary/20 rounded-full blur-3xl pointer-events-none z-0" />

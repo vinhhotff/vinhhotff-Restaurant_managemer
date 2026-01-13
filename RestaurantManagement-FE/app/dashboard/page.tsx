@@ -1,120 +1,66 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import api from "@/lib/api";
+import { User } from "@/lib/types";
+import { ReservationList } from "@/components/reservations/reservation-list";
+import { CreateReservationForm } from "@/components/reservations/create-reservation-form";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-
-type Status = "loading" | "ready" | "error";
-
-type ReservationSummary = {
-  id: number;
-  reservationCode: string;
-  reservationDate: string;
-};
+import api from "@/lib/api";
 
 export default function DashboardPage() {
   const router = useRouter();
-  const [status, setStatus] = useState<Status>("loading");
-  const [reservations, setReservations] = useState<ReservationSummary[]>([]);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [user, setUser] = useState<User | null>(null);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
-    let isMounted = true;
-
-    (async () => {
-      try {
-        const response = await api.get("/api/reservations");
-        if (!isMounted) {
-          return;
-        }
-
-        const items = Array.isArray(response.data?.data)
-          ? response.data.data
-          : [];
-        const mapped = items.slice(0, 3).map((item: any) => ({
-          id: item.id,
-          reservationCode: item.reservationCode,
-          reservationDate: item.reservationDate,
-        }));
-
-        setReservations(mapped);
-        setStatus("ready");
-      } catch (error) {
-        if (!isMounted) {
-          return;
-        }
-
-        setStatus("error");
-        setErrorMessage(
-          "We could not load reservations. Confirm your session is active."
-        );
-      }
-    })();
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
+    const userStr = localStorage.getItem("user");
+    if (!userStr) {
+      router.push("/login");
+      return;
+    }
+    setUser(JSON.parse(userStr));
+  }, [router]);
 
   const handleLogout = async () => {
-    try {
-      await api.post("/auth/logout");
-    } finally {
-      router.push("/login");
-    }
+      try {
+          await api.post("/auth/logout");
+      } catch (e) {
+          console.error(e);
+      }
+      localStorage.removeItem("user");
+      router.push("/login"); // Fixed: using push instead of reload for SPA feel
+  }
+
+  const handleReservationSuccess = () => {
+      setRefreshKey(old => old + 1);
   };
 
+  if (!user) return <div className="flex h-screen items-center justify-center">Loading...</div>;
+
   return (
-    <Card>
-      <div className="mb-6 space-y-2">
-        <h1 className="text-2xl font-semibold text-foreground">Dashboard</h1>
-        <p className="text-sm text-muted-foreground">
-          A quick view of your most recent reservations. Use this area as a
-          starting point for your management tools.
-        </p>
-      </div>
-
-      {status === "loading" && (
-        <p className="text-sm text-muted-foreground">Loading reservations…</p>
-      )}
-      {status === "error" && (
-        <p className="text-sm text-destructive">{errorMessage}</p>
-      )}
-
-      {status === "ready" && reservations.length > 0 && (
-        <ul className="mb-6 space-y-3 text-sm text-foreground">
-          {reservations.map((reservation) => (
-            <li
-              key={reservation.id}
-              className="flex items-center justify-between rounded-md border border-border bg-card/60 px-4 py-3"
-            >
-              <span className="font-medium">{reservation.reservationCode}</span>
-              <span className="text-muted-foreground">
-                {reservation.reservationDate}
-              </span>
-            </li>
-          ))}
-        </ul>
-      )}
-
-      {status === "ready" && reservations.length === 0 && (
-        <p className="text-sm text-muted-foreground">
-          No reservations found yet. Start by creating a new reservation in the
-          management console.
-        </p>
-      )}
-
-      <div className="mt-8 flex flex-col gap-3 text-sm">
-        <Link href="/" className="text-primary hover:underline">
-          Return home
-        </Link>
-        <Button variant="ghost" onClick={handleLogout}>
-          Logout
-        </Button>
-      </div>
-    </Card>
+    <div className="min-h-screen bg-gray-50">
+        <header className="bg-white shadow">
+            <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+                <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+                    Dashboard
+                </h1>
+                <div className="flex items-center gap-4">
+                    <span className="text-gray-600">Welcome, {user.fullName}</span>
+                    <Button variant="outline" onClick={handleLogout}>Logout</Button>
+                </div>
+            </div>
+        </header>
+        <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+            <div className="px-4 py-6 sm:px-0">
+                <div className="flex justify-between items-center mb-6">
+                    <h2 className="text-2xl font-semibold">Your Reservations</h2>
+                    <CreateReservationForm onSuccess={handleReservationSuccess} />
+                </div>
+                
+                <ReservationList key={refreshKey} />
+            </div>
+        </main>
+    </div>
   );
 }
