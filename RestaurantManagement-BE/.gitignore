@@ -48,3 +48,12 @@ secrets/
 *.key
 *.p12
 *.jks
+*.log
+error_log.txt
+.vscode/
+.vscode/settings.json
+
+
+*settings.json
+.gitignore
+test_log.txt
