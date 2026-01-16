@@ -5,7 +5,7 @@ type ButtonProps = DetailedHTMLProps<
   ButtonHTMLAttributes<HTMLButtonElement>,
   HTMLButtonElement
 > & {
-  variant?: "primary" | "secondary" | "outline" | "ghost" | "link";
+  variant?: "primary" | "secondary" | "outline" | "ghost" | "link" | "destructive";
   size?: "default" | "sm" | "lg";
   isLoading?: boolean;
 };
@@ -38,6 +38,8 @@ export function Button({
           "hover:bg-accent hover:text-accent-foreground text-foreground/80",
         variant === "link" && 
             "text-primary underline-offset-4 hover:underline",
+        variant === "destructive" &&
+            "bg-red-500 text-white hover:bg-red-600 focus-visible:ring-red-600",
         (disabled || isLoading) && "opacity-50",
         className
       )}
