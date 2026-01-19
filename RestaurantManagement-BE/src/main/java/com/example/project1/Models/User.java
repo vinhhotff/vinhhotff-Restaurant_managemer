@@ -21,13 +21,17 @@ import java.util.Map;
 @SQLDelete(sql = "UPDATE users SET deleted_at = NOW() WHERE user_id = ?")
 @Where(clause = "deleted_at IS NULL")
 @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long id;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "role_id")
+    private Role role;
 
     @Column(nullable = false, unique = true, length = 100)
     private String email;
@@ -71,7 +75,8 @@ public class User {
     protected void onCreate() {
         this.createdAt = Instant.now();
 
-        if (notificationPreferences.isEmpty()) {
+        if (notificationPreferences == null || notificationPreferences.isEmpty()) {
+            notificationPreferences = new HashMap<>();
             notificationPreferences.put("sms", true);
             notificationPreferences.put("push", true);
             notificationPreferences.put("email", true);
