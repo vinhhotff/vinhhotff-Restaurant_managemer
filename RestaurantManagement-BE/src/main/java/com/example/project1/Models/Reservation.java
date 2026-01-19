@@ -4,6 +4,10 @@ import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+import com.example.project1.Models.Enums.Occasion;
+import com.example.project1.Models.Enums.ReservationStatus;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.time.Instant;
@@ -14,12 +18,23 @@ import java.time.LocalTime;
 @Setter
 @Entity
 @Table(name = "reservations")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@SQLDelete(sql = "UPDATE reservations SET deleted_at = NOW() WHERE reservation_id = ?")
+@Where(clause = "deleted_at IS NULL")
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "reservation_id", nullable = false)
     private Long id;
+
+    @Enumerated(EnumType.STRING)
+    @ColumnDefault("'PENDING'")
+    @Column(name = "status", nullable = false)
+    private ReservationStatus status = ReservationStatus.PENDING;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "occasion")
+    private Occasion occasion;
 
     @Column(name = "reservation_code", nullable = false, length = 20)
     private String reservationCode;
@@ -57,25 +72,21 @@ public class Reservation {
 
     @Column(name = "cancellation_reason", length = Integer.MAX_VALUE)
     private String cancellationReason;
-    
+
     @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "updated_at")
     private Instant updatedAt;
-    
+
+    @Column(name = "check_in_at")
+    private Instant checkInAt;
+
+    @ColumnDefault("false")
+    @Column(name = "no_show")
+    private Boolean noShow = false;
+
+    @Column(name = "expired_at")
+    private Instant expiredAt;
+
     @Column(name = "deleted_at")
     private Instant deletedAt;
-
-/*
- TODO [Reverse Engineering] create field to map the 'occasion' column
- Available actions: Define target Java type | Uncomment as is | Remove column mapping
-    @Column(name = "occasion", columnDefinition = "occasion_type")
-    private Object occasion;
-*/
-/*
- TODO [Reverse Engineering] create field to map the 'status' column
- Available actions: Define target Java type | Uncomment as is | Remove column mapping
-    @ColumnDefault("pending")
-    @Column(name = "status", columnDefinition = "reservation_status")
-    private Object status;
-*/
 }

@@ -6,6 +6,8 @@ import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -14,6 +16,8 @@ import java.time.Instant;
 @Setter
 @Entity
 @Table(name = "menus")
+@SQLDelete(sql = "UPDATE menus SET deleted_at = NOW() WHERE menu_id = ?")
+@Where(clause = "deleted_at IS NULL")
 public class Menu {
     @Id
     @ColumnDefault("nextval('menus_menu_id_seq'")
@@ -34,24 +38,21 @@ public class Menu {
     @Column(name = "price", nullable = false, precision = 10, scale = 2)
     private BigDecimal price;
 
-    @ColumnDefault("VND")
+    @ColumnDefault("'VND'")
     @Column(name = "currency", length = 3)
-    private String currency;
+    private String currency = "VND";
 
     @Column(name = "image_url", length = 500)
     private String imageUrl;
 
     @ColumnDefault("true")
     @Column(name = "is_available")
-    private Boolean isAvailable;
+    private Boolean isAvailable = true;
+
     @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "created_at")
     private Instant createdAt;
 
-/*
- TODO [Reverse Engineering] create field to map the 'category' column
- Available actions: Define target Java type | Uncomment as is | Remove column mapping
-    @Column(name = "category", columnDefinition = "menu_category not null")
-    private Object category;
-*/
+    @Column(name = "deleted_at")
+    private Instant deletedAt;
 }
