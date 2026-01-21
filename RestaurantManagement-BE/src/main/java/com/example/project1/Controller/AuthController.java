@@ -209,7 +209,7 @@ public class AuthController {
 
                         // Redirect to frontend success page or return JSON
                         // Option 1: Redirect to frontend
-                        // response.sendRedirect(FRONTEND_SUCCESS_URL);
+                        // response.sendRedirect("http://localhost:3000/dashboard");
                         
                         // Option 2: Return JSON with user info
                         response.setContentType("application/json");

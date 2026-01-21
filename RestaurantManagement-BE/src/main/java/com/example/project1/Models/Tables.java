@@ -62,12 +62,21 @@ public class Tables {
 
     @Type(type = "jsonb")
     @Column(name = "features", columnDefinition = "jsonb")
-    private Object features;
+    private Map<String, Object> features;
 
     @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "created_at")
     private Instant createdAt;
 
-    @Column(name = "deleted_at")
-    private Instant deletedAt;
+
+    @Column(name = "updated_at")
+    private Instant updatedAt;
+
+/*
+ TODO [Reverse Engineering] create field to map the 'status' column
+ Available actions: Define target Java type | Uncomment as is | Remove column mapping
+    @ColumnDefault("available")
+    @Column(name = "status", columnDefinition = "table_status")
+    private Object status;
+*/
 }
