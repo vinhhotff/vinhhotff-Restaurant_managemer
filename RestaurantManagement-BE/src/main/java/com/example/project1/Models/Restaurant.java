@@ -6,6 +6,9 @@ import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+import com.example.project1.Models.Enums.RestaurantStatus;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -17,13 +20,20 @@ import java.util.Map;
 @Setter
 @Entity
 @Table(name = "restaurants")
+@SQLDelete(sql = "UPDATE restaurants SET deleted_at = NOW() WHERE restaurant_id = ?")
+@Where(clause = "deleted_at IS NULL")
 @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Restaurant {
     @Id
     @ColumnDefault("nextval('restaurants_restaurant_id_seq'")
     @Column(name = "restaurant_id", nullable = false)
     private Integer id;
+
+    @Enumerated(EnumType.STRING)
+    @ColumnDefault("'PENDING'")
+    @Column(name = "status", nullable = false)
+    private RestaurantStatus status = RestaurantStatus.PENDING;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "owner_id", nullable = false)
@@ -91,15 +101,11 @@ public class Restaurant {
     @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "created_at")
     private Instant createdAt;
+
     @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "updated_at")
     private Instant updatedAt;
 
-/*
- TODO [Reverse Engineering] create field to map the 'status' column
- Available actions: Define target Java type | Uncomment as is | Remove column mapping
-    @ColumnDefault("pending")
-    @Column(name = "status", columnDefinition = "restaurant_status")
-    private Object status;
-*/
+    @Column(name = "deleted_at")
+    private Instant deletedAt;
 }

@@ -8,23 +8,32 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+import com.example.project1.Models.Enums.TableStatus;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.time.Instant;
-import java.util.Map;
 
 @Getter
 @Setter
 @Entity
 @javax.persistence.Table(name = "tables")
+@SQLDelete(sql = "UPDATE tables SET deleted_at = NOW() WHERE table_id = ?")
+@Where(clause = "deleted_at IS NULL")
 @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Tables {
     @Id
     @ColumnDefault("nextval('tables_table_id_seq'")
     @Column(name = "table_id", nullable = false)
     private Integer id;
+
+    @Enumerated(EnumType.STRING)
+    @ColumnDefault("'AVAILABLE'")
+    @Column(name = "status", nullable = false)
+    private TableStatus status = TableStatus.AVAILABLE;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)

@@ -1,27 +1,30 @@
 package com.example.project1.Models;
 
-import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
+import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.Type;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import org.hibernate.annotations.TypeDef;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import javax.persistence.*;
 import java.time.Instant;
-import java.util.Map;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "reviews")
+@SQLDelete(sql = "UPDATE reviews SET deleted_at = NOW() WHERE review_id = ?")
+@Where(clause = "deleted_at IS NULL")
 @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Review {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "review_id")
-    private Integer id;
+    @Column(name = "review_id", nullable = false)
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
@@ -35,38 +38,36 @@ public class Review {
     @JoinColumn(name = "reservation_id")
     private Reservation reservation;
 
-    @Column(name = "rating")
+    @Column(name = "rating", nullable = false)
     private Integer rating;
+
+    @Column(name = "rating_food")
+    private Integer ratingFood;
+
+    @Column(name = "rating_service")
+    private Integer ratingService;
+
+    @Column(name = "rating_ambiance")
+    private Integer ratingAmbiance;
 
     @Column(name = "title", length = 200)
     private String title;
 
-    @Column(name = "comment", columnDefinition = "text")
+    @Column(name = "comment", length = Integer.MAX_VALUE)
     private String comment;
 
-    @Column(name = "food_rating")
-    private Integer foodRating;
-
-    @Column(name = "service_rating")
-    private Integer serviceRating;
-
-    @Column(name = "ambiance_rating")
-    private Integer ambianceRating;
-
-    // ✅ FIX CHÍNH Ở ĐÂY
-    @Type(type = "jsonb")
+    @org.hibernate.annotations.Type(type = "jsonb")
     @Column(name = "photos", columnDefinition = "jsonb")
-    private Map<String, Object> photos;
+    private Object photos;
 
     @ColumnDefault("false")
     @Column(name = "is_verified_booking")
-    private Boolean isVerifiedBooking;
+    private Boolean isVerifiedBooking = false;
 
     @ColumnDefault("CURRENT_TIMESTAMP")
-    @Column(name = "created_at", updatable = false)
+    @Column(name = "created_at")
     private Instant createdAt;
 
-    @ColumnDefault("CURRENT_TIMESTAMP")
-    @Column(name = "updated_at")
-    private Instant updatedAt;
+    @Column(name = "deleted_at")
+    private Instant deletedAt;
 }
