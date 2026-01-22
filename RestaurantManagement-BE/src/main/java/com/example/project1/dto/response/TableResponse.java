@@ -12,13 +12,16 @@ import java.util.Map;
 @AllArgsConstructor
 public class TableResponse {
     private Integer id;
-    private Integer restaurant_id;
-    private Integer area_id;
+    private Integer restaurantId;
+    private Integer areaId;
+    private String areaName;
     private String tableNumber;
     private String tableName;
     private Integer capacity;
-    private Integer min_persons;
+    private Integer minPersons;
     private String positionDescription;
+    private String status;
     private Map<String, Object> features;
     private Instant createdAt;
+    private Instant updatedAt;
 }

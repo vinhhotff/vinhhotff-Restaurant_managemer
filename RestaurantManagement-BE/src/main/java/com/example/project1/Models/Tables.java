@@ -12,6 +12,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import com.example.project1.Models.Enums.TableStatus;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
+import com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.time.Instant;
@@ -24,17 +25,20 @@ import java.util.Map;
 @SQLDelete(sql = "UPDATE tables SET deleted_at = NOW() WHERE table_id = ?")
 @Where(clause = "deleted_at IS NULL")
 @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
+@TypeDef(name = "pgsql_enum", typeClass = PostgreSQLEnumType.class)
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Tables {
     @Id
-    @ColumnDefault("nextval('tables_table_id_seq'")
-    @Column(name = "table_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tables_table_id_seq")
+    @SequenceGenerator(name = "tables_table_id_seq", sequenceName = "tables_table_id_seq", allocationSize = 1)
+    @Column(name = "table_id")
     private Integer id;
 
     @Enumerated(EnumType.STRING)
-    @ColumnDefault("'AVAILABLE'")
-    @Column(name = "status", nullable = false)
-    private TableStatus status = TableStatus.AVAILABLE;
+    @Type(type = "pgsql_enum")
+    @ColumnDefault("'available'")
+    @Column(name = "status", nullable = false, columnDefinition = "table_status")
+    private TableStatus status = TableStatus.available;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -73,11 +77,6 @@ public class Tables {
     @Column(name = "updated_at")
     private Instant updatedAt;
 
-/*
- TODO [Reverse Engineering] create field to map the 'status' column
- Available actions: Define target Java type | Uncomment as is | Remove column mapping
-    @ColumnDefault("available")
-    @Column(name = "status", columnDefinition = "table_status")
-    private Object status;
-*/
+    @Column(name = "deleted_at")
+    private Instant deletedAt;
 }

@@ -1,5 +1,7 @@
 package com.example.project1.Service;
 
+import com.example.project1.Models.Restaurant;
+import com.example.project1.Models.RestaurantArea;
 import com.example.project1.Models.Tables;
 import com.example.project1.Repository.RestaurantAreaRepository;
 import com.example.project1.Repository.RestaurantRepository;
@@ -7,8 +9,10 @@ import com.example.project1.Repository.TablesRepository;
 import com.example.project1.Service.Ipm.ITableService;
 import com.example.project1.dto.request.TableRequest;
 import com.example.project1.dto.response.TableResponse;
+import com.example.project1.mapper.TableMapper;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 
 @Service
@@ -16,29 +20,20 @@ public class TableService  implements ITableService {
     private final TablesRepository tablesRepository;
     private final RestaurantRepository restaurantRepository;
     private final RestaurantAreaRepository restaurantAreaRepository;
-    public TableService(TablesRepository tablesRepository, RestaurantRepository restaurantRepository, RestaurantAreaRepository restaurantAreaRepository) {
+    private final TableMapper tableMapper;
+
+    public TableService(TablesRepository tablesRepository, RestaurantRepository restaurantRepository, RestaurantAreaRepository restaurantAreaRepository, TableMapper tableMapper) {
 
         this.tablesRepository = tablesRepository;
         this.restaurantRepository = restaurantRepository;
         this.restaurantAreaRepository = restaurantAreaRepository;
+        this.tableMapper = tableMapper;
     }
     @Override
     public List<TableResponse> getAllTables() {
         List<Tables> tables = this.tablesRepository.findAll();
-
         return tables.stream()
-                .map(table -> new TableResponse(
-                        table.getId(),
-                        table.getRestaurant().getId(),
-                        table.getArea().getId(),
-                        table.getTableNumber(),
-                        table.getTableName(),
-                        table.getCapacity(),
-                        table.getMinPersons(),
-                        table.getPositionDescription(),
-                        table.getFeatures(),
-                        table.getCreatedAt()
-                 ))
+                .map(tableMapper::toResponse)
                 .toList();
     }
 
@@ -46,24 +41,25 @@ public class TableService  implements ITableService {
     public TableResponse getTableByName(String name) {
         Tables table = this.tablesRepository.findByTableName(name)
                 .orElseThrow(() -> new RuntimeException("The table not found!!"));
-        
-        return new TableResponse(
-                table.getId(),
-                table.getRestaurant().getId(),
-                table.getArea().getId(),
-                table.getTableNumber(),
-                table.getTableName(),
-                table.getCapacity(),
-                table.getMinPersons(),
-                table.getPositionDescription(),
-                table.getFeatures(),
-                table.getCreatedAt()
-        );
+        return tableMapper.toResponse(table);
     }
 
     @Override
     public TableResponse createTable(TableRequest tableRequest) {
-        return null;
+
+        Restaurant restaurant = restaurantRepository.findById(tableRequest.getRestaurantId())
+                .orElseThrow(() -> new RuntimeException("The restaurant_id not found!!"));
+
+        RestaurantArea restaurantArea = restaurantAreaRepository.findById(tableRequest.getAreaId())
+                .orElseThrow(() -> new RuntimeException("The area_id not found!!"));
+
+        Tables table = tableMapper.toEntity(tableRequest);
+        table.setRestaurant(restaurant);
+        table.setArea(restaurantArea);
+        table.setCreatedAt(Instant.now());
+
+        Tables savedTable = tablesRepository.save(table);
+        return tableMapper.toResponse(savedTable);
     }
 
     @Override
