@@ -15,6 +15,7 @@ import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.time.Instant;
+import java.util.Map;
 
 @Getter
 @Setter
