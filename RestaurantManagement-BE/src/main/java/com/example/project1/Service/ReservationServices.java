@@ -207,9 +207,27 @@ public class ReservationServices implements IReservationServices {
     }
 
     @Override
-    public Reservation getTodoById(Long id) {
-        Reservation reservationFindById = this.reservationRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Reservation not found"));
-        return reservationFindById;
+    public ReservationResponse getReservationById(Long id) {
+        Reservation reservation = reservationRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Reservation not found with ID: " + id));
+        
+        return new ReservationResponse(
+                reservation.getId(),
+                reservation.getReservationCode(),
+                reservation.getUser().getId(),
+                reservation.getUser().getFullName(),
+                reservation.getRestaurant().getId(),
+                reservation.getRestaurant().getName(),
+                reservation.getTables().getId(),
+                reservation.getTables().getTableName() != null ? 
+                    reservation.getTables().getTableName() : reservation.getTables().getTableNumber(),
+                reservation.getReservationDate(),
+                reservation.getStartTime(),
+                reservation.getEndTime(),
+                reservation.getNumberOfGuests(),
+                reservation.getSpecialRequests(),
+                reservation.getCreatedAt(),
+                reservation.getUpdatedAt()
+        );
     }
 }
