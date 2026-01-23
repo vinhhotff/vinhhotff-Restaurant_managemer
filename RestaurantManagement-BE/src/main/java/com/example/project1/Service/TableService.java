@@ -1,5 +1,6 @@
 package com.example.project1.Service;
 
+import com.example.project1.Models.Reservation;
 import com.example.project1.Models.Restaurant;
 import com.example.project1.Models.RestaurantArea;
 import com.example.project1.Models.Tables;
@@ -53,6 +54,11 @@ public class TableService  implements ITableService {
         RestaurantArea restaurantArea = restaurantAreaRepository.findById(tableRequest.getAreaId())
                 .orElseThrow(() -> new RuntimeException("The area_id not found!!"));
 
+        String tableName = tableRequest.getTableName();
+        if(tablesRepository.findByTableName(tableName).isPresent()) {
+            throw new RuntimeException("TableName code already exists: " + tableName);
+        }
+
         Tables table = tableMapper.toEntity(tableRequest);
         table.setRestaurant(restaurant);
         table.setArea(restaurantArea);
@@ -64,6 +70,32 @@ public class TableService  implements ITableService {
 
     @Override
     public TableResponse updateTable(Integer id, TableRequest tableRequest) {
-        return null;
+
+        Tables tablesResult = this.tablesRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Table not found"));
+
+        Restaurant restaurant = restaurantRepository.findById(tableRequest.getRestaurantId())
+                .orElseThrow(() -> new RuntimeException("The restaurant_id not found!!"));
+
+        RestaurantArea restaurantArea = restaurantAreaRepository.findById(tableRequest.getAreaId())
+                .orElseThrow(() -> new RuntimeException("The area_id not found!!"));
+
+        tableMapper.updateEntity(tablesResult,tableRequest);
+
+        tablesResult.setRestaurant(restaurant);
+        tablesResult.setArea(restaurantArea);
+        tablesResult.setUpdatedAt(Instant.now());
+        Tables updatedTable = tablesRepository.save(tablesResult);
+
+        return tableMapper.toResponse(updatedTable);
+    }
+
+    @Override
+    public void deleteTable(Integer id) {
+
+        Tables tablesResult = this.tablesRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Table already deleted"));
+
+        tablesRepository.delete(tablesResult);
     }
 }

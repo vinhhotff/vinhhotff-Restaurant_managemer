@@ -43,4 +43,18 @@ public class TableController {
         return ResponseEntity.status(HttpStatus.CREATED).body(apiResponse);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponse<TableResponse>> updateTables(@PathVariable Integer id ,@Valid @RequestBody TableRequest tableRequest) {
+        TableResponse table = tableService.updateTable(id, tableRequest);
+        ApiResponse<TableResponse> apiResponse = ApiResponse.success(table, "Update Table successfully");
+        return ResponseEntity.status(HttpStatus.OK).body(apiResponse);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse<TableResponse>> deleteTables(@PathVariable Integer id) {
+        tableService.deleteTable(id);
+        return ResponseEntity.ok(
+                ApiResponse.success(null, "Reservation deleted successfully")
+        );
+    }
 }

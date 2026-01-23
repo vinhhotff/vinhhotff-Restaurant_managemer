@@ -10,4 +10,5 @@ public interface ITableService {
     TableResponse getTableByName(String name);
     TableResponse createTable(TableRequest tableRequest);
     TableResponse updateTable(Integer id,TableRequest tableRequest);
+    void deleteTable(Integer id);
 }
