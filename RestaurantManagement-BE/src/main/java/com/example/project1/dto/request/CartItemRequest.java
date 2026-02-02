@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 public class CartItemRequest {
 
     @NotNull(message = "UserId not null")
-    private Integer userId;
+    private Long userId;
     @NotNull(message = "UserId not null")
     private Integer restaurantId;
     @NotNull(message = "UserId not null")
