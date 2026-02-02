@@ -10,6 +10,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import com.example.project1.Models.Enums.RestaurantStatus;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
+import com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.math.BigDecimal;
@@ -23,6 +24,7 @@ import java.util.Map;
 @SQLDelete(sql = "UPDATE restaurants SET deleted_at = NOW() WHERE restaurant_id = ?")
 @Where(clause = "deleted_at IS NULL")
 @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
+@TypeDef(name = "pgsql_enum", typeClass = PostgreSQLEnumType.class)
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Restaurant {
     @Id
@@ -31,9 +33,10 @@ public class Restaurant {
     private Integer id;
 
     @Enumerated(EnumType.STRING)
-    @ColumnDefault("'PENDING'")
-    @Column(name = "status", nullable = false)
-    private RestaurantStatus status = RestaurantStatus.PENDING;
+    @Type(type = "pgsql_enum")
+    @ColumnDefault("'pending'")
+    @Column(name = "status", nullable = false, columnDefinition = "restaurant_status")
+    private RestaurantStatus status = RestaurantStatus.pending;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "owner_id", nullable = false)

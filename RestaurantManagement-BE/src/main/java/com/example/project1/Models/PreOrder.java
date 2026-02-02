@@ -16,6 +16,7 @@ import java.time.Instant;
 public class PreOrder {
     @Id
     @ColumnDefault("nextval('pre_orders_pre_order_id_seq'")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "pre_order_id", nullable = false)
     private Integer id;
 

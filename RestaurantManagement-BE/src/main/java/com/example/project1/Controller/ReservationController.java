@@ -3,6 +3,7 @@ import com.example.project1.Service.Ipm.IReservationServices;
 import com.example.project1.dto.ReservationDTO;
 import com.example.project1.dto.response.ApiResponse;
 import com.example.project1.dto.response.ReservationResponse;
+import com.example.project1.dto.response.TableResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +25,14 @@ public class ReservationController {
 
         return ResponseEntity.ok(
                 ApiResponse.success(reservations, "Get all reservations successfully")
+        );
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<ReservationResponse>> getReservationById(@PathVariable Long id) {
+        ReservationResponse reservation = reservationServices.getReservationById(id);
+        return ResponseEntity.ok(
+                ApiResponse.success(reservation, "Get Tables by name successfully")
         );
     }
 

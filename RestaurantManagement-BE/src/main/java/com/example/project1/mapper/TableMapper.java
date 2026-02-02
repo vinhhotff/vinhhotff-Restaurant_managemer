@@ -15,12 +15,16 @@ import org.mapstruct.Named;
 public interface TableMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    @Mapping(target = "deletedAt", ignore = true)
     @Mapping(target = "restaurant", source = "restaurantId", qualifiedByName = "restaurantFromId")
     @Mapping(target = "area", source = "areaId", qualifiedByName = "areaFromId")
     Tables toEntity(TableRequest tableRequest);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    @Mapping(target = "deletedAt", ignore = true)
     @Mapping(target = "restaurant", source = "restaurantId", qualifiedByName = "restaurantFromId")
     @Mapping(target = "area", source = "areaId", qualifiedByName = "areaFromId")
     void updateEntity(@MappingTarget Tables table, TableRequest tableRequest);

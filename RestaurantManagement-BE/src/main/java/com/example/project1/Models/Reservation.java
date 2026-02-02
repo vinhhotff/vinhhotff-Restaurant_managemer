@@ -6,8 +6,11 @@ import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
 import com.example.project1.Models.Enums.Occasion;
 import com.example.project1.Models.Enums.ReservationStatus;
+import com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.time.Instant;
@@ -20,6 +23,7 @@ import java.time.LocalTime;
 @Table(name = "reservations")
 @SQLDelete(sql = "UPDATE reservations SET deleted_at = NOW() WHERE reservation_id = ?")
 @Where(clause = "deleted_at IS NULL")
+@TypeDef(name = "pgsql_enum", typeClass = PostgreSQLEnumType.class)
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Reservation {
     @Id
@@ -28,12 +32,14 @@ public class Reservation {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    @ColumnDefault("'PENDING'")
-    @Column(name = "status", nullable = false)
-    private ReservationStatus status = ReservationStatus.PENDING;
+    @Type(type = "pgsql_enum")
+    @ColumnDefault("'pending'")
+    @Column(name = "status", nullable = false, columnDefinition = "reservation_status")
+    private ReservationStatus status = ReservationStatus.pending;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "occasion")
+    @Type(type = "pgsql_enum")
+    @Column(name = "occasion", columnDefinition = "occasion_type")
     private Occasion occasion;
 
     @Column(name = "reservation_code", nullable = false, length = 20)

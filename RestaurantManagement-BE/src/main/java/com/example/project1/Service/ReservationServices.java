@@ -1,14 +1,7 @@
 package com.example.project1.Service;
 
-import com.example.project1.Models.Reservation;
-import com.example.project1.Models.Restaurant;
-import com.example.project1.Models.Tables;
-import com.example.project1.Models.User;
-import com.example.project1.Repository.ReservationRepository;
-import com.example.project1.Repository.RestaurantRepository;
-import com.example.project1.Repository.TablesRepository;
-import com.example.project1.Repository.UserRepository;
-import com.example.project1.Repository.PaymentRepository;
+import com.example.project1.Models.*;
+import com.example.project1.Repository.*;
 import com.example.project1.Service.Ipm.IReservationServices;
 import com.example.project1.dto.ReservationDTO;
 import com.example.project1.dto.response.ReservationResponse;
@@ -26,64 +19,87 @@ public class ReservationServices implements IReservationServices {
     private final RestaurantRepository restaurantRepository;
     private final TablesRepository tablesRepository;
     private final PaymentRepository paymentRepository;
+    private final CartItemRepository cartItemRepository;
+    private final PreOrderRepository preOrderRepository;
     
     public ReservationServices(
             ReservationRepository reservationRepository,
             UserRepository userRepository,
             RestaurantRepository restaurantRepository,
             TablesRepository tablesRepository,
-            PaymentRepository paymentRepository) {
+            PaymentRepository paymentRepository,
+            CartItemRepository cartItemRepository,
+            PreOrderRepository preOrderRepository) {
         this.reservationRepository = reservationRepository;
         this.userRepository = userRepository;
         this.restaurantRepository = restaurantRepository;
         this.tablesRepository = tablesRepository;
         this.paymentRepository = paymentRepository;
+        this.cartItemRepository = cartItemRepository;
+        this.preOrderRepository = preOrderRepository;
     }
 
     @Override
     @Transactional
-    public ReservationResponse CreateReservation(ReservationDTO reservationDto) {
-        if (reservationDto.getEndTime().isBefore(reservationDto.getStartTime()) ||
-            reservationDto.getEndTime().equals(reservationDto.getStartTime())) {
+    public ReservationResponse CreateReservation(ReservationDTO dto) {
+
+        if (!dto.getEndTime().isAfter(dto.getStartTime())) {
             throw new RuntimeException("End time must be after start time");
         }
-        
-        try {
-            User user = userRepository.findById(reservationDto.getUserId())
-                    .orElseThrow(() -> new RuntimeException("User not found with ID: " + reservationDto.getUserId()));
-            
-            Restaurant restaurant = restaurantRepository.findById(reservationDto.getRestaurantId())
-                    .orElseThrow(() -> new RuntimeException("Restaurant not found with ID: " + reservationDto.getRestaurantId()));
-            
-            Tables table = tablesRepository.findById(reservationDto.getTableId())
-                    .orElseThrow(() -> new RuntimeException("Table not found with ID: " + reservationDto.getTableId()));
-        
 
-        String reservationCode = reservationDto.getReservationCode();
-        if (reservationCode == null || reservationCode.isEmpty()) {
-            reservationCode = "RES" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+        User user = userRepository.findById(dto.getUserId())
+                .orElseThrow(() -> new RuntimeException("User not found with ID: " + dto.getUserId()));
+
+        Restaurant restaurant = restaurantRepository.findById(dto.getRestaurantId())
+                .orElseThrow(() -> new RuntimeException("Restaurant not found with ID: " + dto.getRestaurantId()));
+
+        Tables table = tablesRepository.findById(dto.getTableId())
+                .orElseThrow(() -> new RuntimeException("Table not found with ID: " + dto.getTableId()));
+
+        String reservationCode = dto.getReservationCode();
+        if (reservationCode == null || reservationCode.isBlank()) {
+            reservationCode = "RES" + UUID.randomUUID().toString().replace("-", "")
+                    .substring(0, 8).toUpperCase();
         }
-        
-        if(reservationRepository.existsByReservationCode(reservationCode)) {
+
+        if (reservationRepository.existsByReservationCode(reservationCode)) {
             throw new RuntimeException("Reservation code already exists: " + reservationCode);
         }
 
-        Reservation newReservation = new Reservation();
-        newReservation.setReservationCode(reservationCode);
-        newReservation.setUser(user);
-        newReservation.setRestaurant(restaurant);
-        newReservation.setTables(table);
-        newReservation.setReservationDate(reservationDto.getReservationDate());
-        newReservation.setStartTime(reservationDto.getStartTime());
-        newReservation.setEndTime(reservationDto.getEndTime());
-        newReservation.setNumberOfGuests(reservationDto.getNumberOfGuests());
-        newReservation.setSpecialRequests(reservationDto.getSpecialRequests());
-        newReservation.setCreatedAt(Instant.now());
-        newReservation.setUpdatedAt(Instant.now());
-        
-        Reservation saved = reservationRepository.save(newReservation);
-        
-        // Convert to DTO
+        Instant now = Instant.now();
+
+        Reservation reservation = new Reservation();
+        reservation.setReservationCode(reservationCode);
+        reservation.setUser(user);
+        reservation.setRestaurant(restaurant);
+        reservation.setTables(table);
+        reservation.setOccasion(dto.getOccasion());
+        reservation.setReservationDate(dto.getReservationDate());
+        reservation.setStartTime(dto.getStartTime());
+        reservation.setEndTime(dto.getEndTime());
+        reservation.setNumberOfGuests(dto.getNumberOfGuests());
+        reservation.setSpecialRequests(dto.getSpecialRequests());
+        reservation.setCreatedAt(now);
+
+        Reservation saved = reservationRepository.save(reservation);
+
+        Long userId = dto.getUserId();
+        List<CartItem> cartItems = cartItemRepository.findByUser_Id(userId);
+
+
+        List<PreOrder> preOrders = cartItems.stream().map(ci -> {
+            PreOrder po = new PreOrder();
+            po.setReservation(saved);
+            po.setMenu(ci.getMenu());
+            po.setQuantity(ci.getQuantity());
+            po.setSpecialInstructions(ci.getSpecialInstructions());
+            po.setCreatedAt(now);
+            return po;
+        }).toList();
+
+        preOrderRepository.saveAll(preOrders);
+        cartItemRepository.deleteAllByUser_Id(userId);
+
         return new ReservationResponse(
                 saved.getId(),
                 saved.getReservationCode(),
@@ -92,7 +108,7 @@ public class ReservationServices implements IReservationServices {
                 restaurant.getId(),
                 restaurant.getName(),
                 table.getId(),
-                table.getTableName() != null ? table.getTableName() : table.getTableNumber(),
+                (table.getTableName() != null ? table.getTableName() : table.getTableNumber()),
                 saved.getReservationDate(),
                 saved.getStartTime(),
                 saved.getEndTime(),
@@ -101,10 +117,8 @@ public class ReservationServices implements IReservationServices {
                 saved.getCreatedAt(),
                 saved.getUpdatedAt()
         );
-        } catch (Exception e) {
-            throw new RuntimeException("Error creating reservation: " + e.getMessage(), e);
-        }
     }
+
 
     @Override
     public List<ReservationResponse> getAllReservations() {
@@ -207,9 +221,27 @@ public class ReservationServices implements IReservationServices {
     }
 
     @Override
-    public Reservation getTodoById(Long id) {
-        Reservation reservationFindById = this.reservationRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Reservation not found"));
-        return reservationFindById;
+    public ReservationResponse getReservationById(Long id) {
+        Reservation reservation = reservationRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Reservation not found with ID: " + id));
+        
+        return new ReservationResponse(
+                reservation.getId(),
+                reservation.getReservationCode(),
+                reservation.getUser().getId(),
+                reservation.getUser().getFullName(),
+                reservation.getRestaurant().getId(),
+                reservation.getRestaurant().getName(),
+                reservation.getTables().getId(),
+                reservation.getTables().getTableName() != null ? 
+                    reservation.getTables().getTableName() : reservation.getTables().getTableNumber(),
+                reservation.getReservationDate(),
+                reservation.getStartTime(),
+                reservation.getEndTime(),
+                reservation.getNumberOfGuests(),
+                reservation.getSpecialRequests(),
+                reservation.getCreatedAt(),
+                reservation.getUpdatedAt()
+        );
     }
 }

@@ -1,14 +1,14 @@
 package com.example.project1.Controller;
 
 import com.example.project1.Service.Ipm.ITableService;
+import com.example.project1.dto.request.TableRequest;
 import com.example.project1.dto.response.ApiResponse;
 import com.example.project1.dto.response.TableResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -36,4 +36,25 @@ public class TableController {
         );
     }
 
+    @PostMapping
+    public ResponseEntity<ApiResponse<TableResponse>> createTables(@Valid @RequestBody TableRequest tableRequest) {
+        TableResponse table = tableService.createTable(tableRequest);
+        ApiResponse<TableResponse> apiResponse = ApiResponse.success(table, "Create Table successfully");
+        return ResponseEntity.status(HttpStatus.CREATED).body(apiResponse);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponse<TableResponse>> updateTables(@PathVariable Integer id ,@Valid @RequestBody TableRequest tableRequest) {
+        TableResponse table = tableService.updateTable(id, tableRequest);
+        ApiResponse<TableResponse> apiResponse = ApiResponse.success(table, "Update Table successfully");
+        return ResponseEntity.status(HttpStatus.OK).body(apiResponse);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse<TableResponse>> deleteTables(@PathVariable Integer id) {
+        tableService.deleteTable(id);
+        return ResponseEntity.ok(
+                ApiResponse.success(null, "Table deleted successfully")
+        );
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.project1.dto;
 
+import com.example.project1.Models.Enums.Occasion;
 import lombok.Data;
 
 import javax.validation.constraints.*;
@@ -34,4 +35,6 @@ public class ReservationDTO {
     private Integer numberOfGuests;
     
     private String specialRequests;
+    
+    private Occasion occasion;
 }
