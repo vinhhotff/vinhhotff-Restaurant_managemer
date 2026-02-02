@@ -36,8 +36,7 @@ public class CartItem {
     @Column(name = "quantity", nullable = false)
     private Integer quantity = 1; // Giá trị mặc định
 
-    @Lob
-    @Column(name = "special_instructions")
+    @Column(name = "special_instructions", columnDefinition = "TEXT")
     private String specialInstructions;
 
     @CreationTimestamp
