@@ -54,7 +54,7 @@ public class TableController {
     public ResponseEntity<ApiResponse<TableResponse>> deleteTables(@PathVariable Integer id) {
         tableService.deleteTable(id);
         return ResponseEntity.ok(
-                ApiResponse.success(null, "Reservation deleted successfully")
+                ApiResponse.success(null, "Table deleted successfully")
         );
     }
 }
