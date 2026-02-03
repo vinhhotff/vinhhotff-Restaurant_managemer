@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Customer Menu Gallery</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#d39c36",
+                        "background-light": "#f8f7f6",
+                        "background-dark": "#201b12",
+                        "card-dark": "#2A251E",
+                        "card-light": "#FFFFFF",
+                        "text-main-dark": "#E8E6E3",
+                        "text-muted-dark": "#B0ABA5",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark min-h-screen flex flex-col transition-colors duration-200">
+<!-- Navbar -->
+<nav class="sticky top-0 z-50 w-full border-b border-[#e5e5e5] dark:border-[#37322a] bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-sm px-6 py-3">
+<div class="max-w-[1440px] mx-auto flex items-center justify-between gap-4">
+<!-- Logo area -->
+<div class="flex items-center gap-3">
+<div class="size-10 flex items-center justify-center rounded-full bg-primary/10 text-primary">
+<span class="material-symbols-outlined text-[24px]">restaurant_menu</span>
+</div>
+<h1 class="text-xl font-bold tracking-tight text-[#171512] dark:text-white">Gourmet Haven</h1>
+</div>
+<!-- Search Bar (Desktop) -->
+<div class="hidden md:flex flex-1 max-w-lg mx-8">
+<div class="relative w-full group">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#b6aea0]">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="block w-full rounded-lg border-none bg-[#e5e5e5] dark:bg-[#37322a] py-2.5 pl-10 pr-4 text-sm text-[#171512] dark:text-white placeholder-[#888] dark:placeholder-[#b6aea0] focus:ring-2 focus:ring-primary transition-all" placeholder="Search for dishes, ingredients..." type="text"/>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex items-center gap-4">
+<button class="relative p-2 text-[#171512] dark:text-white hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[24px]">shopping_cart</span>
+<span class="absolute top-0 right-0 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-white shadow-sm">3</span>
+</button>
+<div class="h-9 w-9 rounded-full bg-cover bg-center border border-[#e5e5e5] dark:border-[#37322a]" data-alt="User profile avatar" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBwhlOP42ufefq3PXNjcVffXl70JFTkqExP8jfiVrfdKImL5xer2K8Hq6Zdb_dUqnJYlY1soInZxjj4rotIwU6GjEKvgkKQGUbyZHfz_Gw1dhl62sm6R7ADM6JWSdEd01cKn7AgqZdudpcpslPIsPLIxtj6-Bdbi7WYDVzZ9siXyuuVRFa8fl-WbpfY-Ub_yeT91irZbY-Os8LrI-lu1CDgUliRzBE4IEPrMFAWYYx5JoVlUfza50AW3WNAbhDneIMKTmZJDDRD_enZ');">
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content Layout -->
+<div class="flex-1 w-full max-w-[1440px] mx-auto p-4 md:p-6 lg:p-8">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Left Column: Menu Gallery (9 cols) -->
+<div class="lg:col-span-9 flex flex-col gap-8">
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+<div>
+<h2 class="text-3xl md:text-4xl font-extrabold text-[#171512] dark:text-white tracking-tight mb-2">Menu Gallery</h2>
+<p class="text-[#6C6A66] dark:text-text-muted-dark text-lg">Explore our premium selection of culinary delights.</p>
+</div>
+</div>
+<!-- Category Chips -->
+<div class="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+<button class="flex-none px-6 py-2.5 rounded-full bg-primary text-white font-semibold text-sm shadow-lg shadow-primary/20 transition-transform hover:scale-105">
+                        All
+                    </button>
+<button class="flex-none px-6 py-2.5 rounded-full bg-white dark:bg-[#37322a] text-[#171512] dark:text-text-main-dark border border-[#e5e5e5] dark:border-transparent font-medium text-sm hover:bg-[#f0f0f0] dark:hover:bg-[#4a433a] transition-colors">
+                        Appetizers
+                    </button>
+<button class="flex-none px-6 py-2.5 rounded-full bg-white dark:bg-[#37322a] text-[#171512] dark:text-text-main-dark border border-[#e5e5e5] dark:border-transparent font-medium text-sm hover:bg-[#f0f0f0] dark:hover:bg-[#4a433a] transition-colors">
+                        Main Course
+                    </button>
+<button class="flex-none px-6 py-2.5 rounded-full bg-white dark:bg-[#37322a] text-[#171512] dark:text-text-main-dark border border-[#e5e5e5] dark:border-transparent font-medium text-sm hover:bg-[#f0f0f0] dark:hover:bg-[#4a433a] transition-colors">
+                        Desserts
+                    </button>
+<button class="flex-none px-6 py-2.5 rounded-full bg-white dark:bg-[#37322a] text-[#171512] dark:text-text-main-dark border border-[#e5e5e5] dark:border-transparent font-medium text-sm hover:bg-[#f0f0f0] dark:hover:bg-[#4a433a] transition-colors">
+                        Drinks
+                    </button>
+</div>
+<!-- Menu Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+<!-- Item 1 -->
+<div class="group relative flex flex-col bg-card-light dark:bg-card-dark rounded-xl overflow-hidden shadow-sm hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 border border-[#e5e5e5] dark:border-[#37322a]">
+<div class="h-48 w-full overflow-hidden">
+<div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="Grilled pork ribs with vegetables" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBzruB9a_LrVTPF21WMIz7bnGKoTPNGFa53jYB3kaUp1-aXiBIC74q3TYyFknj8LL8gJBMMi-y8409Yo_FsDm027PFN9PTbnlA6UhfJXexsSRUydYHqkJGYRC6OsK2Ys2C1gtfMGQhkFcd827_HsKSOHGM9xfGwULUiaWzIrVQX0vaenmiUtPWGx2D2OjwjvC8yz4k7hyIxijq4HH7EX9ujyu4nmpIimFM-j6fSeLwJDXN0wFcranTzFfLFJp8kys7isXesukLQY4JZ');">
+</div>
+</div>
+<div class="p-5 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-2">
+<h3 class="text-lg font-bold text-[#171512] dark:text-white leading-tight">Grilled Lemongrass Pork</h3>
+</div>
+<p class="text-[#6C6A66] dark:text-text-muted-dark text-sm leading-relaxed mb-4 line-clamp-2">Marinated pork shoulder served with vermicelli, fresh herbs, and dipping sauce.</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="text-primary text-lg font-bold">150.000đ</span>
+<button class="flex items-center justify-center gap-2 px-4 py-2 bg-primary/10 hover:bg-primary text-primary hover:text-white rounded-lg transition-colors duration-200 font-medium text-sm">
+<span class="material-symbols-outlined text-[18px]">add_shopping_cart</span>
+                                    Add
+                                </button>
+</div>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="group relative flex flex-col bg-card-light dark:bg-card-dark rounded-xl overflow-hidden shadow-sm hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 border border-[#e5e5e5] dark:border-[#37322a]">
+<div class="h-48 w-full overflow-hidden">
+<div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="Traditional Vietnamese Pho Bo soup" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB7Npk8HUbe_M9pDonYoiUNCdDPreP06obEdMfOF1rwWXXEB_LcDi49RWvFe0_tzS9hjA2bPPUPXiV0XjCIxwYZNGQK_Oy8-cnzWI2vQBgcMkYyDjt3j906is8mgPKBvutzK8Y_5hhTBXPxnTKRuswMg8e3EEoRlcgtdbkhKLWlCsv-L0phPayyK4S1-iFHqKIDTzxN52Jv6nadXrXJ67dU5o4ARvt-1o29LU_PLsVJL0plj9Md9JjTbocxyG8OD0tkeB8JkZQ2WXqt');">
+</div>
+</div>
+<div class="p-5 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-2">
+<h3 class="text-lg font-bold text-[#171512] dark:text-white leading-tight">Pho Bo Special</h3>
+</div>
+<p class="text-[#6C6A66] dark:text-text-muted-dark text-sm leading-relaxed mb-4 line-clamp-2">Our signature beef noodle soup with brisket, flank, tendon, and meatballs.</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="text-primary text-lg font-bold">120.000đ</span>
+<button class="flex items-center justify-center gap-2 px-4 py-2 bg-primary/10 hover:bg-primary text-primary hover:text-white rounded-lg transition-colors duration-200 font-medium text-sm">
+<span class="material-symbols-outlined text-[18px]">add_shopping_cart</span>
+                                    Add
+                                </button>
+</div>
+</div>
+</div>
+<!-- Item 3 (Sold Out) -->
+<div class="group relative flex flex-col bg-card-light dark:bg-card-dark rounded-xl overflow-hidden shadow-sm border border-[#e5e5e5] dark:border-[#37322a]">
+<div class="h-48 w-full overflow-hidden relative">
+<!-- Sold Out Overlay -->
+<div class="absolute inset-0 bg-background-dark/70 z-10 flex items-center justify-center backdrop-blur-[2px]">
+<span class="px-4 py-1 border border-white/50 text-white font-bold uppercase tracking-widest text-sm rounded">Sold Out</span>
+</div>
+<div class="w-full h-full bg-cover bg-center grayscale" data-alt="Spicy curry with shrimp and coconut milk" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAK1cOTvqTXsWpU-m13qolWQ4McEuaV2dWa-YHalWGR0bQFcn3IQkVH9vJYlZBqU4mxrFOQwMqrt0nbUp9CiykcM-LZnQUB2phaGsi1jQ2Wz6pkCXVoY_7yJu9L0BQE2-mZTAH6FkZ6KjHgKOKtmwx16XYUl1Ce1oNs4deGV5OVgGsQyduG55co19THVn89nx8jLznHseGBYYfkYWuq9pNznVoHnBOEg-vadmudrokt0faXyy6huEpTPn1Npqbxym4yWOt7P7Wys2gq');">
+</div>
+</div>
+<div class="p-5 flex flex-col flex-1 opacity-60">
+<div class="flex justify-between items-start mb-2">
+<h3 class="text-lg font-bold text-[#171512] dark:text-white leading-tight">Coconut Curry Shrimp</h3>
+</div>
+<p class="text-[#6C6A66] dark:text-text-muted-dark text-sm leading-relaxed mb-4 line-clamp-2">Rich and creamy coconut curry sauce with fresh tiger prawns and basil.</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="text-primary text-lg font-bold">185.000đ</span>
+<button class="cursor-not-allowed flex items-center justify-center gap-2 px-4 py-2 bg-[#e5e5e5] dark:bg-[#37322a] text-[#888] dark:text-[#6C6A66] rounded-lg font-medium text-sm" disabled="">
+<span class="material-symbols-outlined text-[18px]">block</span>
+                                    Unavailable
+                                </button>
+</div>
+</div>
+</div>
+<!-- Item 4 -->
+<div class="group relative flex flex-col bg-card-light dark:bg-card-dark rounded-xl overflow-hidden shadow-sm hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 border border-[#e5e5e5] dark:border-[#37322a]">
+<div class="h-48 w-full overflow-hidden">
+<div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="Fresh summer salad with avocado" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC6K_9MpomOIkORbhUQ7X3RPBaSURqWNXcA8VDb-6mSvQpm7G1yeJD_owSeERES_0o-64qLtUD1vT7zoZKXhvPAb8SqytAt1rJZOh9sLEeQamJHEbIaECnBFn-tmFmSC6cZDywAxL5jJbCLWTUXAj-cgGZN62T_Rtlz206YwVXqhsh73_PtQ4SCNv7TohO3VA55rjZ-rdokQzNvtCLS3b_NU2OJiOnO792RM2p3AGjKP7mciqxHDSroN4x2gMP0P6EGQp2BsROs3Ilv');">
+</div>
+</div>
+<div class="p-5 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-2">
+<h3 class="text-lg font-bold text-[#171512] dark:text-white leading-tight">Summer Garden Salad</h3>
+</div>
+<p class="text-[#6C6A66] dark:text-text-muted-dark text-sm leading-relaxed mb-4 line-clamp-2">Fresh organic greens, avocado, cherry tomatoes, and sesame vinaigrette.</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="text-primary text-lg font-bold">95.000đ</span>
+<button class="flex items-center justify-center gap-2 px-4 py-2 bg-primary/10 hover:bg-primary text-primary hover:text-white rounded-lg transition-colors duration-200 font-medium text-sm">
+<span class="material-symbols-outlined text-[18px]">add_shopping_cart</span>
+                                    Add
+                                </button>
+</div>
+</div>
+</div>
+<!-- Item 5 -->
+<div class="group relative flex flex-col bg-card-light dark:bg-card-dark rounded-xl overflow-hidden shadow-sm hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 border border-[#e5e5e5] dark:border-[#37322a]">
+<div class="h-48 w-full overflow-hidden">
+<div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="Refreshing iced cocktail drink" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCi19y4W8iAYWYqTBIa9w19xD--QnebwkF4EsI3fAf0kEJVxHpZq_BR_Cdfmt-kjJbS_lnO87O0RfmPi31gp_hknhXjNQJ8NBHdteAr8jOX92XyNLVaFutO_isLrRSv9Dow6NqSVLR94mRQGlw83ZLGzWw0oYrCaVCZh5Gp9MhTDq4hFP34WkLUQ8ecUGVLNtKVfQJVdFsMOZ6fj7bnxSTffjJg4uvlb-zdOJ_tyI_1Ej4bWJ6e9eZnWWVjDjnCBpR95jVVJ1ZBvqQE');">
+</div>
+</div>
+<div class="p-5 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-2">
+<h3 class="text-lg font-bold text-[#171512] dark:text-white leading-tight">Lychee Martini</h3>
+</div>
+<p class="text-[#6C6A66] dark:text-text-muted-dark text-sm leading-relaxed mb-4 line-clamp-2">Vodka shaken with sweet lychee juice and vermouth, garnished with fruit.</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="text-primary text-lg font-bold">110.000đ</span>
+<button class="flex items-center justify-center gap-2 px-4 py-2 bg-primary/10 hover:bg-primary text-primary hover:text-white rounded-lg transition-colors duration-200 font-medium text-sm">
+<span class="material-symbols-outlined text-[18px]">add_shopping_cart</span>
+                                    Add
+                                </button>
+</div>
+</div>
+</div>
+<!-- Item 6 -->
+<div class="group relative flex flex-col bg-card-light dark:bg-card-dark rounded-xl overflow-hidden shadow-sm hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 border border-[#e5e5e5] dark:border-[#37322a]">
+<div class="h-48 w-full overflow-hidden">
+<div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="Chocolate lava cake dessert" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBKZEtmCpfZ61YPz6jK4bDbbOfV7BXabOFFNdbnLr1LtAnDJg7toKPCeI0kNqzxDqSLCQFWlbVDIiyOKOwtDhDhF1nRYWhQWBx1FNMocSsjUClyKUynOgOlP_C3wMV9kSepU-HqSbQ1PQ0Xk3BA_9z5mVDi2eTj6IpKDnO7ra9xs4lneIc4Zgf5vIeY0JObtrmE6TSo1Vg002dYf8qNLzZswT_ZJLsBPsYdQ4a6usUbI_AjoNJQuj-w3oJpzqYzU7gJZ7l-fS1cw6Om');">
+</div>
+</div>
+<div class="p-5 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-2">
+<h3 class="text-lg font-bold text-[#171512] dark:text-white leading-tight">Molten Lava Cake</h3>
+</div>
+<p class="text-[#6C6A66] dark:text-text-muted-dark text-sm leading-relaxed mb-4 line-clamp-2">Warm chocolate cake with a gooey center, served with vanilla bean ice cream.</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="text-primary text-lg font-bold">135.000đ</span>
+<button class="flex items-center justify-center gap-2 px-4 py-2 bg-primary/10 hover:bg-primary text-primary hover:text-white rounded-lg transition-colors duration-200 font-medium text-sm">
+<span class="material-symbols-outlined text-[18px]">add_shopping_cart</span>
+                                    Add
+                                </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Pagination/Load More -->
+<div class="flex justify-center mt-6">
+<button class="px-8 py-3 rounded-full border border-primary/30 text-primary font-bold text-sm hover:bg-primary hover:text-white transition-all">
+                        Load More Dishes
+                    </button>
+</div>
+</div>
+<!-- Right Column: Sidebar (Popular Items) (3 cols) -->
+<div class="lg:col-span-3 space-y-6">
+<div class="bg-card-light dark:bg-card-dark rounded-xl p-6 border border-[#e5e5e5] dark:border-[#37322a] sticky top-24">
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-primary">local_fire_department</span>
+<h3 class="text-lg font-bold text-[#171512] dark:text-white uppercase tracking-wider">Popular Items</h3>
+</div>
+<div class="space-y-5">
+<!-- Popular Item 1 -->
+<div class="flex gap-4 group cursor-pointer">
+<div class="w-20 h-20 shrink-0 rounded-lg overflow-hidden">
+<div class="w-full h-full bg-cover bg-center group-hover:scale-110 transition-transform duration-300" data-alt="Healthy bowl with vegetables and egg" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDVNSaYc2G984IpwZeGcIJPyPxGz3kke1xGoA2s6OE1XXzsESwkYFm0YauKn2KuFDHpXqkU78nM8QOTecuLVTeePeWpDR-rE4MAPtW6PwsisO9jyd523Tq1LKREAYiP73MG9VJyqJGxNC7jAiObQ5j2raEb4uYFHlFY7-AMhmYgY73RW4KtEinBckNTg51xk4vas8YojAx4DDATjWPCAzpXBWzQ_fDjhSMHxG5YVkvnr-GXLaP7iw-kh8urbJdN9wz_x16McYTEhrC3');">
+</div>
+</div>
+<div class="flex flex-col justify-center">
+<h4 class="text-[#171512] dark:text-white font-bold text-sm leading-tight mb-1 group-hover:text-primary transition-colors">Buddha Bowl</h4>
+<p class="text-[#6C6A66] dark:text-text-muted-dark text-xs mb-1.5">Vegetarian favorite</p>
+<span class="text-primary font-bold text-sm">85.000đ</span>
+</div>
+</div>
+<!-- Divider -->
+<div class="h-px w-full bg-[#e5e5e5] dark:bg-[#37322a]"></div>
+<!-- Popular Item 2 -->
+<div class="flex gap-4 group cursor-pointer">
+<div class="w-20 h-20 shrink-0 rounded-lg overflow-hidden">
+<div class="w-full h-full bg-cover bg-center group-hover:scale-110 transition-transform duration-300" data-alt="Hamburger with fries" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDJpAJLYM7tWOFy204qZB2oNxDJT6uvcNoTM7MAIq-NLMpJbZ41s-qo6-hYb6AEB5cP4259eygnpMMyqLHFzkSrn6Fx2-Z3GVpXJn06KXATs5Mpl7K_YJJ-mEOThWjtE4LapGNY8EHJINdN1EJ2-YCE41QdrwTsjJ9oPvBU6OtIKn6MKkD913FrghoYAFmsVoJrHxI6_uF4udxWlY-kMAzH84buSQMtqNuqIaS0scy5XT_hvFiCguy1wvXWGxuTND9VHjAEzdyyJXg7');">
+</div>
+</div>
+<div class="flex flex-col justify-center">
+<h4 class="text-[#171512] dark:text-white font-bold text-sm leading-tight mb-1 group-hover:text-primary transition-colors">Classic Burger</h4>
+<p class="text-[#6C6A66] dark:text-text-muted-dark text-xs mb-1.5">Best seller</p>
+<span class="text-primary font-bold text-sm">140.000đ</span>
+</div>
+</div>
+<!-- Divider -->
+<div class="h-px w-full bg-[#e5e5e5] dark:bg-[#37322a]"></div>
+<!-- Popular Item 3 -->
+<div class="flex gap-4 group cursor-pointer">
+<div class="w-20 h-20 shrink-0 rounded-lg overflow-hidden">
+<div class="w-full h-full bg-cover bg-center group-hover:scale-110 transition-transform duration-300" data-alt="Fried spring rolls on a plate" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBrPgxddWfOt-XIPK6g4p1UC5XbtR1Hw7R307FKLXNoJgHibz7iyBzLk0Hj6VHEzf-cab2yGU3lOAVYSF2Q9Sjb-aHdOvrgeRCd0OwJvD-QtSqHhKws0A8StJm0KUxGUJEHj54j9vfNOy8jiV2BjTO4rVyBVoVfpSt34LFNAox6UYLWj28zXD0mJMZZ3BE_sMD8yj2rcRqEZ94X-VjV8iscjBSYvwMNnf-Skgc4KHpO1oUs4Wk97XC65vpEUJ62rpKdZE6HAPWwdhU4');">
+</div>
+</div>
+<div class="flex flex-col justify-center">
+<h4 class="text-[#171512] dark:text-white font-bold text-sm leading-tight mb-1 group-hover:text-primary transition-colors">Spring Rolls</h4>
+<p class="text-[#6C6A66] dark:text-text-muted-dark text-xs mb-1.5">Crispy appetizer</p>
+<span class="text-primary font-bold text-sm">65.000đ</span>
+</div>
+</div>
+</div>
+<button class="w-full mt-6 py-3 rounded-lg bg-primary/10 hover:bg-primary/20 text-primary font-bold text-sm transition-colors">
+                        View All Popular
+                    </button>
+</div>
+</div>
+</div>
+</div>
+</body></html>

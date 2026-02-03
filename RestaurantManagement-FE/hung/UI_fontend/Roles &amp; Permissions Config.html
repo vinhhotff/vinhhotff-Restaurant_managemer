@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Roles &amp; Permissions Config</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#dcb32e",
+                        "primary-hover": "#c9a126",
+                        "background-light": "#f8f7f6",
+                        "background-dark": "#171612", // Base dark bg from example
+                        "surface-dark": "#201d12", // Slightly lighter surface
+                        "border-dark": "#514d3d", // Border color from example
+                        "text-secondary": "#b7b19f", // Secondary text from example
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for webkit browsers */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #171612; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #514d3d; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #dcb32e; 
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display min-h-screen flex flex-col overflow-hidden text-slate-900 dark:text-white">
+<div class="flex h-screen w-full">
+<!-- Sidebar Navigation -->
+<aside class="hidden lg:flex w-72 flex-col bg-surface-dark border-r border-border-dark/30 z-20">
+<div class="p-6 pb-2">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10 border border-border-dark" data-alt="Bistro Manager Logo" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBX830XvUgDyWkfBQmScfTtigtKAz5it7qBYjlS4NmdRpMo9IlvjiwExTR5Uv-osFCfoFZ7DvK4dATZyqOI6ouhnjKihZ1X5MpDaTS-H_ELMHHNYsPSsFpe6_hadyhO2FJ7bO7q9MZ0bovXOH497NjQem9meaE-AVbIAImGXuZhYt3GxMK8eON7FnmJs6Q6W3zSB0IegGV5MBtcl9tK7eiJNA-hRd4Y6wPZRr7AUZDsAUd43uZRou0Bm_GIs6HtXYI_TORrBkF-wl8c");'></div>
+<div class="flex flex-col">
+<h1 class="text-white text-base font-bold leading-tight">Bistro Manager</h1>
+<p class="text-text-secondary text-xs font-medium uppercase tracking-wider">Admin Console</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 flex flex-col gap-2 p-4 mt-4 overflow-y-auto">
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg text-text-secondary hover:bg-white/5 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-2xl">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg text-text-secondary hover:bg-white/5 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-2xl">calendar_month</span>
+<span class="text-sm font-medium">Reservations</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg text-text-secondary hover:bg-white/5 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-2xl">restaurant_menu</span>
+<span class="text-sm font-medium">Menu</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg text-text-secondary hover:bg-white/5 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-2xl">group</span>
+<span class="text-sm font-medium">Staff</span>
+</a>
+<div class="my-2 border-t border-border-dark/30"></div>
+<div class="px-3 py-2 text-xs font-bold text-text-secondary uppercase tracking-widest opacity-60">Configuration</div>
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg bg-primary/10 text-primary border border-primary/20" href="#">
+<span class="material-symbols-outlined text-2xl font-variation-settings-'FILL'1">admin_panel_settings</span>
+<span class="text-sm font-bold">Roles &amp; Permissions</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg text-text-secondary hover:bg-white/5 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-2xl">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</a>
+</nav>
+<div class="p-4 border-t border-border-dark/30">
+<div class="flex items-center gap-3 px-3 py-2 rounded-lg bg-surface-dark border border-border-dark/50">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-8" data-alt="User Avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAhhn6rKgpLTOlbHjIY3LwGPf5RCzkfPiBXXYqn6wXNbTNU5rr_3xYUyKcGO0d2vlUYvYyA_AO53DpWixsW72ighUkgHr1rVpInuTtioT0NyAUiCNYh9E0QHgbBYRjIFURJxu1NaqaLldrDiKMazlmY7_TnYhGtUBBPlWfjG9sUNsFSie-s_OkMzPqkZlqxlY6ItHdeL2_j43QjEjINCfuUxxCl_366dzzl2o1Z_LjjrblTSrwE7xJGYJqNDv_veLn7SHDv-05GP2TG");'></div>
+<div class="flex flex-col overflow-hidden">
+<p class="text-white text-sm font-medium truncate">Marcus Chen</p>
+<p class="text-text-secondary text-xs truncate">Super Admin</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col h-full relative overflow-hidden">
+<!-- Header -->
+<header class="h-20 border-b border-border-dark/30 bg-background-dark/80 backdrop-blur-md sticky top-0 z-10 px-8 flex items-center justify-between shrink-0">
+<div>
+<h2 class="text-2xl font-bold text-white tracking-tight">Roles &amp; Permissions Config</h2>
+<p class="text-text-secondary text-sm">Define access levels and security policies for your team.</p>
+</div>
+<div class="flex gap-3">
+<button class="px-4 py-2 rounded-lg border border-border-dark text-white hover:bg-white/5 transition-colors text-sm font-medium">
+                        Discard Changes
+                    </button>
+<button class="px-6 py-2 rounded-lg bg-primary hover:bg-primary-hover text-surface-dark font-bold shadow-[0_0_15px_rgba(220,179,46,0.3)] transition-all transform active:scale-95 text-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">save</span>
+                        Save Changes
+                    </button>
+</div>
+</header>
+<!-- Split View Content -->
+<div class="flex-1 flex overflow-hidden">
+<!-- Left Panel: Roles List -->
+<div class="w-80 border-r border-border-dark/30 bg-surface-dark/30 flex flex-col shrink-0 overflow-y-auto">
+<div class="p-6 pb-2">
+<div class="flex justify-between items-center mb-4">
+<h3 class="text-white text-sm font-bold uppercase tracking-wider">Defined Roles</h3>
+<button class="text-primary hover:text-white transition-colors p-1 rounded hover:bg-white/10" title="Add New Role">
+<span class="material-symbols-outlined text-xl">add_circle</span>
+</button>
+</div>
+<div class="flex flex-col gap-3">
+<!-- Role Item: Active -->
+<label class="group cursor-pointer relative">
+<input checked="" class="peer sr-only" name="role_select" type="radio"/>
+<div class="relative flex flex-col gap-1 p-4 rounded-xl border-2 border-primary bg-primary/10 transition-all">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">security</span>
+<span class="text-white font-bold text-sm">ROLE_ADMIN</span>
+</div>
+<span class="h-2 w-2 rounded-full bg-primary shadow-[0_0_8px_rgba(220,179,46,0.8)]"></span>
+</div>
+<p class="text-text-secondary text-xs leading-relaxed mt-1">Full system access, user management, and configuration control.</p>
+</div>
+</label>
+<!-- Role Item -->
+<label class="group cursor-pointer relative">
+<input class="peer sr-only" name="role_select" type="radio"/>
+<div class="relative flex flex-col gap-1 p-4 rounded-xl border border-border-dark bg-surface-dark hover:border-border-dark/80 hover:bg-white/5 transition-all peer-checked:border-primary peer-checked:bg-primary/10">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-text-secondary group-hover:text-white peer-checked:text-primary">storefront</span>
+<span class="text-white font-bold text-sm">ROLE_OWNER</span>
+</div>
+</div>
+<p class="text-text-secondary text-xs leading-relaxed mt-1">Access to financial reports, analytics, and high-level overrides.</p>
+</div>
+</label>
+<!-- Role Item -->
+<label class="group cursor-pointer relative">
+<input class="peer sr-only" name="role_select" type="radio"/>
+<div class="relative flex flex-col gap-1 p-4 rounded-xl border border-border-dark bg-surface-dark hover:border-border-dark/80 hover:bg-white/5 transition-all peer-checked:border-primary peer-checked:bg-primary/10">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-text-secondary group-hover:text-white peer-checked:text-primary">manage_accounts</span>
+<span class="text-white font-bold text-sm">ROLE_MANAGER</span>
+</div>
+</div>
+<p class="text-text-secondary text-xs leading-relaxed mt-1">Staff scheduling, inventory management, and refund processing.</p>
+</div>
+</label>
+<!-- Role Item -->
+<label class="group cursor-pointer relative">
+<input class="peer sr-only" name="role_select" type="radio"/>
+<div class="relative flex flex-col gap-1 p-4 rounded-xl border border-border-dark bg-surface-dark hover:border-border-dark/80 hover:bg-white/5 transition-all peer-checked:border-primary peer-checked:bg-primary/10">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-text-secondary group-hover:text-white peer-checked:text-primary">person_apron</span>
+<span class="text-white font-bold text-sm">ROLE_WAITER</span>
+</div>
+</div>
+<p class="text-text-secondary text-xs leading-relaxed mt-1">Table management, order entry, and basic customer interactions.</p>
+</div>
+</label>
+<!-- Role Item -->
+<label class="group cursor-pointer relative">
+<input class="peer sr-only" name="role_select" type="radio"/>
+<div class="relative flex flex-col gap-1 p-4 rounded-xl border border-border-dark bg-surface-dark hover:border-border-dark/80 hover:bg-white/5 transition-all peer-checked:border-primary peer-checked:bg-primary/10">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-text-secondary group-hover:text-white peer-checked:text-primary">soup_kitchen</span>
+<span class="text-white font-bold text-sm">ROLE_KITCHEN</span>
+</div>
+</div>
+<p class="text-text-secondary text-xs leading-relaxed mt-1">View tickets, manage ticket status, and inventory alerts.</p>
+</div>
+</label>
+</div>
+</div>
+</div>
+<!-- Right Panel: Permissions Grid -->
+<div class="flex-1 overflow-y-auto p-8 bg-background-dark">
+<div class="max-w-5xl mx-auto space-y-8">
+<!-- Section: User Management -->
+<div class="rounded-2xl bg-surface-dark border border-border-dark/50 overflow-hidden">
+<div class="px-6 py-4 bg-white/5 border-b border-border-dark/50 flex justify-between items-center">
+<div class="flex items-center gap-3">
+<div class="p-2 rounded-lg bg-blue-500/20 text-blue-400">
+<span class="material-symbols-outlined text-xl">group</span>
+</div>
+<h4 class="text-white font-bold text-base">User Management</h4>
+</div>
+<button class="text-xs font-medium text-primary hover:text-white transition-colors">Select All</button>
+</div>
+<div class="p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+<!-- Permission Item -->
+<label class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/5 transition-colors cursor-pointer group">
+<div class="relative flex items-center mt-0.5">
+<input checked="" class="peer h-5 w-5 appearance-none rounded border-2 border-border-dark bg-transparent checked:border-primary checked:bg-primary transition-all focus:ring-0 focus:ring-offset-0" type="checkbox"/>
+<span class="material-symbols-outlined absolute text-surface-dark text-sm pointer-events-none opacity-0 peer-checked:opacity-100 left-0.5 top-0.5 font-bold">check</span>
+</div>
+<div>
+<p class="text-white text-sm font-medium group-hover:text-primary transition-colors">READ_USER_PROFILE</p>
+<p class="text-text-secondary text-xs mt-0.5">View staff details and contact info.</p>
+</div>
+</label>
+<!-- Permission Item -->
+<label class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/5 transition-colors cursor-pointer group">
+<div class="relative flex items-center mt-0.5">
+<input checked="" class="peer h-5 w-5 appearance-none rounded border-2 border-border-dark bg-transparent checked:border-primary checked:bg-primary transition-all focus:ring-0 focus:ring-offset-0" type="checkbox"/>
+<span class="material-symbols-outlined absolute text-surface-dark text-sm pointer-events-none opacity-0 peer-checked:opacity-100 left-0.5 top-0.5 font-bold">check</span>
+</div>
+<div>
+<p class="text-white text-sm font-medium group-hover:text-primary transition-colors">EDIT_USER_PROFILE</p>
+<p class="text-text-secondary text-xs mt-0.5">Modify personal details of staff.</p>
+</div>
+</label>
+<!-- Permission Item -->
+<label class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/5 transition-colors cursor-pointer group">
+<div class="relative flex items-center mt-0.5">
+<input checked="" class="peer h-5 w-5 appearance-none rounded border-2 border-border-dark bg-transparent checked:border-primary checked:bg-primary transition-all focus:ring-0 focus:ring-offset-0" type="checkbox"/>
+<span class="material-symbols-outlined absolute text-surface-dark text-sm pointer-events-none opacity-0 peer-checked:opacity-100 left-0.5 top-0.5 font-bold">check</span>
+</div>
+<div>
+<p class="text-white text-sm font-medium group-hover:text-primary transition-colors">ASSIGN_USER_ROLES</p>
+<p class="text-text-secondary text-xs mt-0.5">Promote or demote staff members.</p>
+</div>
+</label>
+<!-- Permission Item -->
+<label class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/5 transition-colors cursor-pointer group">
+<div class="relative flex items-center mt-0.5">
+<input checked="" class="peer h-5 w-5 appearance-none rounded border-2 border-border-dark bg-transparent checked:border-primary checked:bg-primary transition-all focus:ring-0 focus:ring-offset-0" type="checkbox"/>
+<span class="material-symbols-outlined absolute text-surface-dark text-sm pointer-events-none opacity-0 peer-checked:opacity-100 left-0.5 top-0.5 font-bold">check</span>
+</div>
+<div>
+<p class="text-white text-sm font-medium group-hover:text-primary transition-colors">DELETE_USER_ACCOUNT</p>
+<p class="text-text-secondary text-xs mt-0.5">Permanently remove user accounts.</p>
+</div>
+</label>
+</div>
+</div>
+<!-- Section: Operations & Menu -->
+<div class="rounded-2xl bg-surface-dark border border-border-dark/50 overflow-hidden">
+<div class="px-6 py-4 bg-white/5 border-b border-border-dark/50 flex justify-between items-center">
+<div class="flex items-center gap-3">
+<div class="p-2 rounded-lg bg-emerald-500/20 text-emerald-400">
+<span class="material-symbols-outlined text-xl">restaurant</span>
+</div>
+<h4 class="text-white font-bold text-base">Menu Operations</h4>
+</div>
+<button class="text-xs font-medium text-primary hover:text-white transition-colors">Select All</button>
+</div>
+<div class="p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+<!-- Permission Item -->
+<label class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/5 transition-colors cursor-pointer group">
+<div class="relative flex items-center mt-0.5">
+<input checked="" class="peer h-5 w-5 appearance-none rounded border-2 border-border-dark bg-transparent checked:border-primary checked:bg-primary transition-all focus:ring-0 focus:ring-offset-0" type="checkbox"/>
+<span class="material-symbols-outlined absolute text-surface-dark text-sm pointer-events-none opacity-0 peer-checked:opacity-100 left-0.5 top-0.5 font-bold">check</span>
+</div>
+<div>
+<p class="text-white text-sm font-medium group-hover:text-primary transition-colors">MANAGE_MENU_ITEMS</p>
+<p class="text-text-secondary text-xs mt-0.5">Create, edit, or remove dishes.</p>
+</div>
+</label>
+<!-- Permission Item -->
+<label class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/5 transition-colors cursor-pointer group">
+<div class="relative flex items-center mt-0.5">
+<input checked="" class="peer h-5 w-5 appearance-none rounded border-2 border-border-dark bg-transparent checked:border-primary checked:bg-primary transition-all focus:ring-0 focus:ring-offset-0" type="checkbox"/>
+<span class="material-symbols-outlined absolute text-surface-dark text-sm pointer-events-none opacity-0 peer-checked:opacity-100 left-0.5 top-0.5 font-bold">check</span>
+</div>
+<div>
+<p class="text-white text-sm font-medium group-hover:text-primary transition-colors">UPDATE_PRICING</p>
+<p class="text-text-secondary text-xs mt-0.5">Change item costs and apply discounts.</p>
+</div>
+</label>
+<!-- Permission Item -->
+<label class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/5 transition-colors cursor-pointer group">
+<div class="relative flex items-center mt-0.5">
+<input class="peer h-5 w-5 appearance-none rounded border-2 border-border-dark bg-transparent checked:border-primary checked:bg-primary transition-all focus:ring-0 focus:ring-offset-0" type="checkbox"/>
+<span class="material-symbols-outlined absolute text-surface-dark text-sm pointer-events-none opacity-0 peer-checked:opacity-100 left-0.5 top-0.5 font-bold">check</span>
+</div>
+<div>
+<p class="text-white text-sm font-medium group-hover:text-primary transition-colors">MANAGE_INVENTORY</p>
+<p class="text-text-secondary text-xs mt-0.5">Update stock levels and suppliers.</p>
+</div>
+</label>
+</div>
+</div>
+<!-- Section: Reservations -->
+<div class="rounded-2xl bg-surface-dark border border-border-dark/50 overflow-hidden">
+<div class="px-6 py-4 bg-white/5 border-b border-border-dark/50 flex justify-between items-center">
+<div class="flex items-center gap-3">
+<div class="p-2 rounded-lg bg-purple-500/20 text-purple-400">
+<span class="material-symbols-outlined text-xl">event_seat</span>
+</div>
+<h4 class="text-white font-bold text-base">Reservations &amp; Seating</h4>
+</div>
+<button class="text-xs font-medium text-primary hover:text-white transition-colors">Select All</button>
+</div>
+<div class="p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+<!-- Permission Item -->
+<label class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/5 transition-colors cursor-pointer group">
+<div class="relative flex items-center mt-0.5">
+<input checked="" class="peer h-5 w-5 appearance-none rounded border-2 border-border-dark bg-transparent checked:border-primary checked:bg-primary transition-all focus:ring-0 focus:ring-offset-0" type="checkbox"/>
+<span class="material-symbols-outlined absolute text-surface-dark text-sm pointer-events-none opacity-0 peer-checked:opacity-100 left-0.5 top-0.5 font-bold">check</span>
+</div>
+<div>
+<p class="text-white text-sm font-medium group-hover:text-primary transition-colors">VIEW_RESERVATIONS</p>
+<p class="text-text-secondary text-xs mt-0.5">Access the reservation calendar.</p>
+</div>
+</label>
+<!-- Permission Item -->
+<label class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/5 transition-colors cursor-pointer group">
+<div class="relative flex items-center mt-0.5">
+<input checked="" class="peer h-5 w-5 appearance-none rounded border-2 border-border-dark bg-transparent checked:border-primary checked:bg-primary transition-all focus:ring-0 focus:ring-offset-0" type="checkbox"/>
+<span class="material-symbols-outlined absolute text-surface-dark text-sm pointer-events-none opacity-0 peer-checked:opacity-100 left-0.5 top-0.5 font-bold">check</span>
+</div>
+<div>
+<p class="text-white text-sm font-medium group-hover:text-primary transition-colors">CREATE_RESERVATION</p>
+<p class="text-text-secondary text-xs mt-0.5">Book new tables for guests.</p>
+</div>
+</label>
+<!-- Permission Item -->
+<label class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/5 transition-colors cursor-pointer group">
+<div class="relative flex items-center mt-0.5">
+<input checked="" class="peer h-5 w-5 appearance-none rounded border-2 border-border-dark bg-transparent checked:border-primary checked:bg-primary transition-all focus:ring-0 focus:ring-offset-0" type="checkbox"/>
+<span class="material-symbols-outlined absolute text-surface-dark text-sm pointer-events-none opacity-0 peer-checked:opacity-100 left-0.5 top-0.5 font-bold">check</span>
+</div>
+<div>
+<p class="text-white text-sm font-medium group-hover:text-primary transition-colors">DELETE_RESERVATION</p>
+<p class="text-text-secondary text-xs mt-0.5">Cancel bookings and release tables.</p>
+</div>
+</label>
+<!-- Permission Item -->
+<label class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/5 transition-colors cursor-pointer group">
+<div class="relative flex items-center mt-0.5">
+<input class="peer h-5 w-5 appearance-none rounded border-2 border-border-dark bg-transparent checked:border-primary checked:bg-primary transition-all focus:ring-0 focus:ring-offset-0" type="checkbox"/>
+<span class="material-symbols-outlined absolute text-surface-dark text-sm pointer-events-none opacity-0 peer-checked:opacity-100 left-0.5 top-0.5 font-bold">check</span>
+</div>
+<div>
+<p class="text-white text-sm font-medium group-hover:text-primary transition-colors">OVERRIDE_CAPACITY</p>
+<p class="text-text-secondary text-xs mt-0.5">Book tables beyond standard limits.</p>
+</div>
+</label>
+</div>
+</div>
+<!-- Section: Financials -->
+<div class="rounded-2xl bg-surface-dark border border-border-dark/50 overflow-hidden mb-12">
+<div class="px-6 py-4 bg-white/5 border-b border-border-dark/50 flex justify-between items-center">
+<div class="flex items-center gap-3">
+<div class="p-2 rounded-lg bg-amber-500/20 text-amber-400">
+<span class="material-symbols-outlined text-xl">payments</span>
+</div>
+<h4 class="text-white font-bold text-base">Finance &amp; Reports</h4>
+</div>
+<button class="text-xs font-medium text-primary hover:text-white transition-colors">Select All</button>
+</div>
+<div class="p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+<!-- Permission Item -->
+<label class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/5 transition-colors cursor-pointer group">
+<div class="relative flex items-center mt-0.5">
+<input checked="" class="peer h-5 w-5 appearance-none rounded border-2 border-border-dark bg-transparent checked:border-primary checked:bg-primary transition-all focus:ring-0 focus:ring-offset-0" type="checkbox"/>
+<span class="material-symbols-outlined absolute text-surface-dark text-sm pointer-events-none opacity-0 peer-checked:opacity-100 left-0.5 top-0.5 font-bold">check</span>
+</div>
+<div>
+<p class="text-white text-sm font-medium group-hover:text-primary transition-colors">VIEW_DAILY_REPORTS</p>
+<p class="text-text-secondary text-xs mt-0.5">See end-of-day sales summaries.</p>
+</div>
+</label>
+<!-- Permission Item -->
+<label class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/5 transition-colors cursor-pointer group">
+<div class="relative flex items-center mt-0.5">
+<input checked="" class="peer h-5 w-5 appearance-none rounded border-2 border-border-dark bg-transparent checked:border-primary checked:bg-primary transition-all focus:ring-0 focus:ring-offset-0" type="checkbox"/>
+<span class="material-symbols-outlined absolute text-surface-dark text-sm pointer-events-none opacity-0 peer-checked:opacity-100 left-0.5 top-0.5 font-bold">check</span>
+</div>
+<div>
+<p class="text-white text-sm font-medium group-hover:text-primary transition-colors">EXPORT_FINANCIAL_DATA</p>
+<p class="text-text-secondary text-xs mt-0.5">Download CSV/PDF reports.</p>
+</div>
+</label>
+<!-- Permission Item -->
+<label class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/5 transition-colors cursor-pointer group">
+<div class="relative flex items-center mt-0.5">
+<input class="peer h-5 w-5 appearance-none rounded border-2 border-border-dark bg-transparent checked:border-primary checked:bg-primary transition-all focus:ring-0 focus:ring-offset-0" type="checkbox"/>
+<span class="material-symbols-outlined absolute text-surface-dark text-sm pointer-events-none opacity-0 peer-checked:opacity-100 left-0.5 top-0.5 font-bold">check</span>
+</div>
+<div>
+<p class="text-white text-sm font-medium group-hover:text-primary transition-colors">APPROVE_REFUNDS</p>
+<p class="text-text-secondary text-xs mt-0.5">Authorize transaction reversals.</p>
+</div>
+</label>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

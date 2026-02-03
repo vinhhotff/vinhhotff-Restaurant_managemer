@@ -5,9 +5,11 @@ import { Button } from "@/components/ui/button";
 import { FaGoogle } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import api from "@/lib/api";
+import { useAuth } from "@/contexts/AuthContext";
 
 export function SocialLogin() {
   const router = useRouter();
+  const { setUser } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const popupRef = useRef<Window | null>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
@@ -72,16 +74,16 @@ export function SocialLogin() {
         // Let's try /api/users. Even if it fails with 403, it means we reached backend.
         // If 401, we are not logged in.
         
-        const response = await api.get("/users").catch((err) => {
+        const response = await api.get("/api/users?size=1&sort=createdAt,desc").catch((err) => {
             // If 403, it means we are authenticated but maybe not authorized (depending on role), 
             // but effectively logged in.
             // If 401, not logged in.
             return err.response;
         });
 
-        if (response && response.status !== 401) {
-             // Successful login!
-             // Proceed to dashboard
+        if (response && response.status === 200 && response.data?.data?.content?.length) {
+             const user = response.data.data.content[0];
+             setUser(user);
              cleanUp();
              router.push("/dashboard");
         }

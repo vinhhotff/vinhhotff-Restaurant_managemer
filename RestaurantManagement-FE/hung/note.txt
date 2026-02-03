@@ -1,0 +1,26 @@
+ .\mvnw.cmd spring-boot:run
+
+ hophihunghh123@gmail.com
+ 123123
+ 0123456789
+ hung
+
+
+
+
+ spring.application.name=RestaurantManagement-BE
+
+# Kết nối đến database mới tạo
+spring.datasource.url=jdbc:postgresql://localhost:5432/postgres
+spring.datasource.username=postgres
+spring.datasource.password=1
+spring.datasource.driver-class-name=org.postgresql.Driver
+
+# Tự động tạo bảng
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
+spring.jpa.show-sql=true
+
+# JWT (Copy từ file sếp đưa)
+jwt.secret=404E635266556A586E3272357538782F413F4428472B4B625064536756685970
+jwt.access-token-expiration=86400000
