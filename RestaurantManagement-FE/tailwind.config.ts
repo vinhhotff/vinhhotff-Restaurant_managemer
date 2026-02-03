@@ -16,6 +16,7 @@ const config: Config = {
         "gourmet-bg-dark": "#181611",
         "gourmet-surface": "#221e10",
         "gourmet-border": "#544e3b",
+        "gourmet-muted": "#b9b29d",
         "gourmet-input": "#27241c",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
