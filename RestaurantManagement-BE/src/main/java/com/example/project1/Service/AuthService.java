@@ -4,6 +4,7 @@ import com.example.project1.Models.RefreshToken;
 import com.example.project1.Models.User;
 import com.example.project1.Repository.UserRepository;
 import com.example.project1.Security.JwtUtil;
+import com.example.project1.Service.Ipm.IAuthService;
 import com.example.project1.dto.request.CreateUserRequest;
 import com.example.project1.dto.request.LoginRequest;
 import com.example.project1.dto.response.AuthResponse;
@@ -12,17 +13,17 @@ import com.example.project1.exception.UnauthorizedException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class AuthService {
+public class AuthService implements IAuthService {
 
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
     private final RefreshTokenService refreshTokenService;
     private final PasswordEncoder passwordEncoder;
 
+    @Override
     public AuthResponse register(CreateUserRequest request) {
         // Kiểm tra email đã tồn tại
         if (userRepository.existsByEmail(request.getEmail())) {
@@ -50,13 +51,15 @@ public class AuthService {
         return new AuthResponse(accessToken, refreshToken);
     }
 
+    @Override
     public AuthResponse login(LoginRequest request) {
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new AppException("Incorrect email or password", 200));
 
         // Check if user registered with OAuth (Google, Facebook, etc.)
         if (user.getAuthProvider() != null && !user.getAuthProvider().equals("local")) {
-            throw new AppException("This account was registered with " + user.getAuthProvider() + ". Please use " + user.getAuthProvider() + " login.", 400);
+            throw new AppException("This account was registered with " + user.getAuthProvider() + ". Please use "
+                    + user.getAuthProvider() + " login.", 400);
         }
 
         // Validate password exists
@@ -74,6 +77,7 @@ public class AuthService {
         return new AuthResponse(accessToken, refreshToken);
     }
 
+    @Override
     public AuthResponse refresh(String refreshToken) {
         RefreshToken rt = refreshTokenService.validateRefreshToken(refreshToken)
                 .orElseThrow(() -> new UnauthorizedException("Invalid refresh token"));
@@ -87,12 +91,13 @@ public class AuthService {
         return new AuthResponse(newAccessToken, newRefreshToken);
     }
 
+    @Override
     public void logout(String refreshToken) {
-
         refreshTokenService.revokeToken(refreshToken);
     }
 
     // Method for Google OAuth to create refresh token
+    @Override
     public String createRefreshTokenForUser(User user) {
         return refreshTokenService.createRefreshToken(user);
     }

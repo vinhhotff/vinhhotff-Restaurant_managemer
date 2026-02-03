@@ -1,7 +1,7 @@
 package com.example.project1.Controller;
 
 import com.example.project1.Models.User;
-import com.example.project1.Service.AuthService;
+import com.example.project1.Service.Ipm.IAuthService;
 import com.example.project1.Service.GoogleOAuthService;
 import com.example.project1.Security.JwtUtil;
 import com.example.project1.dto.request.CreateUserRequest;
@@ -31,7 +31,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class AuthController {
 
-        private final AuthService authService;
+        private final IAuthService authService;
         private final GoogleOAuthService googleOAuthService;
         private final JwtUtil jwtUtil;
 
@@ -153,56 +153,54 @@ public class AuthController {
                                 .body(ApiResponse.success(null, "Logout successful"));
         }
 
-
         @GetMapping("/google/login")
         public RedirectView initiateGoogleLogin() {
                 String scope = URLEncoder.encode("email profile", StandardCharsets.UTF_8);
                 String redirect = redirectUri.replace("{baseUrl}", "http://localhost:8080");
                 String encodedRedirect = URLEncoder.encode(redirect, StandardCharsets.UTF_8);
-                
+
                 String googleAuthUrl = authorizationUri +
-                        "?client_id=" + googleClientId +
-                        "&redirect_uri=" + encodedRedirect +
-                        "&response_type=code" +
-                        "&scope=" + scope +
-                        "&access_type=offline" +
-                        "&prompt=consent";
-                
+                                "?client_id=" + googleClientId +
+                                "&redirect_uri=" + encodedRedirect +
+                                "&response_type=code" +
+                                "&scope=" + scope +
+                                "&access_type=offline" +
+                                "&prompt=consent";
+
                 return new RedirectView(googleAuthUrl);
         }
 
-
         @GetMapping("/google/callback")
         public void handleGoogleCallback(
-                @RequestParam("code") String code,
-                @RequestParam(value = "state", required = false) String state,
-                HttpServletResponse response) throws IOException {
-                
+                        @RequestParam("code") String code,
+                        @RequestParam(value = "state", required = false) String state,
+                        HttpServletResponse response) throws IOException {
+
                 try {
                         // Exchange authorization code for access token and get user info
                         GoogleUserInfo googleUserInfo = googleOAuthService.exchangeCodeForUserInfo(code);
-                        
+
                         // Create or update user in database
                         User user = googleOAuthService.processGoogleUser(googleUserInfo);
-                        
+
                         // Generate JWT tokens
                         String accessToken = jwtUtil.generateToken(user.getEmail());
                         String refreshToken = authService.createRefreshTokenForUser(user);
 
                         // Set cookies
                         ResponseCookie accessCookie = ResponseCookie.from("accessToken", accessToken)
-                                .httpOnly(true)
-                                .secure(false)
-                                .path("/")
-                                .maxAge(24 * 60 * 60)
-                                .build();
+                                        .httpOnly(true)
+                                        .secure(false)
+                                        .path("/")
+                                        .maxAge(24 * 60 * 60)
+                                        .build();
 
                         ResponseCookie refreshCookie = ResponseCookie.from("refreshToken", refreshToken)
-                                .httpOnly(true)
-                                .secure(false)
-                                .path("/")
-                                .maxAge(7 * 24 * 60 * 60)
-                                .build();
+                                        .httpOnly(true)
+                                        .secure(false)
+                                        .path("/")
+                                        .maxAge(7 * 24 * 60 * 60)
+                                        .build();
 
                         response.addHeader(HttpHeaders.SET_COOKIE, accessCookie.toString());
                         response.addHeader(HttpHeaders.SET_COOKIE, refreshCookie.toString());
@@ -210,26 +208,25 @@ public class AuthController {
                         // Redirect to frontend success page or return JSON
                         // Option 1: Redirect to frontend
                         // response.sendRedirect("http://localhost:3000/dashboard");
-                        
+
                         // Option 2: Return JSON with user info
                         response.setContentType("application/json");
                         response.setCharacterEncoding("UTF-8");
                         String jsonResponse = String.format(
-                                "{\"user\":{\"id\":\"%s\",\"email\":\"%s\",\"name\":\"%s\",\"avatarUrl\":\"%s\",\"provider\":\"%s\"},\"token\":\"%s\"}",
-                                user.getId(),
-                                user.getEmail(),
-                                user.getFullName(),
-                                user.getProfileImage() != null ? user.getProfileImage() : "",
-                                user.getAuthProvider() != null ? user.getAuthProvider() : "google",
-                                accessToken
-                        );
+                                        "{\"user\":{\"id\":\"%s\",\"email\":\"%s\",\"name\":\"%s\",\"avatarUrl\":\"%s\",\"provider\":\"%s\"},\"token\":\"%s\"}",
+                                        user.getId(),
+                                        user.getEmail(),
+                                        user.getFullName(),
+                                        user.getProfileImage() != null ? user.getProfileImage() : "",
+                                        user.getAuthProvider() != null ? user.getAuthProvider() : "google",
+                                        accessToken);
                         response.getWriter().write(jsonResponse);
-                        
+
                 } catch (Exception e) {
                         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                         response.setContentType("application/json");
-                        response.getWriter().write("{\"error\":\"Google authentication failed: " + 
-                                e.getMessage().replace("\"", "'") + "\"}");
+                        response.getWriter().write("{\"error\":\"Google authentication failed: " +
+                                        e.getMessage().replace("\"", "'") + "\"}");
                 }
         }
 }

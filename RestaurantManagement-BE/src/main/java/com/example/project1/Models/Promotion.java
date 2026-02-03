@@ -10,6 +10,8 @@ import org.hibernate.annotations.OnDeleteAction;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
+import com.example.project1.Models.Enums.DiscountType;
+import com.example.project1.Models.Enums.PromotionStatus;
 
 @Getter
 @Setter
@@ -60,17 +62,12 @@ public class Promotion {
     @Column(name = "created_at")
     private Instant createdAt;
 
-/*
- TODO [Reverse Engineering] create field to map the 'discount_type' column
- Available actions: Define target Java type | Uncomment as is | Remove column mapping
-    @Column(name = "discount_type", columnDefinition = "discount_type not null")
-    private Object discountType;
-*/
-/*
- TODO [Reverse Engineering] create field to map the 'status' column
- Available actions: Define target Java type | Uncomment as is | Remove column mapping
-    @ColumnDefault("active")
-    @Column(name = "status", columnDefinition = "promotion_status")
-    private Object status;
-*/
+    @Enumerated(EnumType.STRING)
+    @Column(name = "discount_type", nullable = false)
+    private DiscountType discountType;
+
+    @Enumerated(EnumType.STRING)
+    @ColumnDefault("'ACTIVE'")
+    @Column(name = "status")
+    private PromotionStatus status = PromotionStatus.ACTIVE;
 }
