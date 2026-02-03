@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Restaurant Areas Configurator</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;family=Noto+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#eec02b",
+                        "background-light": "#f8f8f6",
+                        "background-dark": "#221e10",
+                        "surface-dark": "#2c281b",
+                        "surface-light": "#ffffff",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-filled {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom scrollbar for dark theme elegance */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #221e10; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #393528; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #eec02b; 
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display transition-colors duration-200">
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+<!-- Top Navigation -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-[#393528] bg-white dark:bg-[#181611] px-10 py-3 sticky top-0 z-50">
+<div class="flex items-center gap-4 text-slate-900 dark:text-white">
+<div class="size-8 text-primary">
+<svg class="w-full h-full" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-lg font-bold leading-tight tracking-[-0.015em]">Restaurant OS</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8 items-center">
+<div class="hidden md:flex items-center bg-slate-100 dark:bg-[#393528] rounded-lg h-10 px-4 min-w-[300px]">
+<span class="material-symbols-outlined text-slate-400 dark:text-[#b9b29d]">search</span>
+<input class="bg-transparent border-none text-sm ml-2 w-full text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-[#b9b29d] focus:outline-none focus:ring-0" placeholder="Search areas, tables..."/>
+</div>
+<div class="flex items-center gap-4">
+<button class="relative p-2 text-slate-500 dark:text-[#b9b29d] hover:text-primary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full"></span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 ring-2 ring-primary/20" data-alt="Manager profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA_fRcIE3YgqGe_hmUonAcTopi95hK_gQ-ZNrPNVtx0mtcLGcgQUO7bTAbfB6nErg4q-8WZCbp7gvkxX3ggcj4t3EhoBzZRgDPQffmrxEKdMlzMfZsijqwE1hFCUOPwIgHB8nFk75NIo1WA_ZPnbeQZBVoO74aCV4LfSQnYVcFsWM--NYhrs_RUBNDhdColjQHoxoR7s9whvafSbIcnsjtE3FLpNl7hGywVwZFQcJ5_1FJQdOW_97sk5A6SzhOgHOYOjrsPZUATUfQT");'></div>
+</div>
+</div>
+</header>
+<div class="flex flex-1">
+<!-- Side Navigation -->
+<aside class="hidden lg:flex w-64 flex-col bg-white dark:bg-[#181611] border-r border-slate-200 dark:border-[#393528] pt-6 pb-4">
+<div class="px-6 mb-8">
+<h1 class="text-xl font-bold leading-normal dark:text-white">Bistro Luxe</h1>
+<p class="text-slate-500 dark:text-[#b9b29d] text-sm font-medium">Admin Panel</p>
+</div>
+<nav class="flex flex-col gap-1 px-3">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-[#b9b29d] hover:bg-slate-100 dark:hover:bg-[#2c281b] group transition-all" href="#">
+<span class="material-symbols-outlined group-hover:text-primary">dashboard</span>
+<span class="text-sm font-medium group-hover:text-slate-900 dark:group-hover:text-white">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-[#b9b29d] hover:bg-slate-100 dark:hover:bg-[#2c281b] group transition-all" href="#">
+<span class="material-symbols-outlined group-hover:text-primary">menu_book</span>
+<span class="text-sm font-medium group-hover:text-slate-900 dark:group-hover:text-white">Catalog</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary dark:bg-[#393528] dark:text-white" href="#">
+<span class="material-symbols-outlined text-primary fill-1">map</span>
+<span class="text-sm font-bold">Areas</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-[#b9b29d] hover:bg-slate-100 dark:hover:bg-[#2c281b] group transition-all" href="#">
+<span class="material-symbols-outlined group-hover:text-primary">table_restaurant</span>
+<span class="text-sm font-medium group-hover:text-slate-900 dark:group-hover:text-white">Tables</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-[#b9b29d] hover:bg-slate-100 dark:hover:bg-[#2c281b] group transition-all" href="#">
+<span class="material-symbols-outlined group-hover:text-primary">groups</span>
+<span class="text-sm font-medium group-hover:text-slate-900 dark:group-hover:text-white">Staff</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-[#b9b29d] hover:bg-slate-100 dark:hover:bg-[#2c281b] group transition-all" href="#">
+<span class="material-symbols-outlined group-hover:text-primary">bar_chart</span>
+<span class="text-sm font-medium group-hover:text-slate-900 dark:group-hover:text-white">Reports</span>
+</a>
+</nav>
+<div class="mt-auto px-6">
+<div class="rounded-xl bg-gradient-to-br from-primary/20 to-transparent p-4 border border-primary/20">
+<p class="text-xs font-bold text-primary mb-1">PRO TIP</p>
+<p class="text-xs text-slate-600 dark:text-slate-300">Drag and drop tables in the layout view to rearrange quickly.</p>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col h-full overflow-y-auto bg-background-light dark:bg-background-dark">
+<div class="max-w-[1200px] w-full mx-auto p-6 md:p-10 flex flex-col gap-8">
+<!-- Breadcrumbs & Heading -->
+<div class="flex flex-col gap-6">
+<div class="flex items-center gap-2 text-sm">
+<a class="text-slate-500 dark:text-[#b9b29d] hover:text-primary" href="#">Dashboard</a>
+<span class="material-symbols-outlined text-[16px] text-slate-400">chevron_right</span>
+<span class="text-slate-900 dark:text-white font-medium">Areas Configurator</span>
+</div>
+<div class="flex flex-wrap justify-between items-end gap-4">
+<div class="flex flex-col gap-2">
+<h1 class="text-3xl md:text-4xl font-black text-slate-900 dark:text-white tracking-tight">Area Configuration</h1>
+<p class="text-slate-600 dark:text-[#b9b29d] max-w-2xl">Manage your restaurant layout, capacity limits, and zone specific settings. Configure indoor and outdoor seating arrangements.</p>
+</div>
+<button class="flex items-center gap-2 bg-primary hover:bg-yellow-400 text-black px-6 py-3 rounded-lg font-bold shadow-lg shadow-primary/20 transition-all active:scale-95 whitespace-nowrap">
+<span class="material-symbols-outlined">add</span>
+                                Add New Area
+                            </button>
+</div>
+</div>
+<!-- Key Stats -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="bg-white dark:bg-surface-dark border border-slate-200 dark:border-[#393528] p-5 rounded-xl flex flex-col gap-1 relative overflow-hidden group">
+<div class="absolute right-0 top-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-4xl text-primary">chair_alt</span>
+</div>
+<p class="text-slate-500 dark:text-[#b9b29d] text-sm font-medium uppercase tracking-wider">Total Capacity</p>
+<p class="text-slate-900 dark:text-white text-3xl font-bold">240</p>
+</div>
+<div class="bg-white dark:bg-surface-dark border border-slate-200 dark:border-[#393528] p-5 rounded-xl flex flex-col gap-1 relative overflow-hidden group">
+<div class="absolute right-0 top-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-4xl text-primary">grid_view</span>
+</div>
+<p class="text-slate-500 dark:text-[#b9b29d] text-sm font-medium uppercase tracking-wider">Total Areas</p>
+<p class="text-slate-900 dark:text-white text-3xl font-bold">4</p>
+</div>
+<div class="bg-white dark:bg-surface-dark border border-slate-200 dark:border-[#393528] p-5 rounded-xl flex flex-col gap-1 relative overflow-hidden group">
+<div class="absolute right-0 top-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-4xl text-primary">toggle_on</span>
+</div>
+<p class="text-slate-500 dark:text-[#b9b29d] text-sm font-medium uppercase tracking-wider">Active Zones</p>
+<p class="text-slate-900 dark:text-white text-3xl font-bold">3</p>
+</div>
+<div class="bg-white dark:bg-surface-dark border border-slate-200 dark:border-[#393528] p-5 rounded-xl flex flex-col gap-1 relative overflow-hidden group">
+<div class="absolute right-0 top-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-4xl text-primary">table_restaurant</span>
+</div>
+<p class="text-slate-500 dark:text-[#b9b29d] text-sm font-medium uppercase tracking-wider">Total Tables</p>
+<p class="text-slate-900 dark:text-white text-3xl font-bold">65</p>
+</div>
+</div>
+<!-- Area Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Card 1: Main Dining -->
+<div class="flex flex-col bg-white dark:bg-[#1e1c16] rounded-xl overflow-hidden border border-slate-200 dark:border-[#393528] shadow-sm hover:shadow-lg hover:border-primary/50 transition-all duration-300 group">
+<div class="h-32 w-full bg-cover bg-center relative" data-alt="Elegant indoor restaurant dining area with warm lighting" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCHEJGr3_NVks-yt2RX41TF6yM2gvnrebPwMYsNEs6WRELVpBIhRgvcFJ_WqHh4Isz1hkHahrTlWw_AlJ76VkZv5TXUfWoo2qIBiyxEIZZqDGNN5ckmryVA7NiB3QsdWpTK67KGrWQkykZmrzy1kfdjORTqiuHbYtiaUpWyXpM_Wr00cULEwKXlkYDc5B93dQ2dpC8DMgmjzGqutyPFZEbyTHqz8jpUEDDA9biX01D97dnvXMqmR6ElE17C4bQ0UGlPq-UybBSZOyB6");'>
+<div class="absolute inset-0 bg-black/40"></div>
+<div class="absolute top-4 right-4 bg-green-500/20 text-green-500 dark:text-green-400 text-xs font-bold px-3 py-1 rounded-full border border-green-500/20 backdrop-blur-sm flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+                                    ACTIVE
+                                </div>
+</div>
+<div class="p-5 flex flex-col flex-1 gap-4">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-xl font-bold text-slate-900 dark:text-white group-hover:text-primary transition-colors">Main Dining Room</h3>
+<p class="text-sm text-slate-500 dark:text-[#b9b29d]">Ground Floor</p>
+</div>
+<div class="flex gap-2">
+<div class="p-1.5 rounded bg-slate-100 dark:bg-[#2c281b] text-slate-400 dark:text-[#6b6655]" title="Non-Smoking">
+<span class="material-symbols-outlined text-[20px]">smoke_free</span>
+</div>
+<div class="p-1.5 rounded bg-slate-100 dark:bg-[#2c281b] text-slate-400 dark:text-[#6b6655]" title="Indoor">
+<span class="material-symbols-outlined text-[20px]">roofing</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 py-4 border-t border-b border-slate-100 dark:border-[#393528]">
+<div>
+<p class="text-xs text-slate-400 dark:text-[#888373] mb-1">Capacity</p>
+<div class="flex items-end gap-1">
+<span class="text-xl font-bold text-slate-900 dark:text-white">120</span>
+<span class="text-xs text-slate-500 mb-1">seats</span>
+</div>
+</div>
+<div>
+<p class="text-xs text-slate-400 dark:text-[#888373] mb-1">Tables</p>
+<div class="flex items-end gap-1">
+<span class="text-xl font-bold text-slate-900 dark:text-white">32</span>
+<span class="text-xs text-slate-500 mb-1">units</span>
+</div>
+</div>
+</div>
+<div class="flex gap-3 mt-auto">
+<button class="flex-1 py-2 px-3 rounded-lg border border-slate-200 dark:border-[#393528] text-slate-700 dark:text-white text-sm font-semibold hover:bg-slate-50 dark:hover:bg-[#2c281b] transition-colors">Edit Config</button>
+<button class="p-2 rounded-lg border border-slate-200 dark:border-[#393528] text-slate-400 hover:text-red-500 hover:border-red-500/50 hover:bg-red-500/10 transition-colors">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 2: Sunset Terrace -->
+<div class="flex flex-col bg-white dark:bg-[#1e1c16] rounded-xl overflow-hidden border border-slate-200 dark:border-[#393528] shadow-sm hover:shadow-lg hover:border-primary/50 transition-all duration-300 group">
+<div class="h-32 w-full bg-cover bg-center relative" data-alt="Outdoor terrace seating area with plants and sunset view" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCBwBsp7FN8sd3yKU8veurqSJSVv5JE30ZLGpO9aQvmpSERo7Archdsl4_cuWgPO60Em1NHe2PSMZSRA8_jQ_wmhXGpd7gQyDa-vwYqMtcLpwW7cFL7rbd1jS9OOYK8gym8Uh68FQlSTPYyChodOEsBP7IS9Yy32TkelaZ6TJfb3VbZl9h0yDxzSxOa9Q2ulVZXQhF4X3NUjhNR77suBb9iU7dPIc4fdghquErmm65aK6tbUIVGIbKrQOrWtsBZb5Som3cDtebuCFkq");'>
+<div class="absolute inset-0 bg-black/40"></div>
+<div class="absolute top-4 right-4 bg-green-500/20 text-green-500 dark:text-green-400 text-xs font-bold px-3 py-1 rounded-full border border-green-500/20 backdrop-blur-sm flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+                                    ACTIVE
+                                </div>
+</div>
+<div class="p-5 flex flex-col flex-1 gap-4">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-xl font-bold text-slate-900 dark:text-white group-hover:text-primary transition-colors">Sunset Terrace</h3>
+<p class="text-sm text-slate-500 dark:text-[#b9b29d]">Outdoor Level 1</p>
+</div>
+<div class="flex gap-2">
+<div class="p-1.5 rounded bg-primary/10 text-primary border border-primary/20" title="Smoking Allowed">
+<span class="material-symbols-outlined text-[20px]">smoking_rooms</span>
+</div>
+<div class="p-1.5 rounded bg-primary/10 text-primary border border-primary/20" title="Outdoor">
+<span class="material-symbols-outlined text-[20px]">deck</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 py-4 border-t border-b border-slate-100 dark:border-[#393528]">
+<div>
+<p class="text-xs text-slate-400 dark:text-[#888373] mb-1">Capacity</p>
+<div class="flex items-end gap-1">
+<span class="text-xl font-bold text-slate-900 dark:text-white">80</span>
+<span class="text-xs text-slate-500 mb-1">seats</span>
+</div>
+</div>
+<div>
+<p class="text-xs text-slate-400 dark:text-[#888373] mb-1">Tables</p>
+<div class="flex items-end gap-1">
+<span class="text-xl font-bold text-slate-900 dark:text-white">20</span>
+<span class="text-xs text-slate-500 mb-1">units</span>
+</div>
+</div>
+</div>
+<div class="flex gap-3 mt-auto">
+<button class="flex-1 py-2 px-3 rounded-lg border border-slate-200 dark:border-[#393528] text-slate-700 dark:text-white text-sm font-semibold hover:bg-slate-50 dark:hover:bg-[#2c281b] transition-colors">Edit Config</button>
+<button class="p-2 rounded-lg border border-slate-200 dark:border-[#393528] text-slate-400 hover:text-red-500 hover:border-red-500/50 hover:bg-red-500/10 transition-colors">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 3: VIP Lounge -->
+<div class="flex flex-col bg-white dark:bg-[#1e1c16] rounded-xl overflow-hidden border border-slate-200 dark:border-[#393528] shadow-sm hover:shadow-lg hover:border-primary/50 transition-all duration-300 group ring-1 ring-primary/30">
+<div class="h-32 w-full bg-cover bg-center relative" data-alt="Dark moody VIP lounge with leather seating" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAew2Wp6MIQpsahYUszfST_FHQW1H4V0NEKpAyoNnTzNGpBb3VIheZb-ETbTYwlrs3GMnPVT2eNX6mdWRpQBWNaNIZXAMtfUjAfELcGYjFVWrmGtJDLD24YpbqSMZGSqxuOZOjXXH3TCvrq75yX1uMZ8r5ykk_uE-RlKn6DmcQ2lpO_QL6mCkwGMLC9Cre47QdAcu3TS_A4xRMsPuXQzL2OJGMI48mydUUhDiASBA0-xuRaAFhyoJGNfDEIzO5Q1FD8k7kZi15C0M3J");'>
+<div class="absolute inset-0 bg-black/50"></div>
+<div class="absolute top-4 left-4 bg-primary text-black text-xs font-black px-2 py-1 rounded-sm flex items-center gap-1 shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-[14px]">star</span>
+                                    VIP
+                                </div>
+<div class="absolute top-4 right-4 bg-green-500/20 text-green-500 dark:text-green-400 text-xs font-bold px-3 py-1 rounded-full border border-green-500/20 backdrop-blur-sm flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+                                    ACTIVE
+                                </div>
+</div>
+<div class="p-5 flex flex-col flex-1 gap-4 bg-gradient-to-b from-primary/5 to-transparent">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-xl font-bold text-slate-900 dark:text-white group-hover:text-primary transition-colors">VIP Lounge</h3>
+<p class="text-sm text-slate-500 dark:text-[#b9b29d]">Mezzanine</p>
+</div>
+<div class="flex gap-2">
+<div class="p-1.5 rounded bg-slate-100 dark:bg-[#2c281b] text-slate-400 dark:text-[#6b6655]" title="Non-Smoking">
+<span class="material-symbols-outlined text-[20px]">smoke_free</span>
+</div>
+<div class="p-1.5 rounded bg-slate-100 dark:bg-[#2c281b] text-slate-400 dark:text-[#6b6655]" title="Indoor">
+<span class="material-symbols-outlined text-[20px]">roofing</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 py-4 border-t border-b border-slate-100 dark:border-[#393528]">
+<div>
+<p class="text-xs text-slate-400 dark:text-[#888373] mb-1">Capacity</p>
+<div class="flex items-end gap-1">
+<span class="text-xl font-bold text-slate-900 dark:text-white">40</span>
+<span class="text-xs text-slate-500 mb-1">seats</span>
+</div>
+</div>
+<div>
+<p class="text-xs text-slate-400 dark:text-[#888373] mb-1">Tables</p>
+<div class="flex items-end gap-1">
+<span class="text-xl font-bold text-slate-900 dark:text-white">10</span>
+<span class="text-xs text-slate-500 mb-1">units</span>
+</div>
+</div>
+</div>
+<div class="flex gap-3 mt-auto">
+<button class="flex-1 py-2 px-3 rounded-lg border border-primary/40 bg-primary/10 text-primary text-sm font-semibold hover:bg-primary hover:text-black transition-colors">Edit Config</button>
+<button class="p-2 rounded-lg border border-slate-200 dark:border-[#393528] text-slate-400 hover:text-red-500 hover:border-red-500/50 hover:bg-red-500/10 transition-colors">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 4: Garden Patio (Inactive) -->
+<div class="flex flex-col bg-slate-50 dark:bg-[#1a1814] rounded-xl overflow-hidden border border-slate-200 dark:border-[#2a261c] opacity-75 hover:opacity-100 transition-all duration-300 group">
+<div class="h-32 w-full bg-cover bg-center relative grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="Garden patio area" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuARiKrJl45j1VHdZdouQbGxmgvZSxZgsn-aPGM9_BK1Wn2d8-6abi2L1bnPlLbNgwhvMYiNOtxzLFUslVDxAeA0icb-Ci6XDjB0nVROt6hk4EljNkKmNXlGx-edEwdCckSW9kowJgQvXGCfuZgh0p0fexanBwR40hQTRT_n8nilpMBemzkQDL1P_sh8w5r0OWPft4blKoCB1GUIcS28W68CX3Wr73bS32LmvngKL0rHDJnMB4ImM60cNCc08c12pfWPDa4CaBTQb_gb");'>
+<div class="absolute inset-0 bg-black/60"></div>
+<div class="absolute top-4 right-4 bg-slate-500/20 text-slate-300 text-xs font-bold px-3 py-1 rounded-full border border-slate-500/20 backdrop-blur-sm flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
+                                    INACTIVE
+                                </div>
+</div>
+<div class="p-5 flex flex-col flex-1 gap-4">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-xl font-bold text-slate-700 dark:text-slate-300">Garden Patio</h3>
+<p class="text-sm text-slate-400 dark:text-[#888373]">Back Entrance</p>
+</div>
+<div class="flex gap-2">
+<div class="p-1.5 rounded bg-slate-200 dark:bg-[#2c281b] text-slate-400 dark:text-[#6b6655]" title="Outdoor">
+<span class="material-symbols-outlined text-[20px]">deck</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 py-4 border-t border-b border-slate-200 dark:border-[#2a261c]">
+<div>
+<p class="text-xs text-slate-400 dark:text-[#6b6655] mb-1">Capacity</p>
+<div class="flex items-end gap-1">
+<span class="text-xl font-bold text-slate-600 dark:text-slate-400">0</span>
+<span class="text-xs text-slate-400 mb-1">seats</span>
+</div>
+</div>
+<div>
+<p class="text-xs text-slate-400 dark:text-[#6b6655] mb-1">Tables</p>
+<div class="flex items-end gap-1">
+<span class="text-xl font-bold text-slate-600 dark:text-slate-400">0</span>
+<span class="text-xs text-slate-400 mb-1">units</span>
+</div>
+</div>
+</div>
+<div class="flex gap-3 mt-auto">
+<button class="flex-1 py-2 px-3 rounded-lg border border-slate-300 dark:border-[#393528] text-slate-600 dark:text-slate-300 text-sm font-semibold hover:bg-slate-100 dark:hover:bg-[#2c281b] transition-colors">Activate</button>
+<button class="p-2 rounded-lg border border-slate-200 dark:border-[#393528] text-slate-400 hover:text-red-500 hover:border-red-500/50 hover:bg-red-500/10 transition-colors">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Add New Card (Placeholder) -->
+<div class="flex flex-col justify-center items-center bg-transparent rounded-xl border-2 border-dashed border-slate-300 dark:border-[#393528] hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 group min-h-[360px] cursor-pointer">
+<div class="h-16 w-16 rounded-full bg-slate-100 dark:bg-[#2c281b] flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl text-slate-400 dark:text-[#b9b29d] group-hover:text-primary">add</span>
+</div>
+<h3 class="text-lg font-bold text-slate-600 dark:text-slate-300 group-hover:text-primary">Add New Area</h3>
+<p class="text-sm text-slate-400 dark:text-[#6b6655] text-center max-w-[200px] mt-2">Configure a new dining zone, patio, or bar area.</p>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Add/Edit Modal Overlay -->
+<div class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex justify-end">
+<!-- Modal Content -->
+<div class="w-full max-w-md h-full bg-white dark:bg-[#181611] shadow-2xl flex flex-col border-l border-slate-200 dark:border-[#393528]">
+<!-- Header -->
+<div class="flex items-center justify-between p-6 border-b border-slate-200 dark:border-[#393528]">
+<h2 class="text-xl font-bold text-slate-900 dark:text-white">Add New Area</h2>
+<button class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-[#2c281b] text-slate-500 transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Form Body -->
+<div class="flex-1 overflow-y-auto p-6 flex flex-col gap-6">
+<!-- Basic Info -->
+<div class="flex flex-col gap-4">
+<label class="flex flex-col gap-2">
+<span class="text-sm font-semibold text-slate-700 dark:text-[#b9b29d]">Area Name</span>
+<input class="w-full bg-slate-50 dark:bg-[#2c281b] border-slate-200 dark:border-[#393528] rounded-lg px-4 py-2.5 text-slate-900 dark:text-white focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-600" placeholder="e.g. Main Hall" type="text"/>
+</label>
+<div class="grid grid-cols-2 gap-4">
+<label class="flex flex-col gap-2">
+<span class="text-sm font-semibold text-slate-700 dark:text-[#b9b29d]">Capacity</span>
+<input class="w-full bg-slate-50 dark:bg-[#2c281b] border-slate-200 dark:border-[#393528] rounded-lg px-4 py-2.5 text-slate-900 dark:text-white focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all" placeholder="0" type="number"/>
+</label>
+<label class="flex flex-col gap-2">
+<span class="text-sm font-semibold text-slate-700 dark:text-[#b9b29d]">Max Tables</span>
+<input class="w-full bg-slate-50 dark:bg-[#2c281b] border-slate-200 dark:border-[#393528] rounded-lg px-4 py-2.5 text-slate-900 dark:text-white focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all" placeholder="0" type="number"/>
+</label>
+</div>
+</div>
+<div class="h-px bg-slate-200 dark:bg-[#393528] w-full"></div>
+<!-- Configuration Toggles -->
+<div class="flex flex-col gap-4">
+<h3 class="text-sm font-bold text-slate-400 dark:text-[#6b6655] uppercase tracking-wider">Settings</h3>
+<div class="flex items-center justify-between p-3 rounded-lg border border-slate-200 dark:border-[#393528] hover:border-slate-300 dark:hover:border-slate-600 transition-colors bg-slate-50 dark:bg-[#221e10]">
+<div class="flex items-center gap-3">
+<div class="bg-slate-200 dark:bg-[#2c281b] p-2 rounded text-slate-500 dark:text-[#b9b29d]">
+<span class="material-symbols-outlined">smoking_rooms</span>
+</div>
+<div class="flex flex-col">
+<span class="text-sm font-semibold text-slate-900 dark:text-white">Smoking Allowed</span>
+<span class="text-xs text-slate-500 dark:text-[#888373]">Enable for outdoor zones</span>
+</div>
+</div>
+<!-- Custom Toggle -->
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-slate-300 dark:bg-[#393528] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="flex items-center justify-between p-3 rounded-lg border border-slate-200 dark:border-[#393528] hover:border-slate-300 dark:hover:border-slate-600 transition-colors bg-slate-50 dark:bg-[#221e10]">
+<div class="flex items-center gap-3">
+<div class="bg-slate-200 dark:bg-[#2c281b] p-2 rounded text-slate-500 dark:text-[#b9b29d]">
+<span class="material-symbols-outlined">deck</span>
+</div>
+<div class="flex flex-col">
+<span class="text-sm font-semibold text-slate-900 dark:text-white">Is Outdoor</span>
+<span class="text-xs text-slate-500 dark:text-[#888373]">Patio, terrace, or garden</span>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-slate-300 dark:bg-[#393528] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="flex items-center justify-between p-3 rounded-lg border border-primary/30 hover:border-primary/60 transition-colors bg-primary/5">
+<div class="flex items-center gap-3">
+<div class="bg-primary/20 p-2 rounded text-primary">
+<span class="material-symbols-outlined fill-1">star</span>
+</div>
+<div class="flex flex-col">
+<span class="text-sm font-semibold text-slate-900 dark:text-white">VIP Area</span>
+<span class="text-xs text-slate-500 dark:text-[#888373]">Exclusive access only</span>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-slate-300 dark:bg-[#393528] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="flex items-center justify-between p-3 mt-4 rounded-lg bg-green-500/10 border border-green-500/20">
+<div class="flex items-center gap-3">
+<div class="flex flex-col">
+<span class="text-sm font-semibold text-green-600 dark:text-green-400">Area Status</span>
+<span class="text-xs text-green-600/70 dark:text-green-400/70">Currently Active</span>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-slate-300 dark:bg-[#393528] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-500"></div>
+</label>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<div class="p-6 border-t border-slate-200 dark:border-[#393528] bg-slate-50 dark:bg-[#1f1b13]">
+<div class="flex gap-4">
+<button class="flex-1 py-3 px-4 rounded-lg border border-slate-200 dark:border-[#393528] text-slate-700 dark:text-white font-bold hover:bg-slate-100 dark:hover:bg-[#2c281b] transition-colors">Cancel</button>
+<button class="flex-1 py-3 px-4 rounded-lg bg-primary text-black font-bold hover:bg-yellow-400 shadow-lg shadow-primary/20 transition-all active:scale-95">Save Area</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body></html>

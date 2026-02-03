@@ -7,6 +7,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import api from "@/lib/api";
 import { isAxiosError } from "axios";
+import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { InputField } from "@/components/ui/input-field";
 
@@ -44,6 +45,7 @@ type AuthFormProps = {
 
 export function AuthForm({ mode }: AuthFormProps) {
   const router = useRouter();
+  const { setUserFromEmail } = useAuth();
   const [serverError, setServerError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
@@ -84,6 +86,7 @@ export function AuthForm({ mode }: AuthFormProps) {
         };
 
         await api.post("/auth/register", registerPayload);
+        await setUserFromEmail(values.email);
         setSuccess("Registration successful. Redirecting to dashboard...");
       } else {
         const loginPayload = {
@@ -92,6 +95,7 @@ export function AuthForm({ mode }: AuthFormProps) {
         };
 
         await api.post("/auth/login", loginPayload);
+        await setUserFromEmail(values.email);
         setSuccess("Login successful. Redirecting...");
       }
 

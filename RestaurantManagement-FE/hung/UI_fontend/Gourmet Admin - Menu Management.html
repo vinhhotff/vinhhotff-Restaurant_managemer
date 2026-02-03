@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Gourmet Admin - Menu Management</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ecb913",
+                        "background-light": "#f8f8f6",
+                        "background-dark": "#221e10",
+                        "card-dark": "#181611",
+                        "border-dark": "#393528",
+                        "text-secondary": "#b9b29d",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-[#111418] dark:text-white font-display antialiased overflow-hidden">
+<div class="flex h-screen w-full">
+<!-- Sidebar -->
+<aside class="hidden md:flex flex-col w-72 bg-card-dark border-r border-border-dark h-full">
+<div class="flex items-center gap-3 p-6 border-b border-border-dark">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10 border border-primary/20" data-alt="Golden dragon logo for restaurant admin" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB5kHLZcPuPa585Bnq83zweb5i80pnhXL3Vt47gH6V_MydadUXX6ZXZFCNHL2r_gxVxLnpjlfGyLZVnuE1MnYtWxqEr90jONnqooSKgQE8k_yBSOEsppKune9JWDKJ005AkYPjtp-qqieULBo47-9IwnJFm9bdjD-jae4f59iLtbphETEw01TvR328W-IqsHsVcLdvTquNiT3oP64FEC6U-vh5cJluyAhjUUrBERU2lyIfYwyuwyTwyYsDJez91a8CTLrE4nqAgZdje");'></div>
+<div class="flex flex-col">
+<h1 class="text-white text-base font-bold leading-none tracking-tight">Gourmet Admin</h1>
+<p class="text-text-secondary text-xs font-normal mt-1">Fine Dining Manager</p>
+</div>
+</div>
+<nav class="flex-1 flex flex-col gap-2 p-4 overflow-y-auto">
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg text-text-secondary hover:text-white hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<p class="text-sm font-medium">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg bg-primary/10 border border-primary/20 text-primary" href="#">
+<span class="material-symbols-outlined text-[20px] fill-1">restaurant_menu</span>
+<p class="text-sm font-bold">Menu Catalog</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg text-text-secondary hover:text-white hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">receipt_long</span>
+<p class="text-sm font-medium">Orders</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg text-text-secondary hover:text-white hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">inventory_2</span>
+<p class="text-sm font-medium">Inventory</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg text-text-secondary hover:text-white hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">groups</span>
+<p class="text-sm font-medium">Staff</p>
+</a>
+</nav>
+<div class="p-4 border-t border-border-dark">
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg text-text-secondary hover:text-white hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<p class="text-sm font-medium">Settings</p>
+</a>
+<div class="flex items-center gap-3 px-3 py-3 mt-2">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-8" data-alt="User profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAHTYbRrGo0lVdhCLdANG8odAYUggUmVrFMEZ3gaBTvjOy-RNQ27M0Hoo7Hn1MrH4cNh1wSC5GpJeno9hRIJJDqNcHld17yr7jLj6U4v5YeQMzySZXB3LBqLIOnCi5hkbiZon8t3H7oxF-PR7S79cW6RqUlE3jkmyAq4v_Bph9aOIZH0h0u3dzaqo8zI7I7rRbnHeiNOR1x0YgMZ7kW6Qxu-TYxJRuGy2_vQ1CdqXP3CcQkzI9hClJQ22LI2af80wd-MnouO8iZP0oK");'></div>
+<div class="flex flex-col">
+<p class="text-white text-sm font-medium leading-none">Alex Chen</p>
+<p class="text-text-secondary text-xs mt-1">Head Chef</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col h-full overflow-hidden bg-background-dark relative">
+<!-- Top Header -->
+<header class="h-16 flex items-center justify-between border-b border-border-dark px-8 bg-card-dark/50 backdrop-blur-sm z-10 shrink-0">
+<div class="flex items-center gap-4 text-white">
+<h2 class="text-lg font-bold leading-tight tracking-tight">Catalog Management</h2>
+</div>
+<div class="flex items-center gap-4">
+<button class="flex items-center justify-center size-10 rounded-full hover:bg-white/10 text-white transition-colors relative">
+<span class="material-symbols-outlined text-[24px]">notifications</span>
+<span class="absolute top-2 right-2 size-2 bg-red-500 rounded-full border border-card-dark"></span>
+</button>
+<button class="flex items-center justify-center size-10 rounded-full hover:bg-white/10 text-white transition-colors">
+<span class="material-symbols-outlined text-[24px]">help</span>
+</button>
+</div>
+</header>
+<!-- Scrollable Content -->
+<div class="flex-1 overflow-y-auto p-8">
+<div class="max-w-7xl mx-auto flex flex-col gap-8">
+<!-- Stats Section -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<div class="bg-card-dark border border-border-dark rounded-xl p-6 flex flex-col gap-2 shadow-sm">
+<div class="flex items-center justify-between">
+<p class="text-text-secondary text-sm font-medium">Total Dishes</p>
+<span class="material-symbols-outlined text-primary text-[24px]">ramen_dining</span>
+</div>
+<p class="text-3xl font-bold text-white tracking-tight">45</p>
+<div class="flex items-center gap-1 text-xs text-green-400">
+<span class="material-symbols-outlined text-[14px]">trending_up</span>
+<span>+2 this week</span>
+</div>
+</div>
+<div class="bg-card-dark border border-border-dark rounded-xl p-6 flex flex-col gap-2 shadow-sm">
+<div class="flex items-center justify-between">
+<p class="text-text-secondary text-sm font-medium">Active Items</p>
+<span class="material-symbols-outlined text-green-400 text-[24px]">check_circle</span>
+</div>
+<p class="text-3xl font-bold text-white tracking-tight">40</p>
+</div>
+<div class="bg-card-dark border border-border-dark rounded-xl p-6 flex flex-col gap-2 shadow-sm">
+<div class="flex items-center justify-between">
+<p class="text-text-secondary text-sm font-medium">Out of Stock</p>
+<span class="material-symbols-outlined text-red-400 text-[24px]">production_quantity_limits</span>
+</div>
+<p class="text-3xl font-bold text-white tracking-tight">5</p>
+</div>
+</section>
+<!-- Main Table Section -->
+<div class="flex flex-col gap-4">
+<!-- Toolbar -->
+<div class="flex flex-wrap items-center justify-between gap-4">
+<div class="flex flex-1 items-center gap-3 min-w-[300px]">
+<!-- Search -->
+<div class="relative flex-1 max-w-md group">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-text-secondary group-focus-within:text-primary transition-colors text-[20px]">search</span>
+</div>
+<input class="block w-full pl-10 pr-3 py-2.5 bg-card-dark border border-border-dark rounded-lg text-sm text-white placeholder-text-secondary focus:ring-1 focus:ring-primary focus:border-primary transition-all shadow-sm" placeholder="Search by name, SKU, or category..." type="text"/>
+</div>
+<!-- Filter -->
+<div class="relative">
+<select class="appearance-none bg-card-dark border border-border-dark text-white text-sm rounded-lg focus:ring-primary focus:border-primary block w-full pl-3 pr-10 py-2.5 cursor-pointer">
+<option>All Categories</option>
+<option>Starters</option>
+<option>Main Course</option>
+<option>Desserts</option>
+<option>Beverages</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-text-secondary">
+<span class="material-symbols-outlined text-[20px]">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-2 px-4 py-2.5 bg-card-dark border border-border-dark text-white rounded-lg hover:bg-white/5 transition-all text-sm font-bold">
+<span class="material-symbols-outlined text-[20px]">file_download</span>
+<span>Export</span>
+</button>
+<button class="flex items-center gap-2 px-4 py-2.5 bg-primary hover:bg-primary/90 text-background-dark rounded-lg transition-all shadow-lg shadow-primary/20 text-sm font-bold">
+<span class="material-symbols-outlined text-[20px]">add</span>
+<span>Add New Dish</span>
+</button>
+</div>
+</div>
+<!-- Data Table -->
+<div class="bg-card-dark border border-border-dark rounded-xl overflow-hidden shadow-sm">
+<div class="overflow-x-auto">
+<table class="w-full text-left text-sm whitespace-nowrap">
+<thead>
+<tr class="bg-white/5 border-b border-border-dark text-text-secondary">
+<th class="px-6 py-4 font-medium w-16" scope="col">
+<div class="flex items-center">
+<input class="w-4 h-4 bg-background-dark border-border-dark rounded text-primary focus:ring-primary focus:ring-offset-background-dark" type="checkbox"/>
+</div>
+</th>
+<th class="px-6 py-4 font-medium" scope="col">Item Details</th>
+<th class="px-6 py-4 font-medium" scope="col">Category</th>
+<th class="px-6 py-4 font-medium text-right" scope="col">Price (VND)</th>
+<th class="px-6 py-4 font-medium text-center" scope="col">Availability</th>
+<th class="px-6 py-4 font-medium" scope="col">Created Date</th>
+<th class="px-6 py-4 font-medium text-right" scope="col">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-dark text-white">
+<!-- Row 1 -->
+<tr class="hover:bg-white/5 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center">
+<input class="w-4 h-4 bg-background-dark border-border-dark rounded text-primary focus:ring-primary focus:ring-offset-background-dark" type="checkbox"/>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-4">
+<div class="size-12 rounded-lg bg-cover bg-center border border-border-dark shrink-0" data-alt="Bowl of Pho Bo Dac Biet with fresh herbs" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBeMfA_5I4WsypmQtD9QmeWrNUcGLhixhDZqXvuJlUrlW89fSedVh-c891ituhrm0wJ5QSU7Ah5zAKQ5tqXLhnKtizP3ApVAQHTgK-o_koaSnb_vQ4Ossq7x7AMPhb4-5cSapRAjgvLSv7g-lNOP7ZZh9pgUuRCRKhls5PVE2FL9rlE85LiDoYrWq9laBYIfGLOl1OhUdCRWjMFmZCyoTLant7hkOUNYnR8eo78aNglgKGgPL_ulEX8Vk4gAQCP2X8C7ucrNOYR3iLO");'></div>
+<div class="flex flex-col">
+<span class="font-bold text-base text-white">Phở Bò Đặc Biệt</span>
+<span class="text-xs text-text-secondary">SKU: VN-001</span>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/20 text-primary border border-primary/20">
+                                                    Main Course
+                                                </span>
+</td>
+<td class="px-6 py-4 text-right font-mono text-base">
+                                                85.000 ₫
+                                            </td>
+<td class="px-6 py-4 text-center">
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-border-dark peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</td>
+<td class="px-6 py-4 text-text-secondary text-sm">
+                                                Oct 24, 2023
+                                            </td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-text-secondary hover:text-white hover:bg-white/10 rounded-lg transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="p-2 text-text-secondary hover:text-red-400 hover:bg-red-400/10 rounded-lg transition-colors" title="Delete">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-white/5 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center">
+<input class="w-4 h-4 bg-background-dark border-border-dark rounded text-primary focus:ring-primary focus:ring-offset-background-dark" type="checkbox"/>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-4">
+<div class="size-12 rounded-lg bg-cover bg-center border border-border-dark shrink-0" data-alt="Fresh spring rolls on a plate" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC05bpKUu_YzjN8HtSRsBpZOIP4c4amD3fho1IenaUaeRsFyG-2_V69AK9eYxGgHyu3N-TizmHpSP47S3spdzvEN1TfSdwuzwQbOZ_8cmLagQ6kWordtGHDpzK9blc4U2MvjjuM5i9UIUpTXJKQbb91GMnGhjWUHln_MpTRmEWJ1C-GuIoBM4JbGvxcTHCwBxR0wgSqcZ6HX_zrEeZsNJ1bBVvlk6rGjVdLT07a5ZS9Ovi8OPaSM0KZqAgaWHV3nDDU9R9z97VJkssN");'></div>
+<div class="flex flex-col">
+<span class="font-bold text-base text-white">Gỏi Cuốn Tôm Thịt</span>
+<span class="text-xs text-text-secondary">SKU: VN-004</span>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-500/20 text-blue-400 border border-blue-500/20">
+                                                    Appetizer
+                                                </span>
+</td>
+<td class="px-6 py-4 text-right font-mono text-base">
+                                                45.000 ₫
+                                            </td>
+<td class="px-6 py-4 text-center">
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-border-dark peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</td>
+<td class="px-6 py-4 text-text-secondary text-sm">
+                                                Oct 22, 2023
+                                            </td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-text-secondary hover:text-white hover:bg-white/10 rounded-lg transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="p-2 text-text-secondary hover:text-red-400 hover:bg-red-400/10 rounded-lg transition-colors" title="Delete">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 (Unavailable) -->
+<tr class="hover:bg-white/5 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center">
+<input class="w-4 h-4 bg-background-dark border-border-dark rounded text-primary focus:ring-primary focus:ring-offset-background-dark" type="checkbox"/>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-4 opacity-60">
+<div class="size-12 rounded-lg bg-cover bg-center border border-border-dark shrink-0" data-alt="Traditional Vietnamese coffee with condensed milk" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDk3gqGyuJWzahwprxLC1W6BMQQZJ9B4jU3DseszTAaQZMH4ipVTl-ca-4F9l9LhanQ_oLN1AwTp3LrGLwkWU-m2KZPjn_BabXskdVKXx0dCwCZTqXRNe2qyT5IRN7uzU4lNP_E6QDOxDGKLk4wjKcdAtBK_lZNfVI2etV3fIDAZmMM3F3QIgHox3BNg3IyKk14YWu5hYKHEeov0G7FpC7tGvrxIQBFqCOcuwPm_0I76v-PqlNNkMFe_DBIgfJn-Nxnc6_UZOpbIWQG");'></div>
+<div class="flex flex-col">
+<span class="font-bold text-base text-white">Cà Phê Sữa Đá</span>
+<span class="text-xs text-text-secondary">SKU: BV-012</span>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-500/20 text-orange-400 border border-orange-500/20">
+                                                    Beverage
+                                                </span>
+</td>
+<td class="px-6 py-4 text-right font-mono text-base opacity-60">
+                                                35.000 ₫
+                                            </td>
+<td class="px-6 py-4 text-center">
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-border-dark peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-text-secondary after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</td>
+<td class="px-6 py-4 text-text-secondary text-sm">
+                                                Sep 15, 2023
+                                            </td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-text-secondary hover:text-white hover:bg-white/10 rounded-lg transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="p-2 text-text-secondary hover:text-red-400 hover:bg-red-400/10 rounded-lg transition-colors" title="Delete">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-white/5 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center">
+<input class="w-4 h-4 bg-background-dark border-border-dark rounded text-primary focus:ring-primary focus:ring-offset-background-dark" type="checkbox"/>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-4">
+<div class="size-12 rounded-lg bg-cover bg-center border border-border-dark shrink-0" data-alt="Banh Mi sandwich with pate and vegetables" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDJ01or-cneuIM_yPrAmXDsbEI82vNjj8FVdoAi2tAtWnbh8mWDZ9sfNpYynzWE5xPFWOHUHWy598xs4T7ehbmRxF2b7YRQ7ngU_ZJIv_cM0TmCLbTOHoQxZ4glWlYeCCoGlbBce8YLO-lS1lb0Z7Cqxtzgk70dW-UnuC1seWUkYPmTqi_JMK1EpeDIynCLQS6noOcI3Gecpj5QJGIHs05CJDhuirxTVfeKqqR0AECpDe1odCi623JMmpoG0uGfDD15mgG2fN-klJ1D");'></div>
+<div class="flex flex-col">
+<span class="font-bold text-base text-white">Bánh Mì Pate</span>
+<span class="text-xs text-text-secondary">SKU: VN-009</span>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/20 text-primary border border-primary/20">
+                                                    Main Course
+                                                </span>
+</td>
+<td class="px-6 py-4 text-right font-mono text-base">
+                                                30.000 ₫
+                                            </td>
+<td class="px-6 py-4 text-center">
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-border-dark peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</td>
+<td class="px-6 py-4 text-text-secondary text-sm">
+                                                Oct 30, 2023
+                                            </td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-text-secondary hover:text-white hover:bg-white/10 rounded-lg transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="p-2 text-text-secondary hover:text-red-400 hover:bg-red-400/10 rounded-lg transition-colors" title="Delete">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-white/5 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center">
+<input class="w-4 h-4 bg-background-dark border-border-dark rounded text-primary focus:ring-primary focus:ring-offset-background-dark" type="checkbox"/>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-4">
+<div class="size-12 rounded-lg bg-cover bg-center border border-border-dark shrink-0" data-alt="Crispy Vietnamese pancakes Banh Xeo" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBQ-n6Hd5lkMCrvaWj_OfiJKo8VYkb7IW7BYbKPxPc8FzkWOv4fgvEbEtfGbFeqGrw50-zP6h-ABeNz2oZHM76XkfTRg8IO5LKVcYQvDElKIOWSE2wvLCdPGXSWjeC506SaevbUOpqLxFRYs520Tiq-dPYywERqIff7qHspqEUl2rXJWSq11GYCEgEkm5jkDiaMra52NhCWRRDC82NkIzvERg4J0MTMYsR7ZECsXPTuP7GUMSuQVJ3sQrR03_EMxcs2ff63a_IknObA");'></div>
+<div class="flex flex-col">
+<span class="font-bold text-base text-white">Bánh Xèo</span>
+<span class="text-xs text-text-secondary">SKU: VN-015</span>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/20 text-primary border border-primary/20">
+                                                    Main Course
+                                                </span>
+</td>
+<td class="px-6 py-4 text-right font-mono text-base">
+                                                65.000 ₫
+                                            </td>
+<td class="px-6 py-4 text-center">
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-border-dark peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</td>
+<td class="px-6 py-4 text-text-secondary text-sm">
+                                                Nov 02, 2023
+                                            </td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-text-secondary hover:text-white hover:bg-white/10 rounded-lg transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="p-2 text-text-secondary hover:text-red-400 hover:bg-red-400/10 rounded-lg transition-colors" title="Delete">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="flex items-center justify-between px-6 py-4 border-t border-border-dark bg-white/5">
+<span class="text-sm text-text-secondary">
+                                    Showing <span class="font-medium text-white">1</span> to <span class="font-medium text-white">5</span> of <span class="font-medium text-white">45</span> results
+                                </span>
+<div class="flex items-center gap-2">
+<button class="p-1 rounded hover:bg-white/10 text-text-secondary disabled:opacity-50">
+<span class="material-symbols-outlined text-[20px]">chevron_left</span>
+</button>
+<button class="p-1 rounded hover:bg-white/10 text-white">
+<span class="material-symbols-outlined text-[20px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

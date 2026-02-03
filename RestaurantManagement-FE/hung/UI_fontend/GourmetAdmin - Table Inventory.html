@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GourmetAdmin - Table Inventory</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#dcb32e",
+                        "background-light": "#f8f7f6",
+                        "background-dark": "#201d12",
+                        "surface-dark": "#2c2921",
+                        "surface-light": "#ffffff",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.filled {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #201d12; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3e3b30; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4a4639; 
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="relative flex min-h-screen w-full flex-row overflow-hidden">
+<aside class="flex h-screen w-64 flex-col justify-between border-r border-[#3e3b30] bg-[#171612] p-4 flex-shrink-0 sticky top-0">
+<div class="flex flex-col gap-8">
+<div class="flex items-center gap-3 px-2">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10 border border-[#3e3b30]" data-alt="Restaurant logo featuring a golden spoon" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCrvBF_UhyW8UPsVvqN9NmiCbT-RBWbTIgMovY-6JulUUIszMPC6N-qr8X_an-oeQ_pMVchJ6pY5Zj75PyfDPuD3IhKJHJsKDRREWwPYv5viNJH9ZOQSvMzympsgiP03MZEeh3kYFn8x07E8JNeFROJKoMTXwS3QY-Lc-VO1v_tW3kTiyT_7g0vLs1kX-XdUp14pGi4HL_OPbXtV49JUG1sy6KkNGOTV_aN4frhAHA4cqJeYb5IiMZA9_a8KxtjCu8khLaoZckWM5Rv");'>
+</div>
+<div class="flex flex-col">
+<h1 class="text-white text-base font-bold leading-normal">GourmetAdmin</h1>
+<p class="text-[#b7b19f] text-xs font-normal leading-normal">Manager Dashboard</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#b7b19f] hover:bg-[#37342a] hover:text-white transition-colors group" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/20 text-primary group" href="#">
+<span class="material-symbols-outlined filled">table_restaurant</span>
+<span class="text-sm font-semibold">Table Inventory</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#b7b19f] hover:bg-[#37342a] hover:text-white transition-colors group" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="text-sm font-medium">Reservations</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#b7b19f] hover:bg-[#37342a] hover:text-white transition-colors group" href="#">
+<span class="material-symbols-outlined">restaurant_menu</span>
+<span class="text-sm font-medium">Menu</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#b7b19f] hover:bg-[#37342a] hover:text-white transition-colors group" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="text-sm font-medium">Staff</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#b7b19f] hover:bg-[#37342a] hover:text-white transition-colors group" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-sm font-medium">Customers</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#b7b19f] hover:bg-[#37342a] hover:text-white transition-colors group" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</a>
+</nav>
+</div>
+<button class="flex w-full cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg h-10 px-4 bg-[#37342a] text-white hover:bg-[#4a4639] transition-colors text-sm font-bold tracking-[0.015em]">
+<span class="material-symbols-outlined text-[18px]">logout</span>
+<span class="truncate">Logout</span>
+</button>
+</aside>
+<main class="flex-1 flex flex-col h-full overflow-y-auto bg-background-light dark:bg-background-dark text-slate-900 dark:text-white">
+<div class="p-6 md:p-10 max-w-[1400px] w-full mx-auto flex flex-col gap-8">
+<header class="flex flex-wrap justify-between items-end gap-4">
+<div class="flex flex-col gap-1">
+<h1 class="text-3xl md:text-4xl font-black leading-tight tracking-[-0.033em]">Table Inventory Management</h1>
+<p class="text-[#b7b19f] text-base font-normal">Manage your restaurant floor plan, capacities, and table configurations.</p>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-2 bg-[#37342a] hover:bg-[#4a4639] text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors border border-[#3e3b30]">
+<span class="material-symbols-outlined text-[20px]">tune</span>
+                            Settings
+                        </button>
+<button class="bg-primary text-[#171612] px-4 py-2 rounded-lg text-sm font-bold hover:bg-yellow-400 transition-colors shadow-lg shadow-primary/20 flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]">add</span>
+                            Add New Table
+                        </button>
+</div>
+</header>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+<div class="md:col-span-4 flex flex-col md:flex-row gap-4 p-4 rounded-xl bg-surface-light dark:bg-surface-dark border border-gray-200 dark:border-[#3e3b30] items-center justify-between">
+<div class="flex flex-col md:flex-row gap-4 w-full md:w-auto">
+<div class="relative w-full md:w-64">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#b7b19f] text-[20px]">search</span>
+<input class="w-full bg-background-light dark:bg-[#201d12] border border-gray-300 dark:border-[#3e3b30] text-sm text-slate-900 dark:text-white rounded-lg pl-10 pr-4 py-2.5 focus:ring-1 focus:ring-primary focus:border-primary placeholder-[#6b7280] dark:placeholder-[#6b7280]" placeholder="Search table no..." type="text"/>
+</div>
+<div class="relative w-full md:w-48">
+<select class="w-full bg-background-light dark:bg-[#201d12] border border-gray-300 dark:border-[#3e3b30] text-sm text-slate-900 dark:text-white rounded-lg px-4 py-2.5 focus:ring-1 focus:ring-primary focus:border-primary appearance-none cursor-pointer">
+<option value="">All Areas</option>
+<option value="main">Main Dining</option>
+<option value="terrace">Terrace / Patio</option>
+<option value="bar">Bar Area</option>
+<option value="private">Private Room</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-[#b7b19f] pointer-events-none text-[20px]">keyboard_arrow_down</span>
+</div>
+<div class="relative w-full md:w-48">
+<select class="w-full bg-background-light dark:bg-[#201d12] border border-gray-300 dark:border-[#3e3b30] text-sm text-slate-900 dark:text-white rounded-lg px-4 py-2.5 focus:ring-1 focus:ring-primary focus:border-primary appearance-none cursor-pointer">
+<option value="">All Statuses</option>
+<option value="available">Available</option>
+<option value="occupied">Occupied</option>
+<option value="reserved">Reserved</option>
+<option value="maintenance">Maintenance</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-[#b7b19f] pointer-events-none text-[20px]">keyboard_arrow_down</span>
+</div>
+</div>
+<div class="flex items-center gap-2 text-sm text-[#b7b19f]">
+<span>Showing <strong>12</strong> of <strong>48</strong> tables</span>
+</div>
+</div>
+</div>
+<section class="rounded-xl border border-gray-200 dark:border-[#3e3b30] bg-surface-light dark:bg-surface-dark overflow-hidden flex flex-col shadow-sm">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-gray-50 dark:bg-[#37342a] border-b border-gray-200 dark:border-[#3e3b30]">
+<th class="p-4 text-xs font-semibold uppercase tracking-wider text-[#6b7280] dark:text-[#b7b19f]">Table No.</th>
+<th class="p-4 text-xs font-semibold uppercase tracking-wider text-[#6b7280] dark:text-[#b7b19f]">Area Name</th>
+<th class="p-4 text-xs font-semibold uppercase tracking-wider text-[#6b7280] dark:text-[#b7b19f]">Capacity</th>
+<th class="p-4 text-xs font-semibold uppercase tracking-wider text-[#6b7280] dark:text-[#b7b19f]">Min. Persons</th>
+<th class="p-4 text-xs font-semibold uppercase tracking-wider text-[#6b7280] dark:text-[#b7b19f]">Features</th>
+<th class="p-4 text-xs font-semibold uppercase tracking-wider text-[#6b7280] dark:text-[#b7b19f]">Status</th>
+<th class="p-4 text-xs font-semibold uppercase tracking-wider text-[#6b7280] dark:text-[#b7b19f] text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-gray-200 dark:divide-[#3e3b30]">
+<tr class="hover:bg-gray-50 dark:hover:bg-[#322f27] transition-colors group">
+<td class="p-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#b7b19f]">table_bar</span>
+<span class="font-bold text-slate-900 dark:text-white">T-01</span>
+</div>
+</td>
+<td class="p-4 text-sm text-[#6b7280] dark:text-[#b7b19f]">Main Dining</td>
+<td class="p-4 text-sm text-slate-900 dark:text-white font-medium">4 pax</td>
+<td class="p-4 text-sm text-[#6b7280] dark:text-[#b7b19f]">2 pax</td>
+<td class="p-4">
+<div class="flex flex-wrap gap-1.5">
+<span class="px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider bg-[#37342a] text-[#b7b19f] border border-[#3e3b30]">Window</span>
+<span class="px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider bg-[#37342a] text-[#b7b19f] border border-[#3e3b30]">AC</span>
+</div>
+</td>
+<td class="p-4">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-[#0bda1d]/10 text-[#0bda1d] border border-[#0bda1d]/20">
+<span class="w-1.5 h-1.5 rounded-full bg-[#0bda1d] mr-1.5"></span>
+                                            Available
+                                        </span>
+</td>
+<td class="p-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 hover:bg-[#37342a] rounded text-[#b7b19f] hover:text-white transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1.5 hover:bg-[#37342a] rounded text-[#b7b19f] hover:text-red-400 transition-colors" title="Delete">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-gray-50 dark:hover:bg-[#322f27] transition-colors group">
+<td class="p-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#b7b19f]">table_bar</span>
+<span class="font-bold text-slate-900 dark:text-white">T-02</span>
+</div>
+</td>
+<td class="p-4 text-sm text-[#6b7280] dark:text-[#b7b19f]">Main Dining</td>
+<td class="p-4 text-sm text-slate-900 dark:text-white font-medium">6 pax</td>
+<td class="p-4 text-sm text-[#6b7280] dark:text-[#b7b19f]">4 pax</td>
+<td class="p-4">
+<div class="flex flex-wrap gap-1.5">
+<span class="px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider bg-[#37342a] text-[#b7b19f] border border-[#3e3b30]">Center</span>
+</div>
+</td>
+<td class="p-4">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-red-500/10 text-red-500 border border-red-500/20">
+<span class="w-1.5 h-1.5 rounded-full bg-red-500 mr-1.5"></span>
+                                            Occupied
+                                        </span>
+</td>
+<td class="p-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 hover:bg-[#37342a] rounded text-[#b7b19f] hover:text-white transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1.5 hover:bg-[#37342a] rounded text-[#b7b19f] hover:text-red-400 transition-colors" title="Delete">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-gray-50 dark:hover:bg-[#322f27] transition-colors group">
+<td class="p-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#b7b19f]">deck</span>
+<span class="font-bold text-slate-900 dark:text-white">P-05</span>
+</div>
+</td>
+<td class="p-4 text-sm text-[#6b7280] dark:text-[#b7b19f]">Terrace / Patio</td>
+<td class="p-4 text-sm text-slate-900 dark:text-white font-medium">2 pax</td>
+<td class="p-4 text-sm text-[#6b7280] dark:text-[#b7b19f]">1 pax</td>
+<td class="p-4">
+<div class="flex flex-wrap gap-1.5">
+<span class="px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider bg-[#37342a] text-[#b7b19f] border border-[#3e3b30]">Outdoor</span>
+<span class="px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider bg-[#37342a] text-[#b7b19f] border border-[#3e3b30]">Smoker</span>
+</div>
+</td>
+<td class="p-4">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/20">
+<span class="w-1.5 h-1.5 rounded-full bg-primary mr-1.5"></span>
+                                            Reserved
+                                        </span>
+</td>
+<td class="p-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 hover:bg-[#37342a] rounded text-[#b7b19f] hover:text-white transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1.5 hover:bg-[#37342a] rounded text-[#b7b19f] hover:text-red-400 transition-colors" title="Delete">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-gray-50 dark:hover:bg-[#322f27] transition-colors group">
+<td class="p-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#b7b19f]">deck</span>
+<span class="font-bold text-slate-900 dark:text-white">P-06</span>
+</div>
+</td>
+<td class="p-4 text-sm text-[#6b7280] dark:text-[#b7b19f]">Terrace / Patio</td>
+<td class="p-4 text-sm text-slate-900 dark:text-white font-medium">4 pax</td>
+<td class="p-4 text-sm text-[#6b7280] dark:text-[#b7b19f]">2 pax</td>
+<td class="p-4">
+<div class="flex flex-wrap gap-1.5">
+<span class="px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider bg-[#37342a] text-[#b7b19f] border border-[#3e3b30]">Outdoor</span>
+<span class="px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider bg-[#37342a] text-[#b7b19f] border border-[#3e3b30]">Heater</span>
+</div>
+</td>
+<td class="p-4">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-[#0bda1d]/10 text-[#0bda1d] border border-[#0bda1d]/20">
+<span class="w-1.5 h-1.5 rounded-full bg-[#0bda1d] mr-1.5"></span>
+                                            Available
+                                        </span>
+</td>
+<td class="p-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 hover:bg-[#37342a] rounded text-[#b7b19f] hover:text-white transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1.5 hover:bg-[#37342a] rounded text-[#b7b19f] hover:text-red-400 transition-colors" title="Delete">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-gray-50 dark:hover:bg-[#322f27] transition-colors group">
+<td class="p-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#b7b19f]">meeting_room</span>
+<span class="font-bold text-slate-900 dark:text-white">PR-01</span>
+</div>
+</td>
+<td class="p-4 text-sm text-[#6b7280] dark:text-[#b7b19f]">Private Room A</td>
+<td class="p-4 text-sm text-slate-900 dark:text-white font-medium">12 pax</td>
+<td class="p-4 text-sm text-[#6b7280] dark:text-[#b7b19f]">8 pax</td>
+<td class="p-4">
+<div class="flex flex-wrap gap-1.5">
+<span class="px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider bg-[#37342a] text-[#b7b19f] border border-[#3e3b30]">Soundproof</span>
+<span class="px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider bg-[#37342a] text-[#b7b19f] border border-[#3e3b30]">AV Equip</span>
+<span class="px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider bg-[#37342a] text-[#b7b19f] border border-[#3e3b30]">Quiet</span>
+</div>
+</td>
+<td class="p-4">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-gray-500/10 text-gray-400 border border-gray-500/20">
+<span class="w-1.5 h-1.5 rounded-full bg-gray-400 mr-1.5"></span>
+                                            Maintenance
+                                        </span>
+</td>
+<td class="p-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 hover:bg-[#37342a] rounded text-[#b7b19f] hover:text-white transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1.5 hover:bg-[#37342a] rounded text-[#b7b19f] hover:text-red-400 transition-colors" title="Delete">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-gray-50 dark:hover:bg-[#322f27] transition-colors group">
+<td class="p-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#b7b19f]">local_bar</span>
+<span class="font-bold text-slate-900 dark:text-white">B-01</span>
+</div>
+</td>
+<td class="p-4 text-sm text-[#6b7280] dark:text-[#b7b19f]">Bar Area</td>
+<td class="p-4 text-sm text-slate-900 dark:text-white font-medium">2 pax</td>
+<td class="p-4 text-sm text-[#6b7280] dark:text-[#b7b19f]">1 pax</td>
+<td class="p-4">
+<div class="flex flex-wrap gap-1.5">
+<span class="px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider bg-[#37342a] text-[#b7b19f] border border-[#3e3b30]">High Stool</span>
+</div>
+</td>
+<td class="p-4">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-[#0bda1d]/10 text-[#0bda1d] border border-[#0bda1d]/20">
+<span class="w-1.5 h-1.5 rounded-full bg-[#0bda1d] mr-1.5"></span>
+                                            Available
+                                        </span>
+</td>
+<td class="p-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 hover:bg-[#37342a] rounded text-[#b7b19f] hover:text-white transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1.5 hover:bg-[#37342a] rounded text-[#b7b19f] hover:text-red-400 transition-colors" title="Delete">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="flex items-center justify-between px-6 py-4 border-t border-gray-200 dark:border-[#3e3b30]">
+<button class="flex items-center gap-1 text-sm font-medium text-[#b7b19f] hover:text-white disabled:opacity-50 disabled:cursor-not-allowed">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+                             Previous
+                         </button>
+<div class="flex items-center gap-2">
+<button class="w-8 h-8 flex items-center justify-center rounded-lg bg-primary text-[#171612] font-bold text-sm">1</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-[#37342a] text-[#b7b19f] hover:text-white font-medium text-sm transition-colors">2</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-[#37342a] text-[#b7b19f] hover:text-white font-medium text-sm transition-colors">3</button>
+<span class="text-[#b7b19f]">...</span>
+<button class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-[#37342a] text-[#b7b19f] hover:text-white font-medium text-sm transition-colors">8</button>
+</div>
+<button class="flex items-center gap-1 text-sm font-medium text-[#b7b19f] hover:text-white">
+                             Next
+                             <span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</section>
+</div>
+</main>
+</div>
+
+</body></html>

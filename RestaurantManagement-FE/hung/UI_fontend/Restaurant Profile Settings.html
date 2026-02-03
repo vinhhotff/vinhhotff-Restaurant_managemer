@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Restaurant Profile Settings</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#dcb32e",
+                        "background-light": "#f8f7f6",
+                        "background-dark": "#201d12",
+                        "surface-dark": "#2a271d", // Custom surface color based on provided inputs
+                        "border-dark": "#514d3d",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom Scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #171612; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #514d3d; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #dcb32e; 
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-[#171612] font-display antialiased text-slate-900 dark:text-white">
+<div class="relative flex h-screen w-full bg-[#171612] overflow-hidden">
+<!-- Sidebar -->
+<div class="w-64 flex-none border-r border-[#37342a] hidden md:flex flex-col bg-[#171612] h-full">
+<div class="flex flex-col h-full p-4 justify-between">
+<div class="flex flex-col gap-6">
+<!-- Profile Summary -->
+<div class="flex gap-3 items-center pb-4 border-b border-[#37342a]">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-12 border-2 border-primary" data-alt="Restaurant logo showing a stylized fork and knife" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCCQr9_3RfKQofMMg3efo68TZpK9gtygJeBQs2TCZIa9yzao8ilDivDkMq_dRwgMpMHFyajU_Ul58tguy7eMw3GwMGLz2lRxS7uSiiNRZTkx1enwL_f3ngv0jkqXPXR93I6oN_GWt3r4wQRUyVS0n6z5Sx28RuFXTZ2cbYTXhsh8rq3eLVVV00Bx-cC4UAA0tcb9WllAQJ9iXph5UtVFjE3VYVfgWvEfnDBdFh9MYHwQeRHtdUkCVuyhTfixPetSmyLd3CnlCf9IP4S");'>
+</div>
+<div class="flex flex-col">
+<h1 class="text-white text-base font-bold leading-normal">Bistro Noir</h1>
+<p class="text-[#b7b19f] text-xs font-normal leading-normal">Owner Account</p>
+</div>
+</div>
+<!-- Navigation Links -->
+<div class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#b7b19f] hover:bg-[#26241d] hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-[24px]">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#b7b19f] hover:bg-[#26241d] hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-[24px]">shopping_bag</span>
+<span class="text-sm font-medium">Orders</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#b7b19f] hover:bg-[#26241d] hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-[24px]">restaurant_menu</span>
+<span class="text-sm font-medium">Menu</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary border border-primary/20 shadow-sm" href="#">
+<span class="material-symbols-outlined text-[24px] fill-1">settings</span>
+<span class="text-sm font-bold">Settings</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#b7b19f] hover:bg-[#26241d] hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-[24px]">group</span>
+<span class="text-sm font-medium">Users</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#b7b19f] hover:bg-[#26241d] hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-[24px]">analytics</span>
+<span class="text-sm font-medium">Reports</span>
+</a>
+</div>
+</div>
+<div class="flex items-center gap-3 px-3 py-2 text-[#b7b19f] hover:text-white cursor-pointer mt-auto">
+<span class="material-symbols-outlined text-[24px]">logout</span>
+<span class="text-sm font-medium">Sign Out</span>
+</div>
+</div>
+</div>
+<!-- Main Content -->
+<div class="flex-1 flex flex-col h-full relative overflow-hidden">
+<!-- Header/Nav Mobile -->
+<div class="md:hidden flex items-center justify-between p-4 border-b border-[#37342a] bg-[#171612]">
+<span class="material-symbols-outlined text-white">menu</span>
+<h1 class="text-white font-bold">Settings</h1>
+<div class="size-8 rounded-full bg-primary"></div>
+</div>
+<!-- Scrollable Content Area -->
+<main class="flex-1 overflow-y-auto p-4 md:p-8 lg:px-12 pb-24">
+<div class="max-w-[1000px] mx-auto flex flex-col gap-8">
+<!-- Breadcrumbs -->
+<div class="flex flex-wrap gap-2 text-sm">
+<a class="text-[#b7b19f] font-medium hover:text-white" href="#">Home</a>
+<span class="text-[#b7b19f] font-medium">/</span>
+<a class="text-[#b7b19f] font-medium hover:text-white" href="#">Settings</a>
+<span class="text-[#b7b19f] font-medium">/</span>
+<span class="text-primary font-medium">Restaurant Profile</span>
+</div>
+<!-- Page Heading -->
+<div class="flex flex-col gap-2">
+<h1 class="text-white text-4xl font-black leading-tight tracking-[-0.033em]">Restaurant Profile</h1>
+<p class="text-[#b7b19f] text-base font-normal">Manage your restaurant's public information, contact details, and operating hours.</p>
+</div>
+<!-- Section: General Information -->
+<section class="flex flex-col gap-4">
+<h2 class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] border-b border-[#37342a] pb-2">General Information</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<label class="flex flex-col gap-2">
+<span class="text-white text-sm font-medium">Restaurant Name</span>
+<input class="w-full rounded-lg bg-[#26241d] border border-[#514d3d] text-white px-4 py-3 focus:ring-1 focus:ring-primary focus:border-primary placeholder-[#b7b19f]" placeholder="Enter restaurant name" type="text" value="Bistro Noir"/>
+</label>
+<label class="flex flex-col gap-2">
+<span class="text-white text-sm font-medium">Contact Email</span>
+<input class="w-full rounded-lg bg-[#26241d] border border-[#514d3d] text-white px-4 py-3 focus:ring-1 focus:ring-primary focus:border-primary placeholder-[#b7b19f]" placeholder="email@address.com" type="email" value="contact@bistronoir.com"/>
+</label>
+<label class="flex flex-col gap-2 md:col-span-2">
+<span class="text-white text-sm font-medium">Description</span>
+<textarea class="w-full rounded-lg bg-[#26241d] border border-[#514d3d] text-white px-4 py-3 focus:ring-1 focus:ring-primary focus:border-primary placeholder-[#b7b19f] resize-none" placeholder="Briefly describe your restaurant..." rows="3">Located in the heart of the city, Bistro Noir offers an exquisite dining experience with a modern twist on classic French cuisine.</textarea>
+</label>
+<label class="flex flex-col gap-2">
+<span class="text-white text-sm font-medium">Phone Number</span>
+<input class="w-full rounded-lg bg-[#26241d] border border-[#514d3d] text-white px-4 py-3 focus:ring-1 focus:ring-primary focus:border-primary placeholder-[#b7b19f]" placeholder="+1 (555) 000-0000" type="tel" value="+1 (555) 123-4567"/>
+</label>
+<label class="flex flex-col gap-2">
+<span class="text-white text-sm font-medium">Website URL</span>
+<input class="w-full rounded-lg bg-[#26241d] border border-[#514d3d] text-white px-4 py-3 focus:ring-1 focus:ring-primary focus:border-primary placeholder-[#b7b19f]" placeholder="https://" type="url"/>
+</label>
+</div>
+</section>
+<!-- Section: Location -->
+<section class="flex flex-col gap-4 mt-2">
+<h2 class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] border-b border-[#37342a] pb-2">Location</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<label class="flex flex-col gap-2 md:col-span-3">
+<span class="text-white text-sm font-medium">Street Address</span>
+<input class="w-full rounded-lg bg-[#26241d] border border-[#514d3d] text-white px-4 py-3 focus:ring-1 focus:ring-primary focus:border-primary placeholder-[#b7b19f]" type="text" value="123 Culinary Avenue, Suite 100"/>
+</label>
+<label class="flex flex-col gap-2">
+<span class="text-white text-sm font-medium">City</span>
+<div class="relative">
+<select class="w-full rounded-lg bg-[#26241d] border border-[#514d3d] text-white px-4 py-3 pr-8 appearance-none focus:ring-1 focus:ring-primary focus:border-primary">
+<option>New York</option>
+<option>Los Angeles</option>
+<option>Chicago</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-[#b7b19f] pointer-events-none">expand_more</span>
+</div>
+</label>
+<label class="flex flex-col gap-2">
+<span class="text-white text-sm font-medium">District</span>
+<div class="relative">
+<select class="w-full rounded-lg bg-[#26241d] border border-[#514d3d] text-white px-4 py-3 pr-8 appearance-none focus:ring-1 focus:ring-primary focus:border-primary">
+<option>Manhattan</option>
+<option>Brooklyn</option>
+<option>Queens</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-[#b7b19f] pointer-events-none">expand_more</span>
+</div>
+</label>
+<label class="flex flex-col gap-2">
+<span class="text-white text-sm font-medium">Ward / Zip</span>
+<div class="relative">
+<select class="w-full rounded-lg bg-[#26241d] border border-[#514d3d] text-white px-4 py-3 pr-8 appearance-none focus:ring-1 focus:ring-primary focus:border-primary">
+<option>10001</option>
+<option>10002</option>
+<option>10003</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-[#b7b19f] pointer-events-none">expand_more</span>
+</div>
+</label>
+<!-- Map Placeholder -->
+<div class="md:col-span-3 h-48 rounded-lg overflow-hidden relative mt-2 border border-[#514d3d]">
+<img class="w-full h-full object-cover opacity-60 hover:opacity-80 transition-opacity" data-alt="Map view showing the location of the restaurant in a dark themed interface" data-location="New York City" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCGhEkDBlkZlpVyCTSztKhZvSQ4rqppmWGCQ9HPkCV0KER_53If0BTCrRD2NVqXE464ZiNrlte1ReOSEXjcacHqrBAWJsBMt8gvXK6VwP6OxHlKSi_U4Ske5SozdeX0_sHNEBXvTR2iLhlD22MJ1M4eIJaSPK5SZALNePY7m4tPQ5vYLpoVaByaHMA01WyVKef9YLLJumQ4CfnD7ah5PM2vW7Ta4xlkEb2pwWN1-98x2T4lNaCVNCgmGbC48QH5ZvFgCyJfvArsJ_8M"/>
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<span class="bg-[#171612] text-primary px-4 py-2 rounded-full text-sm font-bold shadow-lg border border-[#514d3d] flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+                                        Location Pinned
+                                    </span>
+</div>
+</div>
+</div>
+</section>
+<!-- Section: Operating Hours -->
+<section class="flex flex-col gap-4 mt-2">
+<div class="flex items-center justify-between border-b border-[#37342a] pb-2">
+<h2 class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em]">Business Hours</h2>
+<span class="text-[#b7b19f] text-sm">Set your weekly schedule</span>
+</div>
+<div class="flex flex-col gap-3 bg-[#201d12] rounded-xl p-4 border border-[#37342a]">
+<!-- Header Row -->
+<div class="grid grid-cols-12 gap-2 text-[#b7b19f] text-xs font-bold uppercase tracking-wider mb-2 px-2">
+<div class="col-span-3">Day</div>
+<div class="col-span-3">Status</div>
+<div class="col-span-3">Open</div>
+<div class="col-span-3">Close</div>
+</div>
+<!-- Monday -->
+<div class="grid grid-cols-12 gap-2 items-center p-2 rounded hover:bg-[#26241d] transition-colors">
+<div class="col-span-3 text-white font-medium">Monday</div>
+<div class="col-span-3">
+<label class="inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="relative w-11 h-6 bg-[#37342a] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+<span class="ms-3 text-sm font-medium text-white hidden sm:block">Open</span>
+</label>
+</div>
+<div class="col-span-3">
+<input class="bg-[#171612] border border-[#514d3d] text-white text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2" type="time" value="09:00"/>
+</div>
+<div class="col-span-3">
+<input class="bg-[#171612] border border-[#514d3d] text-white text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2" type="time" value="22:00"/>
+</div>
+</div>
+<!-- Tuesday -->
+<div class="grid grid-cols-12 gap-2 items-center p-2 rounded hover:bg-[#26241d] transition-colors">
+<div class="col-span-3 text-white font-medium">Tuesday</div>
+<div class="col-span-3">
+<label class="inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="relative w-11 h-6 bg-[#37342a] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+<span class="ms-3 text-sm font-medium text-white hidden sm:block">Open</span>
+</label>
+</div>
+<div class="col-span-3">
+<input class="bg-[#171612] border border-[#514d3d] text-white text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2" type="time" value="09:00"/>
+</div>
+<div class="col-span-3">
+<input class="bg-[#171612] border border-[#514d3d] text-white text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2" type="time" value="22:00"/>
+</div>
+</div>
+<!-- Sunday (Closed example) -->
+<div class="grid grid-cols-12 gap-2 items-center p-2 rounded hover:bg-[#26241d] transition-colors opacity-60">
+<div class="col-span-3 text-white font-medium">Sunday</div>
+<div class="col-span-3">
+<label class="inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="relative w-11 h-6 bg-[#37342a] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+<span class="ms-3 text-sm font-medium text-[#b7b19f] hidden sm:block">Closed</span>
+</label>
+</div>
+<div class="col-span-3">
+<input class="bg-[#171612] border border-[#514d3d] text-[#b7b19f] text-sm rounded-lg block w-full p-2 cursor-not-allowed" disabled="" type="time" value="--:--"/>
+</div>
+<div class="col-span-3">
+<input class="bg-[#171612] border border-[#514d3d] text-[#b7b19f] text-sm rounded-lg block w-full p-2 cursor-not-allowed" disabled="" type="time" value="--:--"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Section: Features & Amenities -->
+<section class="flex flex-col gap-4 mt-2">
+<h2 class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] border-b border-[#37342a] pb-2">Features &amp; Amenities</h2>
+<div class="bg-[#201d12] border border-[#514d3d] rounded-lg p-4 flex flex-col gap-4">
+<div class="flex flex-wrap gap-2">
+<div class="bg-primary/20 border border-primary/40 text-primary px-3 py-1.5 rounded-full text-sm font-medium flex items-center gap-2 group cursor-pointer hover:bg-primary/30 transition">
+                                    Free Wi-Fi 
+                                    <span class="material-symbols-outlined text-[16px] group-hover:text-white">close</span>
+</div>
+<div class="bg-primary/20 border border-primary/40 text-primary px-3 py-1.5 rounded-full text-sm font-medium flex items-center gap-2 group cursor-pointer hover:bg-primary/30 transition">
+                                    Parking Available
+                                    <span class="material-symbols-outlined text-[16px] group-hover:text-white">close</span>
+</div>
+<div class="bg-primary/20 border border-primary/40 text-primary px-3 py-1.5 rounded-full text-sm font-medium flex items-center gap-2 group cursor-pointer hover:bg-primary/30 transition">
+                                    Outdoor Seating
+                                    <span class="material-symbols-outlined text-[16px] group-hover:text-white">close</span>
+</div>
+<div class="bg-primary/20 border border-primary/40 text-primary px-3 py-1.5 rounded-full text-sm font-medium flex items-center gap-2 group cursor-pointer hover:bg-primary/30 transition">
+                                    Wheelchair Accessible
+                                    <span class="material-symbols-outlined text-[16px] group-hover:text-white">close</span>
+</div>
+</div>
+<div class="relative">
+<input class="w-full bg-[#171612] border border-[#514d3d] rounded-lg px-4 py-3 text-white placeholder-[#b7b19f] focus:ring-1 focus:ring-primary focus:border-primary" placeholder="Add a tag (e.g. Live Music)..." type="text"/>
+<button class="absolute right-2 top-1/2 -translate-y-1/2 bg-[#37342a] text-white px-3 py-1.5 rounded text-sm hover:bg-primary hover:text-[#171612] transition font-medium">Add</button>
+</div>
+</div>
+</section>
+<!-- Section: Image Gallery -->
+<section class="flex flex-col gap-4 mt-2">
+<div class="flex items-center justify-between border-b border-[#37342a] pb-2">
+<h2 class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em]">Gallery</h2>
+<button class="text-primary text-sm font-medium hover:text-white transition flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">add_photo_alternate</span>
+                                Add Photos
+                            </button>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<!-- Upload Box -->
+<div class="aspect-square rounded-xl border-2 border-dashed border-[#514d3d] bg-[#201d12] flex flex-col items-center justify-center cursor-pointer hover:border-primary hover:bg-[#26241d] transition group">
+<span class="material-symbols-outlined text-[#b7b19f] text-[40px] group-hover:text-primary transition">cloud_upload</span>
+<span class="text-[#b7b19f] text-sm mt-2 font-medium group-hover:text-white transition">Upload New</span>
+</div>
+<!-- Image 1 -->
+<div class="aspect-square rounded-xl relative overflow-hidden group">
+<img class="w-full h-full object-cover" data-alt="Modern restaurant interior with warm lighting and wooden furniture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCcmB9A1as-N9I_SD52GCCGdCCzXstFt27r00ALKzCI6k37nRoQ-YPgXZJnJTIkqGc0UkeDEr7OAAJ5akMQuTmZhq5ifnFKyMbUJMbgTL5Kn0U0-_UaNpR3Wcph9wiHLgp_rj_s3lrjg4jB6trLieWF0ZivM2RVN2QbchXkT0d80x8RQS7EmkpwRLyepkasGHfnURSSzF3L0PAum0QhDWf5Ebr6kL5BV7NfdenDCQWaHkEf7pCVlg_RMJP08CD6_p3-hzLHdXkjbk5g"/>
+<div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition flex items-center justify-center gap-2">
+<button class="p-2 bg-white/20 hover:bg-white/40 rounded-full text-white backdrop-blur-sm">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+<button class="p-2 bg-red-500/80 hover:bg-red-600 rounded-full text-white backdrop-blur-sm">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</div>
+<!-- Image 2 -->
+<div class="aspect-square rounded-xl relative overflow-hidden group">
+<img class="w-full h-full object-cover" data-alt="Close up of a gourmet cocktail on a bar counter" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5bkjowCr0gfRPTOs7tCFHPBfGCD5NJXH_lKnkXfFIgWXB2n3T0jEbXtNUG-9U1xPZNmKon_E7XtZMOmEQ08zzBTh6CuHE4_g2EFb-PJlRuYPsyJti6RaY1UTPj020HrdFwPSirSI9BQgDrAudzrgzBlTx923GWOK7N1kR66pe7s5yo45WVTajoiAFfo9tFwN-eohgWt2bGpcrAZqy1u3MGqmjQ3JU3n1IdN4m1w5jZ0mJmdSH6p7lMTwKN0St1Slr5pVcjTFOicq8"/>
+<div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition flex items-center justify-center gap-2">
+<button class="p-2 bg-white/20 hover:bg-white/40 rounded-full text-white backdrop-blur-sm">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+<button class="p-2 bg-red-500/80 hover:bg-red-600 rounded-full text-white backdrop-blur-sm">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</div>
+<!-- Image 3 -->
+<div class="aspect-square rounded-xl relative overflow-hidden group">
+<img class="w-full h-full object-cover" data-alt="Chef plating a dish in a professional kitchen" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBipdO39sqE1Qe5lAa4LyUn1p6tpQEvt1Jc9PWksCp_zRkxhjBPQzf1ku11b1HON5O-jbhwL-_p85_VWo2rHe5xUXRqoA_grtT9DuyfWCCCZPw_T1EXl1DseL4vKvWABomzoCHp_b9RkpKl7EuFBfoG2Nh8rfEEvATV3f1Hbh0AP9GXb2lqOqgClajwIjscCTdG3MTJR0Hd4tp8-cv4_218Lm-0nwspbhomxCjY51-kBQJgHC3qMG0RGE-dfXm_PucVIL5C3QQF30lc"/>
+<div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition flex items-center justify-center gap-2">
+<button class="p-2 bg-white/20 hover:bg-white/40 rounded-full text-white backdrop-blur-sm">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+<button class="p-2 bg-red-500/80 hover:bg-red-600 rounded-full text-white backdrop-blur-sm">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Spacer for footer -->
+<div class="h-20"></div>
+</div>
+</main>
+<!-- Sticky Footer Action Bar -->
+<div class="absolute bottom-0 left-0 w-full bg-[#171612]/90 backdrop-blur-md border-t border-[#37342a] p-4 flex justify-end gap-4 z-10">
+<button class="px-6 py-3 rounded-lg border border-[#514d3d] text-[#b7b19f] font-bold text-sm hover:bg-[#26241d] hover:text-white transition">
+                    Discard Changes
+                </button>
+<button class="px-6 py-3 rounded-lg bg-primary text-[#171612] font-bold text-sm hover:bg-yellow-500 transition shadow-[0_0_15px_rgba(220,179,46,0.3)] flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]">save</span>
+                    Update Settings
+                </button>
+</div>
+<!-- Toast Notification (Hidden by default, simulated active state) -->
+<div class="fixed top-8 right-8 z-50 animate-bounce" style="animation: fade-in-down 0.5s ease-out;">
+<div class="bg-[#201d12] border-l-4 border-primary text-white px-6 py-4 rounded shadow-2xl flex items-center gap-3">
+<span class="material-symbols-outlined text-green-500">check_circle</span>
+<div>
+<h4 class="font-bold text-sm">System Ready</h4>
+<p class="text-xs text-[#b7b19f]">You can now update your profile.</p>
+</div>
+<button class="ml-4 text-[#b7b19f] hover:text-white">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</body></html>

@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>User Profile &amp; History - RestoManager</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#dcb32e",
+                        "background-light": "#f8f7f6",
+                        "background-dark": "#171612",
+                        "surface-dark": "#201d12", // Slightly lighter for cards
+                        "border-dark": "#37342a",
+                        "text-secondary": "#b7b19f"
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom Scrollbar for the right panel if needed */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #171612; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #37342a; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #dcb32e; 
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display min-h-screen flex flex-col overflow-x-hidden">
+<!-- Top Navigation -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-border-dark bg-background-dark px-6 py-3 lg:px-10 sticky top-0 z-50">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-white cursor-pointer">
+<div class="size-8 text-primary">
+<span class="material-symbols-outlined text-3xl">restaurant_menu</span>
+</div>
+<h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">RestoManager</h2>
+</div>
+<nav class="hidden md:flex items-center gap-9">
+<a class="text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Dashboard</a>
+<a class="text-primary text-sm font-medium leading-normal" href="#">Users</a>
+<a class="text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Reservations</a>
+<a class="text-white text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Settings</a>
+</nav>
+</div>
+<div class="flex items-center gap-4 lg:gap-8">
+<div class="hidden sm:flex w-full max-w-64 items-center rounded-lg bg-[#37342a] px-3 h-10">
+<span class="material-symbols-outlined text-text-secondary">search</span>
+<input class="w-full bg-transparent border-none text-white placeholder:text-text-secondary focus:ring-0 text-sm" placeholder="Search"/>
+</div>
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10 border border-border-dark cursor-pointer" data-alt="Admin user avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDWWzWxeGj9LDf8AxTyOGB1pU3nsFSCiYkOw2qwzWSadN8Sfof_eBcBeNlj2XW0sVwN4FboXQk0TvsaVIpqKV0QKdeDLV5IxCl--wmN4fyw221aVt9r3MXdXpfKn44XwP6Y6-pXXBiDo96zNjh7iD7obsL74xy6fypTe0m0vGKtYfH8_NhPYDGxw4C-JzbW1y9jZf8FE_zh1bGe-nkAOUgPLGSLjSf-bdL8pw9tDsY6UEbiTbJX3MxPM98JaT73Q7hYrOIQIy_5omin");'></div>
+</div>
+</header>
+<!-- Main Layout Container -->
+<main class="flex-1 w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12 py-6">
+<!-- Breadcrumbs -->
+<div class="flex flex-wrap gap-2 mb-6 text-sm">
+<a class="text-text-secondary hover:text-white transition-colors" href="#">Home</a>
+<span class="text-text-secondary">/</span>
+<a class="text-text-secondary hover:text-white transition-colors" href="#">Users</a>
+<span class="text-text-secondary">/</span>
+<span class="text-primary font-medium">Profile</span>
+</div>
+<!-- Page Heading -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+<div>
+<h1 class="text-3xl md:text-4xl font-black leading-tight tracking-tight text-white mb-2">User Profile</h1>
+<p class="text-text-secondary">Manage details and view activity for <span class="text-white font-semibold">Jane Doe</span>.</p>
+</div>
+<div class="flex gap-3">
+<!-- Additional top-level actions could go here -->
+</div>
+</div>
+<!-- Content Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<!-- Left Column: Sticky Profile Card -->
+<div class="lg:col-span-4 xl:col-span-3 sticky top-24">
+<div class="bg-surface-dark rounded-xl border border-border-dark overflow-hidden p-6 flex flex-col items-center shadow-lg">
+<!-- Avatar & Basic Info -->
+<div class="relative group cursor-pointer">
+<div class="size-32 rounded-full bg-cover bg-center border-4 border-background-dark shadow-xl mb-4" data-alt="Profile picture of Jane Doe" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAH9J_nYP3FluTCIrqR_EuV9SBUgSWqNnuU6P1gjQDghrtB61vl6U3h68xVXUSUo8GJeKwF2m0sW-C_LWhvttregJ6nRfUu943a62rcjtaB1vyyKGG3LNW9Q6NTVkWOwaM_f8Cw9Kmnub9jYmp9L90A33zM1i6MrxSxnaA3RXbLgXEItnp0f_D_x9Exq8xRW-iF6B1rWVfVwB_XOHCGMmIgR4FREWbALqSVejeBohLQgIl2ZkK6PbUXay4o7z51_yp-GxKFf0gkNYc-");'>
+</div>
+<div class="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-white">edit</span>
+</div>
+</div>
+<h2 class="text-2xl font-bold text-white mb-1">Jane Doe</h2>
+<p class="text-primary font-medium text-sm mb-3">Administrator</p>
+<div class="flex items-center gap-1.5 bg-green-500/10 px-3 py-1 rounded-full border border-green-500/20 mb-6">
+<span class="material-symbols-outlined text-green-500 text-sm font-bold">verified</span>
+<span class="text-green-400 text-xs font-semibold tracking-wide uppercase">Verified Account</span>
+</div>
+<!-- Details List -->
+<div class="w-full flex flex-col gap-4 border-t border-border-dark pt-6 mb-8">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-border-dark flex items-center justify-center text-text-secondary">
+<span class="material-symbols-outlined text-lg">mail</span>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-xs text-text-secondary uppercase tracking-wider font-semibold">Email</p>
+<p class="text-white text-sm truncate" title="jane.doe@example.com">jane.doe@example.com</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-border-dark flex items-center justify-center text-text-secondary">
+<span class="material-symbols-outlined text-lg">call</span>
+</div>
+<div class="flex-1">
+<p class="text-xs text-text-secondary uppercase tracking-wider font-semibold">Phone</p>
+<p class="text-white text-sm">+1 (555) 019-2834</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-border-dark flex items-center justify-center text-text-secondary">
+<span class="material-symbols-outlined text-lg">cake</span>
+</div>
+<div class="flex-1">
+<p class="text-xs text-text-secondary uppercase tracking-wider font-semibold">DOB</p>
+<p class="text-white text-sm">Jan 12, 1990</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-border-dark flex items-center justify-center text-text-secondary">
+<span class="material-symbols-outlined text-lg">calendar_month</span>
+</div>
+<div class="flex-1">
+<p class="text-xs text-text-secondary uppercase tracking-wider font-semibold">Joined</p>
+<p class="text-white text-sm">Nov 24, 2022</p>
+</div>
+</div>
+</div>
+<!-- Actions -->
+<div class="w-full flex flex-col gap-3">
+<button class="flex w-full items-center justify-center gap-2 rounded-lg bg-primary hover:bg-[#cda42b] transition-colors py-3 px-4 font-bold text-background-dark">
+<span class="material-symbols-outlined">edit_square</span>
+                            Update Profile
+                        </button>
+<button class="flex w-full items-center justify-center gap-2 rounded-lg bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 transition-colors py-3 px-4 font-bold text-red-500">
+<span class="material-symbols-outlined">block</span>
+                            Deactivate Account
+                        </button>
+</div>
+</div>
+</div>
+<!-- Right Column: History Feed -->
+<div class="lg:col-span-8 xl:col-span-9 flex flex-col gap-6">
+<!-- History Header & Filters -->
+<div class="flex flex-col sm:flex-row justify-between items-end sm:items-center gap-4 bg-surface-dark p-4 rounded-xl border border-border-dark">
+<div class="flex items-center gap-2">
+<div class="size-10 rounded-lg bg-primary/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">history</span>
+</div>
+<h3 class="text-xl font-bold text-white">Reservation History</h3>
+</div>
+<div class="flex items-center gap-3 w-full sm:w-auto">
+<div class="relative flex-1 sm:flex-none">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-text-secondary text-lg">filter_list</span>
+<select class="w-full sm:w-48 appearance-none bg-background-dark border border-border-dark text-white text-sm rounded-lg pl-10 pr-4 py-2.5 focus:border-primary focus:ring-0">
+<option>All Statuses</option>
+<option>Completed</option>
+<option>Cancelled</option>
+<option>Upcoming</option>
+</select>
+</div>
+<div class="relative flex-1 sm:flex-none">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-text-secondary text-lg">sort</span>
+<select class="w-full sm:w-48 appearance-none bg-background-dark border border-border-dark text-white text-sm rounded-lg pl-10 pr-4 py-2.5 focus:border-primary focus:ring-0">
+<option>Newest First</option>
+<option>Oldest First</option>
+</select>
+</div>
+</div>
+</div>
+<!-- Feed List -->
+<div class="flex flex-col gap-4">
+<!-- Card 1: Upcoming -->
+<div class="group bg-surface-dark hover:bg-[#2a271f] transition-colors rounded-xl p-5 border border-border-dark flex flex-col md:flex-row justify-between gap-6 md:items-center relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary"></div>
+<div class="flex items-start gap-4">
+<div class="size-14 rounded-lg bg-background-dark border border-border-dark flex-shrink-0 flex items-center justify-center overflow-hidden">
+<span class="material-symbols-outlined text-text-secondary text-3xl">storefront</span>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<h4 class="text-lg font-bold text-white group-hover:text-primary transition-colors">Le Petit Bistro</h4>
+<span class="text-xs font-mono text-primary bg-primary/10 px-2 py-0.5 rounded border border-primary/20">#RES-8921</span>
+</div>
+<div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-text-secondary">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-lg">calendar_today</span>
+<span>Oct 24, 2024</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-lg">schedule</span>
+<span>7:00 PM (Dinner)</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-lg">group</span>
+<span>4 Guests</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between md:flex-col md:items-end gap-2 md:gap-4 pl-18 md:pl-0">
+<span class="inline-flex items-center gap-1.5 rounded-full bg-blue-500/10 px-3 py-1 text-xs font-bold text-blue-400 border border-blue-500/20">
+<span class="material-symbols-outlined text-sm">event_upcoming</span>
+                                Upcoming
+                            </span>
+<button class="text-sm font-medium text-text-secondary hover:text-white underline decoration-text-secondary/50 hover:decoration-white underline-offset-4">
+                                View Details
+                            </button>
+</div>
+</div>
+<!-- Card 2: Completed -->
+<div class="group bg-surface-dark hover:bg-[#2a271f] transition-colors rounded-xl p-5 border border-border-dark flex flex-col md:flex-row justify-between gap-6 md:items-center">
+<div class="flex items-start gap-4">
+<div class="size-14 rounded-lg bg-background-dark border border-border-dark flex-shrink-0 bg-cover bg-center" data-alt="Interior of The Golden Spoon restaurant" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBgnqAO2L-mHH7S70aLrSsLzVaTh0oYBhcYgwKHdUgvgyJek1gqUtSbNLAVYh4fY4bzzCczS5SsLZEhBBob6IHPDQGBeQtub6y5WKb7I5wyY8rGr92Um3CbeJr1GLkyjjtz-gnFWcXl_o2yWEb_ZLe6DEDFo4mRuhbF-ShgJcCTswwr4qB65Ybm-1lWww3G2Nr_OuHuBPTiSOcqZsCCVYEopnHYiM8p4Aujmwlu1RkUqgzKWEZV5SfcSkUlh77gIcPJqIJLLE5K9jVI");'>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<h4 class="text-lg font-bold text-white group-hover:text-primary transition-colors">The Golden Spoon</h4>
+<span class="text-xs font-mono text-text-secondary bg-background-dark px-2 py-0.5 rounded border border-border-dark">#RES-7742</span>
+</div>
+<div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-text-secondary">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-lg">calendar_today</span>
+<span>Sep 12, 2024</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-lg">schedule</span>
+<span>8:30 PM (Dinner)</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-lg">group</span>
+<span>2 Guests</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between md:flex-col md:items-end gap-2 md:gap-4 pl-18 md:pl-0">
+<span class="inline-flex items-center gap-1.5 rounded-full bg-green-500/10 px-3 py-1 text-xs font-bold text-green-400 border border-green-500/20">
+<span class="material-symbols-outlined text-sm">check_circle</span>
+                                Completed
+                            </span>
+<button class="text-sm font-medium text-text-secondary hover:text-white underline decoration-text-secondary/50 hover:decoration-white underline-offset-4">
+                                View Details
+                            </button>
+</div>
+</div>
+<!-- Card 3: Cancelled -->
+<div class="group bg-surface-dark hover:bg-[#2a271f] transition-colors rounded-xl p-5 border border-border-dark flex flex-col md:flex-row justify-between gap-6 md:items-center opacity-75 hover:opacity-100">
+<div class="flex items-start gap-4">
+<div class="size-14 rounded-lg bg-background-dark border border-border-dark flex-shrink-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-text-secondary text-3xl">local_pizza</span>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<h4 class="text-lg font-bold text-white group-hover:text-primary transition-colors">Mama Mia's Pizzeria</h4>
+<span class="text-xs font-mono text-text-secondary bg-background-dark px-2 py-0.5 rounded border border-border-dark">#RES-6610</span>
+</div>
+<div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-text-secondary">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-lg">calendar_today</span>
+<span>Aug 05, 2024</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-lg">schedule</span>
+<span>1:00 PM (Lunch)</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-lg">group</span>
+<span>6 Guests</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between md:flex-col md:items-end gap-2 md:gap-4 pl-18 md:pl-0">
+<span class="inline-flex items-center gap-1.5 rounded-full bg-red-500/10 px-3 py-1 text-xs font-bold text-red-400 border border-red-500/20">
+<span class="material-symbols-outlined text-sm">cancel</span>
+                                Cancelled
+                            </span>
+<button class="text-sm font-medium text-text-secondary hover:text-white underline decoration-text-secondary/50 hover:decoration-white underline-offset-4">
+                                View Details
+                            </button>
+</div>
+</div>
+<!-- Card 4: Completed -->
+<div class="group bg-surface-dark hover:bg-[#2a271f] transition-colors rounded-xl p-5 border border-border-dark flex flex-col md:flex-row justify-between gap-6 md:items-center">
+<div class="flex items-start gap-4">
+<div class="size-14 rounded-lg bg-background-dark border border-border-dark flex-shrink-0 bg-cover bg-center" data-alt="Sushi platter at Sushi Zen" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAiDnEcY6e0tQz__DJjqWNbC1oW_UUYdk1n01YWwP6Ac6XTOQfEpjVAymibVWhy6eLiB1M3KNvcE-_kLOA3sHqdZ3AYf_JuSIcvc_W6Y3uLxeI5R62VuzVK1xyN56ROTCJDd0DfCOVoEUgLS8zO_80ISK2eksU7OHbCO8l0W5_EtqM9NZO4TOUNdDr7b_smAcmq9SRURc6GYAiJTM8y9F1PxGFJXcNoM7PHeGJEyIWEXewyio-ZuT10JIRxEmua-lglvT2foGufKwmw");'>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<h4 class="text-lg font-bold text-white group-hover:text-primary transition-colors">Sushi Zen</h4>
+<span class="text-xs font-mono text-text-secondary bg-background-dark px-2 py-0.5 rounded border border-border-dark">#RES-5592</span>
+</div>
+<div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-text-secondary">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-lg">calendar_today</span>
+<span>Jul 18, 2024</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-lg">schedule</span>
+<span>7:30 PM (Dinner)</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-lg">group</span>
+<span>2 Guests</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between md:flex-col md:items-end gap-2 md:gap-4 pl-18 md:pl-0">
+<span class="inline-flex items-center gap-1.5 rounded-full bg-green-500/10 px-3 py-1 text-xs font-bold text-green-400 border border-green-500/20">
+<span class="material-symbols-outlined text-sm">check_circle</span>
+                                Completed
+                            </span>
+<button class="text-sm font-medium text-text-secondary hover:text-white underline decoration-text-secondary/50 hover:decoration-white underline-offset-4">
+                                View Details
+                            </button>
+</div>
+</div>
+<!-- Card 5: Completed -->
+<div class="group bg-surface-dark hover:bg-[#2a271f] transition-colors rounded-xl p-5 border border-border-dark flex flex-col md:flex-row justify-between gap-6 md:items-center">
+<div class="flex items-start gap-4">
+<div class="size-14 rounded-lg bg-background-dark border border-border-dark flex-shrink-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-text-secondary text-3xl">wine_bar</span>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<h4 class="text-lg font-bold text-white group-hover:text-primary transition-colors">The Vintage Cellar</h4>
+<span class="text-xs font-mono text-text-secondary bg-background-dark px-2 py-0.5 rounded border border-border-dark">#RES-4102</span>
+</div>
+<div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-text-secondary">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-lg">calendar_today</span>
+<span>Jun 02, 2024</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-lg">schedule</span>
+<span>6:00 PM (Drinks)</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-lg">group</span>
+<span>8 Guests</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between md:flex-col md:items-end gap-2 md:gap-4 pl-18 md:pl-0">
+<span class="inline-flex items-center gap-1.5 rounded-full bg-green-500/10 px-3 py-1 text-xs font-bold text-green-400 border border-green-500/20">
+<span class="material-symbols-outlined text-sm">check_circle</span>
+                                Completed
+                            </span>
+<button class="text-sm font-medium text-text-secondary hover:text-white underline decoration-text-secondary/50 hover:decoration-white underline-offset-4">
+                                View Details
+                            </button>
+</div>
+</div>
+</div>
+<!-- Pagination -->
+<div class="flex justify-center mt-4">
+<button class="px-4 py-2 text-sm text-text-secondary hover:text-white">Previous</button>
+<div class="flex gap-1 mx-2">
+<button class="size-8 rounded-lg bg-primary text-background-dark font-bold text-sm">1</button>
+<button class="size-8 rounded-lg bg-background-dark border border-border-dark text-white hover:border-primary text-sm">2</button>
+<button class="size-8 rounded-lg bg-background-dark border border-border-dark text-white hover:border-primary text-sm">3</button>
+</div>
+<button class="px-4 py-2 text-sm text-text-secondary hover:text-white">Next</button>
+</div>
+</div>
+</div>
+</main>
+</body></html>
