@@ -100,7 +100,7 @@ export function AuthForm({ mode }: AuthFormProps) {
       }
 
       setTimeout(() => {
-        router.push("/dashboard");
+        router.push("/" as import("next").Route);
       }, 800);
     } catch (error: unknown) {
       if (isAxiosError(error)) {

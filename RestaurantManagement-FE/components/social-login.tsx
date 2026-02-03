@@ -85,7 +85,7 @@ export function SocialLogin() {
              const user = response.data.data.content[0];
              setUser(user);
              cleanUp();
-             router.push("/dashboard");
+             router.push("/" as import("next").Route);
         }
 
       } catch (error) {
