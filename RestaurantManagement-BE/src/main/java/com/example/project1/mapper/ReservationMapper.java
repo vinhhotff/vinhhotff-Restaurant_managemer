@@ -31,7 +31,7 @@ public interface ReservationMapper {
     void updateEntity(@MappingTarget Reservation reservation, ReservationDTO dto);
 
     @Mapping(target = "userId", source = "user.id")
-    @Mapping(target = "userName", source = "user.fullName")
+    @Mapping(target = "userFullName", source = "user.fullName")
     @Mapping(target = "restaurantId", source = "restaurant.id")
     @Mapping(target = "restaurantName", source = "restaurant.name")
     @Mapping(target = "tableId", source = "tables.id")

@@ -20,21 +20,21 @@ public class RestaurantController {
     @GetMapping
     public ApiResponse<List<RestaurantResponse>> getAllRestaurants() {
         return ApiResponse.<List<RestaurantResponse>>builder()
-                .result(restaurantService.getAllRestaurants())
+                .data(restaurantService.getAllRestaurants())
                 .build();
     }
 
     @GetMapping("/{id}")
     public ApiResponse<RestaurantResponse> getRestaurantById(@PathVariable Integer id) {
         return ApiResponse.<RestaurantResponse>builder()
-                .result(restaurantService.getRestaurantById(id))
+                .data(restaurantService.getRestaurantById(id))
                 .build();
     }
 
     @PostMapping
     public ApiResponse<RestaurantResponse> createRestaurant(@RequestBody @Valid RestaurantRequest request) {
         return ApiResponse.<RestaurantResponse>builder()
-                .result(restaurantService.createRestaurant(request))
+                .data(restaurantService.createRestaurant(request))
                 .build();
     }
 
@@ -42,7 +42,7 @@ public class RestaurantController {
     public ApiResponse<RestaurantResponse> updateRestaurant(@PathVariable Integer id,
             @RequestBody @Valid RestaurantRequest request) {
         return ApiResponse.<RestaurantResponse>builder()
-                .result(restaurantService.updateRestaurant(id, request))
+                .data(restaurantService.updateRestaurant(id, request))
                 .build();
     }
 
