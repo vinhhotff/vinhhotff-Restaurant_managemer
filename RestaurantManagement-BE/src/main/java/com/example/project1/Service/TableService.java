@@ -20,70 +20,75 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class TableService implements ITableService {
-    private final TablesRepository tablesRepository;
-    private final RestaurantRepository restaurantRepository;
-    private final RestaurantAreaRepository restaurantAreaRepository;
-    private final TableMapper tableMapper;
+        private final TablesRepository tablesRepository;
+        private final RestaurantRepository restaurantRepository;
+        private final RestaurantAreaRepository restaurantAreaRepository;
+        private final TableMapper tableMapper;
 
-    @Override
-    public List<TableResponse> getAllTables() {
-        return tablesRepository.findAll().stream()
-                .map(tableMapper::toResponse)
-                .toList();
-    }
-
-    @Override
-    public TableResponse getTableByName(String name) {
-        Tables table = tablesRepository.findByTableName(name)
-                .orElseThrow(() -> new AppException("Table not found: " + name, 404));
-        return tableMapper.toResponse(table);
-    }
-
-    @Override
-    public TableResponse createTable(TableRequest tableRequest) {
-        Restaurant restaurant = restaurantRepository.findById(tableRequest.getRestaurantId())
-                .orElseThrow(
-                        () -> new AppException("Restaurant not found with ID: " + tableRequest.getRestaurantId(), 404));
-
-        RestaurantArea restaurantArea = restaurantAreaRepository.findById(tableRequest.getAreaId())
-                .orElseThrow(() -> new AppException("Area not found with ID: " + tableRequest.getAreaId(), 404));
-
-        if (tablesRepository.findByTableName(tableRequest.getTableName()).isPresent()) {
-            throw new AppException("Table name already exists: " + tableRequest.getTableName(), 409);
+        @Override
+        public List<TableResponse> getAllTables() {
+                return tablesRepository.findAll().stream()
+                                .map(tableMapper::toResponse)
+                                .toList();
         }
 
-        Tables table = tableMapper.toEntity(tableRequest);
-        table.setRestaurant(restaurant);
-        table.setArea(restaurantArea);
-        table.setCreatedAt(Instant.now());
+        @Override
+        public TableResponse getTableByName(String name) {
+                Tables table = tablesRepository.findByTableName(name)
+                                .orElseThrow(() -> new AppException("Table not found: " + name, 404));
+                return tableMapper.toResponse(table);
+        }
 
-        return tableMapper.toResponse(tablesRepository.save(table));
-    }
+        @Override
+        public TableResponse createTable(TableRequest tableRequest) {
+                if (tablesRepository.findByTableName(tableRequest.getTableName()).isPresent()) {
+                        throw new AppException("Table name already exists: " + tableRequest.getTableName(), 409);
+                }
 
-    @Override
-    public TableResponse updateTable(Integer id, TableRequest tableRequest) {
-        Tables table = tablesRepository.findById(id)
-                .orElseThrow(() -> new AppException("Table not found with ID: " + id, 404));
+                Restaurant restaurant = restaurantRepository.findById(tableRequest.getRestaurantId())
+                                .orElseThrow(() -> new AppException(
+                                                "Restaurant not found with ID: " + tableRequest.getRestaurantId(),
+                                                404));
 
-        Restaurant restaurant = restaurantRepository.findById(tableRequest.getRestaurantId())
-                .orElseThrow(
-                        () -> new AppException("Restaurant not found with ID: " + tableRequest.getRestaurantId(), 404));
+                RestaurantArea restaurantArea = restaurantAreaRepository.findById(tableRequest.getAreaId())
+                                .orElseThrow(() -> new AppException(
+                                                "Area not found with ID: " + tableRequest.getAreaId(), 404));
 
-        RestaurantArea restaurantArea = restaurantAreaRepository.findById(tableRequest.getAreaId())
-                .orElseThrow(() -> new AppException("Area not found with ID: " + tableRequest.getAreaId(), 404));
+                Tables table = tableMapper.toEntity(tableRequest);
+                table.setRestaurant(restaurant);
+                table.setArea(restaurantArea);
+                table.setCreatedAt(Instant.now());
 
-        tableMapper.updateEntity(table, tableRequest);
-        table.setRestaurant(restaurant);
-        table.setArea(restaurantArea);
-        table.setUpdatedAt(Instant.now());
+                return tableMapper.toResponse(tablesRepository.save(table));
+        }
 
-        return tableMapper.toResponse(tablesRepository.save(table));
-    }
+        @Override
+        public TableResponse updateTable(Integer id, TableRequest tableRequest) {
+                Tables table = tablesRepository.findById(id)
+                                .orElseThrow(() -> new AppException("Table not found with ID: " + id, 404));
 
-    @Override
-    public void deleteTable(Integer id) {
-        Tables table = tablesRepository.findById(id)
-                .orElseThrow(() -> new AppException("Table not found or already deleted with ID: " + id, 404));
-        tablesRepository.delete(table);
-    }
+                Restaurant restaurant = restaurantRepository.findById(tableRequest.getRestaurantId())
+                                .orElseThrow(() -> new AppException(
+                                                "Restaurant not found with ID: " + tableRequest.getRestaurantId(),
+                                                404));
+
+                RestaurantArea restaurantArea = restaurantAreaRepository.findById(tableRequest.getAreaId())
+                                .orElseThrow(() -> new AppException(
+                                                "Area not found with ID: " + tableRequest.getAreaId(), 404));
+
+                tableMapper.updateEntity(table, tableRequest);
+                table.setRestaurant(restaurant);
+                table.setArea(restaurantArea);
+                table.setUpdatedAt(Instant.now());
+
+                return tableMapper.toResponse(tablesRepository.save(table));
+        }
+
+        @Override
+        public void deleteTable(Integer id) {
+                Tables table = tablesRepository.findById(id)
+                                .orElseThrow(() -> new AppException("Table not found or already deleted with ID: " + id,
+                                                404));
+                tablesRepository.delete(table);
+        }
 }
