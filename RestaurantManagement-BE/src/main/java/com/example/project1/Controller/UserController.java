@@ -6,8 +6,9 @@ import com.example.project1.dto.response.ApiResponse;
 import com.example.project1.dto.response.ReservationResponse;
 import com.example.project1.dto.response.UserResponse;
 import com.example.project1.Models.User;
-import com.example.project1.Service.UserService;
+import com.example.project1.Service.Ipm.IUserService;
 import lombok.RequiredArgsConstructor;
+import javax.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -23,7 +24,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserService userService;
+    private final IUserService userService;
 
     /**
      * GET /api/users
@@ -32,12 +33,15 @@ public class UserController {
      */
     @GetMapping
     public ResponseEntity<ApiResponse<Page<UserResponse>>> getAllUsers(
+            @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) Boolean isVerified,
+            @RequestParam(required = false) String authProvider,
             @PageableDefault(page = 0, size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
 
-        Page<UserResponse> users = userService.getAllUsers(pageable);
+        Page<UserResponse> users = userService.getUsers(keyword, isVerified, authProvider, pageable);
 
         return ResponseEntity.ok(
-                ApiResponse.success(users, "Get all users successfully"));
+                ApiResponse.success(users, "Get users successfully"));
     }
 
     /**
@@ -63,9 +67,9 @@ public class UserController {
 
     // CREATE USER
     @PostMapping
-    public ResponseEntity<ApiResponse<User>> createUser(@RequestBody CreateUserRequest request) {
-        User user = userService.createUser(request);
-        ApiResponse<User> response = ApiResponse.success(user, "User created successfully");
+    public ResponseEntity<ApiResponse<UserResponse>> createUser(@RequestBody @Valid CreateUserRequest request) {
+        UserResponse user = userService.createUser(request);
+        ApiResponse<UserResponse> response = ApiResponse.success(user, "User created successfully");
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
@@ -81,12 +85,12 @@ public class UserController {
     @PatchMapping("/{id}")
     public ResponseEntity<ApiResponse<UserResponse>> updateUser(
             @PathVariable Long id,
-            @RequestBody UpdateUserRequest request) {
+            @RequestBody @Valid UpdateUserRequest request) {
 
-        User updatedUser = userService.updateUser(id, request);
+        UserResponse updatedUser = userService.updateUser(id, request);
 
         return ResponseEntity.ok(
-                ApiResponse.success(UserResponse.from(updatedUser), "User updated successfully"));
+                ApiResponse.success(updatedUser, "User updated successfully"));
     }
 
 }
