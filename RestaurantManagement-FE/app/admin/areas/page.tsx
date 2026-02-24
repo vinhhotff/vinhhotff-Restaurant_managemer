@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import api from "@/lib/api";
-import { AdminSidebar } from "@/components/admin-sidebar";
 import { MdMap, MdAdd, MdSearch } from "react-icons/md";
 
 type TableItem = {
@@ -44,9 +43,7 @@ export default function AdminAreasPage() {
     : areas;
 
   return (
-    <div className="relative flex min-h-screen w-full flex-row overflow-hidden bg-gourmet-bg-dark font-display text-slate-900 dark:text-white">
-      <AdminSidebar />
-      <main className="flex-1 flex flex-col h-full overflow-y-auto p-6 md:p-10 max-w-[1200px] w-full mx-auto flex flex-col gap-8">
+    <div className="max-w-[1200px] w-full mx-auto flex flex-col gap-8">
         <header className="flex flex-wrap justify-between items-end gap-4">
           <div className="flex flex-col gap-1">
             <h1 className="text-3xl md:text-4xl font-black leading-tight tracking-[-0.033em] flex items-center gap-2">
@@ -69,13 +66,13 @@ export default function AdminAreasPage() {
               placeholder="Search areas, tables..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 rounded-lg bg-gourmet-surface border border-gourmet-border text-white placeholder-gourmet-muted focus:outline-none focus:ring-1 focus:ring-gourmet-primary"
+              className="w-full pl-10 pr-4 py-2 rounded-lg bg-white dark:bg-[#2A251E] border border-[#e5e5e5] dark:border-[#37322a] text-[#171512] dark:text-white placeholder-gourmet-muted focus:outline-none focus:ring-1 focus:ring-gourmet-primary"
             />
           </div>
         </div>
 
-        <section className="rounded-xl border border-gourmet-border bg-gourmet-surface overflow-hidden">
-          <div className="p-6 border-b border-gourmet-border">
+        <section className="rounded-xl border border-[#e5e5e5] dark:border-[#37322a] bg-white dark:bg-[#2A251E] overflow-hidden">
+          <div className="p-6 border-b border-[#e5e5e5] dark:border-[#37322a]">
             <h2 className="text-lg font-bold text-slate-900 dark:text-white">Areas</h2>
           </div>
           <div className="p-6">
@@ -90,7 +87,7 @@ export default function AdminAreasPage() {
                   return (
                     <div
                       key={area}
-                      className="p-4 rounded-xl border border-gourmet-border bg-[#201d12] hover:border-gourmet-primary/50 transition-colors"
+                      className="p-4 rounded-xl border border-[#e5e5e5] dark:border-[#37322a] bg-[#f0f0f0] dark:bg-[#201d12] hover:border-gourmet-primary/50 transition-colors"
                     >
                       <h3 className="text-white font-bold">{area}</h3>
                       <p className="text-gourmet-muted text-sm mt-1">{count} table(s)</p>
@@ -101,7 +98,6 @@ export default function AdminAreasPage() {
             )}
           </div>
         </section>
-      </main>
     </div>
   );
 }

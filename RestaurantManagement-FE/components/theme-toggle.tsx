@@ -19,10 +19,16 @@ const ACCENT_OPTIONS: { value: AccentColor; label: string; color: string }[] = [
   { value: "purple", label: "Tím", color: "#a855f7" },
 ];
 
-export function ThemeToggle() {
+type ThemeToggleProps = {
+  /** Khi "sidebar": dropdown mở lên trên, có thể kèm chữ "Giao diện" */
+  placement?: "default" | "sidebar";
+};
+
+export function ThemeToggle({ placement = "default" }: ThemeToggleProps) {
   const { theme, accent, setTheme, setAccent } = useTheme();
   const [open, setOpen] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
+  const isSidebar = placement === "sidebar";
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -37,14 +43,21 @@ export function ThemeToggle() {
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="p-2 rounded-lg border border-[#e5e5e5] dark:border-[#37322a] bg-white dark:bg-[#2A251E] text-[#171512] dark:text-white hover:bg-[#f0f0f0] dark:hover:bg-[#37322a] transition-colors"
+        className={`flex items-center gap-2 rounded-lg border border-[#e5e5e5] dark:border-[#37322a] bg-white dark:bg-[#2A251E] text-[#171512] dark:text-white hover:bg-[#f0f0f0] dark:hover:bg-[#37322a] transition-colors ${
+          isSidebar ? "w-full justify-center px-3 py-2.5" : "p-2"
+        }`}
         aria-label="Đổi theme"
       >
-        <MdPalette className="text-[22px] text-gourmet-primary" />
+        <MdPalette className="text-[22px] text-gourmet-primary shrink-0" />
+        {isSidebar && <span className="text-sm font-medium">Giao diện</span>}
       </button>
 
       {open && (
-        <div className="absolute right-0 top-full mt-2 w-64 rounded-xl border border-[#e5e5e5] dark:border-[#37322a] bg-white dark:bg-[#2A251E] shadow-xl z-[100] p-4 flex flex-col gap-4">
+        <div
+          className={`absolute w-64 rounded-xl border border-[#e5e5e5] dark:border-[#37322a] bg-white dark:bg-[#2A251E] shadow-xl z-[100] p-4 flex flex-col gap-4 ${
+            isSidebar ? "left-0 right-0 bottom-full mb-2" : "right-0 top-full mt-2"
+          }`}
+        >
           <p className="text-sm font-semibold text-[#171512] dark:text-white">Giao diện</p>
           <div className="flex gap-2">
             {THEME_OPTIONS.map((opt) => (

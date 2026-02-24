@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import api from "@/lib/api";
-import { AdminSidebar } from "@/components/admin-sidebar";
 import { MdAdd, MdSearch, MdEdit, MdDelete, MdOpenInNew } from "react-icons/md";
 
 type UserItem = {
@@ -49,19 +48,17 @@ export default function AdminUsersPage() {
   });
 
   return (
-    <div className="relative flex min-h-screen w-full flex-row overflow-hidden bg-gourmet-bg-dark font-display text-slate-900 dark:text-white">
-      <AdminSidebar />
-      <main className="flex-1 flex flex-col h-full overflow-y-auto p-6 md:p-10 max-w-[1200px] w-full mx-auto gap-6">
+    <div className="max-w-[1200px] w-full mx-auto flex flex-col gap-6">
         <div className="flex flex-wrap gap-2 items-center text-sm">
           <Link href="/admin" className="text-gourmet-muted font-medium hover:text-gourmet-primary transition-colors">Dashboard</Link>
           <span className="text-gourmet-muted">›</span>
           <Link href="/admin/settings" className="text-gourmet-muted font-medium hover:text-gourmet-primary transition-colors">Settings</Link>
           <span className="text-gourmet-muted">›</span>
-          <span className="text-white font-medium">User Directory</span>
+          <span className="text-[#171512] dark:text-white font-medium">User Directory</span>
         </div>
         <header className="flex flex-wrap justify-between items-end gap-4">
           <div className="flex min-w-72 flex-col gap-2">
-            <h1 className="text-white text-4xl font-extrabold leading-tight tracking-[-0.033em]">User Directory</h1>
+            <h1 className="text-[#171512] dark:text-white text-4xl font-extrabold leading-tight tracking-[-0.033em]">User Directory</h1>
             <p className="text-gourmet-muted text-base font-normal max-w-2xl">Manage staff access, roles, and configurations. View active sessions and manage permissions.</p>
           </div>
           <button type="button" className="flex items-center justify-center rounded-lg h-12 px-6 bg-gourmet-primary hover:bg-yellow-400 text-gourmet-bg-dark text-sm font-bold transition-colors shadow-lg shadow-gourmet-primary/10">
@@ -72,7 +69,7 @@ export default function AdminUsersPage() {
 
         <div className="flex flex-col md:flex-row gap-4 w-full">
           <div className="flex flex-col flex-1 min-w-[240px]">
-            <label className="text-white text-sm font-medium pb-2">Search Users</label>
+            <label className="text-[#171512] dark:text-white text-sm font-medium pb-2">Search Users</label>
             <div className="relative">
               <MdSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gourmet-muted text-[20px]" />
               <input
@@ -80,16 +77,16 @@ export default function AdminUsersPage() {
                 placeholder="Search by name or email..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full rounded-lg text-white focus:outline-0 focus:ring-2 focus:ring-gourmet-primary/50 border border-[#514d3d] bg-[#2a271d] focus:border-gourmet-primary h-12 pl-11 pr-4 text-base placeholder-gourmet-muted"
+                className="w-full rounded-lg text-[#171512] dark:text-white focus:outline-0 focus:ring-2 focus:ring-gourmet-primary/50 border border-[#e5e5e5] dark:border-[#514d3d] bg-[#f8f8f8] dark:bg-[#2a271d] focus:border-gourmet-primary h-12 pl-11 pr-4 text-base placeholder-gourmet-muted"
               />
             </div>
           </div>
           <div className="flex flex-col w-full md:w-48">
-            <label className="text-white text-sm font-medium pb-2">Filter by Role</label>
+            <label className="text-[#171512] dark:text-white text-sm font-medium pb-2">Filter by Role</label>
             <select
               value={roleFilter}
               onChange={(e) => setRoleFilter(e.target.value)}
-              className="w-full rounded-lg text-white focus:outline-0 focus:ring-2 focus:ring-gourmet-primary/50 border border-[#514d3d] bg-[#2a271d] focus:border-gourmet-primary h-12 px-4 text-base appearance-none cursor-pointer"
+              className="w-full rounded-lg text-[#171512] dark:text-white focus:outline-0 focus:ring-2 focus:ring-gourmet-primary/50 border border-[#e5e5e5] dark:border-[#514d3d] bg-[#f8f8f8] dark:bg-[#2a271d] focus:border-gourmet-primary h-12 px-4 text-base appearance-none cursor-pointer"
             >
               <option value="">All Roles</option>
               <option value="admin">Administrator</option>
@@ -100,11 +97,11 @@ export default function AdminUsersPage() {
           </div>
         </div>
 
-        <div className="w-full overflow-hidden rounded-xl border border-[#514d3d] bg-[#2a271d] shadow-xl">
+        <div className="w-full overflow-hidden rounded-xl border border-[#e5e5e5] dark:border-[#514d3d] bg-[#f8f8f8] dark:bg-[#2a271d] shadow-xl">
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-[#201d12] border-b border-[#514d3d]">
+                <tr className="bg-[#f0f0f0] dark:bg-[#201d12] border-b border-[#e5e5e5] dark:border-[#514d3d]">
                   <th className="px-6 py-4 text-gourmet-muted text-xs font-bold uppercase tracking-wider">User Profile</th>
                   <th className="px-6 py-4 text-gourmet-muted text-xs font-bold uppercase tracking-wider hidden md:table-cell">Contact</th>
                   <th className="px-6 py-4 text-gourmet-muted text-xs font-bold uppercase tracking-wider">Role</th>
@@ -113,21 +110,21 @@ export default function AdminUsersPage() {
                   <th className="px-6 py-4 text-gourmet-muted text-xs font-bold uppercase tracking-wider text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#514d3d]">
+              <tbody className="divide-y divide-[#e5e5e5] dark:divide-[#514d3d]">
                 {loading ? (
                   <tr><td colSpan={6} className="px-6 py-4 text-gourmet-muted">Loading…</td></tr>
                 ) : filtered.length === 0 ? (
                   <tr><td colSpan={6} className="px-6 py-4 text-gourmet-muted">No users match.</td></tr>
                 ) : (
                   filtered.map((u) => (
-                    <tr key={u.id} className="hover:bg-[#322f25] transition-colors group">
+                    <tr key={u.id} className="hover:bg-[#f0f0f0] dark:hover:bg-[#322f25] transition-colors group">
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
-                          <div className="h-10 w-10 rounded-full bg-gourmet-primary/20 border-2 border-[#514d3d] flex items-center justify-center text-gourmet-primary font-bold">
+                          <div className="h-10 w-10 rounded-full bg-gourmet-primary/20 border-2 border-[#e5e5e5] dark:border-[#514d3d] flex items-center justify-center text-gourmet-primary font-bold">
                             {(u.fullName ?? "?").charAt(0)}
                           </div>
                           <div className="flex flex-col">
-                            <span className="text-white text-sm font-bold">{u.fullName ?? "—"}</span>
+                            <span className="text-[#171512] dark:text-white text-sm font-bold">{u.fullName ?? "—"}</span>
                             <span className="text-gourmet-muted text-xs">{u.email ?? "—"}</span>
                           </div>
                         </div>
@@ -151,7 +148,7 @@ export default function AdminUsersPage() {
                       </td>
                       <td className="px-6 py-4 text-right">
                         <div className="flex items-center justify-end gap-2">
-                          <Link href={`/users/${u.id}`} className="text-gourmet-muted hover:text-white p-2 rounded-full hover:bg-[#514d3d]/50 transition-colors" title="Edit User">
+                          <Link href={`/users/${u.id}`} className="text-gourmet-muted hover:text-[#171512] dark:text-white p-2 rounded-full hover:bg-[#e5e5e5] dark:hover:bg-[#514d3d]/50 transition-colors" title="Edit User">
                             <MdEdit className="text-[20px]" />
                           </Link>
                           <button type="button" className="text-gourmet-muted hover:text-red-400 p-2 rounded-full hover:bg-red-900/20 transition-colors" title="Delete User">
@@ -165,13 +162,12 @@ export default function AdminUsersPage() {
               </tbody>
             </table>
           </div>
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 border-t border-[#514d3d]">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 border-t border-[#e5e5e5] dark:border-[#514d3d]">
             <p className="text-gourmet-muted text-sm font-medium">
-              Showing <span className="text-white">1</span> to <span className="text-white">{filtered.length}</span> of <span className="text-white">{filtered.length}</span> users
+              Showing <span className="text-[#171512] dark:text-white">1</span> to <span className="text-[#171512] dark:text-white">{filtered.length}</span> of <span className="text-[#171512] dark:text-white">{filtered.length}</span> users
             </p>
           </div>
         </div>
-      </main>
     </div>
   );
 }

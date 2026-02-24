@@ -144,58 +144,7 @@ export default function AdminTablesPage() {
   };
 
   return (
-    <div className="relative flex min-h-screen w-full flex-row overflow-hidden bg-[#f8f7f6] dark:bg-[#201d12] font-display text-slate-900 dark:text-white">
-      {/* Sidebar */}
-      <aside className="flex h-screen w-64 flex-col justify-between border-r border-[#3e3b30] bg-[#171612] p-4 flex-shrink-0 sticky top-0">
-        <div className="flex flex-col gap-8">
-          <div className="flex items-center gap-3 px-2">
-            <div className="size-10 rounded-full border border-[#3e3b30] bg-gourmet-primary/10 flex items-center justify-center">
-              <span className="text-gourmet-primary font-bold">G</span>
-            </div>
-            <div className="flex flex-col">
-              <h1 className="text-white text-base font-bold leading-normal">GourmetAdmin</h1>
-              <p className="text-gourmet-muted text-xs font-normal leading-normal">Manager Dashboard</p>
-            </div>
-          </div>
-          <nav className="flex flex-col gap-2">
-            <Link href="/" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gourmet-muted hover:bg-[#37342a] hover:text-white transition-colors">
-              <MdDashboard className="text-[20px]" />
-              <span className="text-sm font-medium">Dashboard</span>
-            </Link>
-            <Link href="/admin/tables" className="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-gourmet-primary/20 text-gourmet-primary">
-              <MdTableRestaurant className="text-[20px]" />
-              <span className="text-sm font-semibold">Table Inventory</span>
-            </Link>
-            <Link href="/admin/reservations" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gourmet-muted hover:bg-[#37342a] hover:text-white transition-colors">
-              <MdCalendarToday className="text-[20px]" />
-              <span className="text-sm font-medium">Reservations</span>
-            </Link>
-            <Link href="/admin/menu" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gourmet-muted hover:bg-[#37342a] hover:text-white transition-colors">
-              <MdRestaurantMenu className="text-[20px]" />
-              <span className="text-sm font-medium">Menu</span>
-            </Link>
-            <Link href="#" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gourmet-muted hover:bg-[#37342a] hover:text-white transition-colors">
-              <MdGroup className="text-[20px]" />
-              <span className="text-sm font-medium">Staff</span>
-            </Link>
-            <Link href="#" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gourmet-muted hover:bg-[#37342a] hover:text-white transition-colors">
-              <MdPerson className="text-[20px]" />
-              <span className="text-sm font-medium">Customers</span>
-            </Link>
-            <Link href="#" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gourmet-muted hover:bg-[#37342a] hover:text-white transition-colors">
-              <MdSettings className="text-[20px]" />
-              <span className="text-sm font-medium">Settings</span>
-            </Link>
-          </nav>
-        </div>
-        <Link href="/" className="flex w-full items-center justify-center gap-2 rounded-lg h-10 px-4 bg-[#37342a] text-white hover:bg-[#4a4639] transition-colors text-sm font-bold">
-          <span className="truncate">Logout</span>
-        </Link>
-      </aside>
-
-      {/* Main */}
-      <main className="flex-1 flex flex-col h-full overflow-y-auto bg-[#f8f7f6] dark:bg-[#201d12] text-slate-900 dark:text-white">
-        <div className="p-6 md:p-10 max-w-[1400px] w-full mx-auto flex flex-col gap-8">
+    <div className="max-w-[1400px] w-full mx-auto flex flex-col gap-8">
           <header className="flex flex-wrap justify-between items-end gap-4">
             <div className="flex flex-col gap-1">
               <h1 className="text-3xl md:text-4xl font-black leading-tight tracking-tight">
@@ -416,8 +365,6 @@ export default function AdminTablesPage() {
               </div>
             )}
           </section>
-        </div>
-      </main>
     </div>
   );
 }

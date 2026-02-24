@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import api from "@/lib/api";
-import { AdminSidebar } from "@/components/admin-sidebar";
 import { MdPayments, MdEventSeat, MdTableRestaurant, MdPersonAdd, MdMoreVert, MdDownload } from "react-icons/md";
 
 type ReservationItem = {
@@ -48,9 +47,7 @@ export default function AdminDashboardPage() {
   };
 
   return (
-    <div className="relative flex min-h-screen w-full flex-row overflow-hidden bg-gourmet-bg-dark font-display text-slate-900 dark:text-white">
-      <AdminSidebar />
-      <main className="flex-1 flex flex-col h-full overflow-y-auto bg-gourmet-bg-dark p-6 md:p-10 max-w-[1400px] w-full mx-auto flex flex-col gap-8">
+    <div className="max-w-[1400px] w-full mx-auto flex flex-col gap-8">
         <header className="flex flex-wrap justify-between items-end gap-4">
           <div className="flex flex-col gap-1">
             <h1 className="text-3xl md:text-4xl font-black leading-tight tracking-[-0.033em]">Dashboard Overview</h1>
@@ -71,7 +68,7 @@ export default function AdminDashboardPage() {
         </header>
 
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="flex flex-col gap-1 rounded-xl p-6 bg-gourmet-surface shadow-sm border border-gourmet-border">
+          <div className="flex flex-col gap-1 rounded-xl p-6 bg-white dark:bg-[#2A251E] shadow-sm border border-[#e5e5e5] dark:border-[#37322a]">
             <div className="flex justify-between items-start">
               <p className="text-gourmet-muted text-sm font-medium uppercase tracking-wider">Total Revenue</p>
               <MdPayments className="text-gourmet-primary text-[24px]" />
@@ -81,7 +78,7 @@ export default function AdminDashboardPage() {
               <span className="text-[#0bda1d] text-sm font-medium">+8% vs last week</span>
             </div>
           </div>
-          <div className="flex flex-col gap-1 rounded-xl p-6 bg-gourmet-surface shadow-sm border border-gourmet-border">
+          <div className="flex flex-col gap-1 rounded-xl p-6 bg-white dark:bg-[#2A251E] shadow-sm border border-[#e5e5e5] dark:border-[#37322a]">
             <div className="flex justify-between items-start">
               <p className="text-gourmet-muted text-sm font-medium uppercase tracking-wider">Total Reservations</p>
               <MdEventSeat className="text-gourmet-primary text-[24px]" />
@@ -91,7 +88,7 @@ export default function AdminDashboardPage() {
               <span className="text-[#0bda1d] text-sm font-medium">+12% vs last week</span>
             </div>
           </div>
-          <div className="flex flex-col gap-1 rounded-xl p-6 bg-gourmet-surface shadow-sm border border-gourmet-border">
+          <div className="flex flex-col gap-1 rounded-xl p-6 bg-white dark:bg-[#2A251E] shadow-sm border border-[#e5e5e5] dark:border-[#37322a]">
             <div className="flex justify-between items-start">
               <p className="text-gourmet-muted text-sm font-medium uppercase tracking-wider">Active Tables</p>
               <MdTableRestaurant className="text-gourmet-primary text-[24px]" />
@@ -101,7 +98,7 @@ export default function AdminDashboardPage() {
               <span className="text-[#fa4238] text-sm font-medium">-5% vs last week</span>
             </div>
           </div>
-          <div className="flex flex-col gap-1 rounded-xl p-6 bg-gourmet-surface shadow-sm border border-gourmet-border">
+          <div className="flex flex-col gap-1 rounded-xl p-6 bg-white dark:bg-[#2A251E] shadow-sm border border-[#e5e5e5] dark:border-[#37322a]">
             <div className="flex justify-between items-start">
               <p className="text-gourmet-muted text-sm font-medium uppercase tracking-wider">New Users</p>
               <MdPersonAdd className="text-gourmet-primary text-[24px]" />
@@ -114,7 +111,7 @@ export default function AdminDashboardPage() {
         </section>
 
         <section className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2 rounded-xl border border-gourmet-border bg-gourmet-surface p-6 flex flex-col justify-between">
+          <div className="lg:col-span-2 rounded-xl border border-[#e5e5e5] dark:border-[#37322a] bg-white dark:bg-[#2A251E] p-6 flex flex-col justify-between">
             <div className="flex justify-between items-center mb-4">
               <div>
                 <h3 className="text-lg font-bold text-slate-900 dark:text-white">Reservation Trends</h3>
@@ -159,14 +156,14 @@ export default function AdminDashboardPage() {
               <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
             </div>
           </div>
-          <div className="rounded-xl border border-gourmet-border bg-gourmet-surface p-6 flex flex-col">
+          <div className="rounded-xl border border-[#e5e5e5] dark:border-[#37322a] bg-white dark:bg-[#2A251E] p-6 flex flex-col">
             <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-6">Table Occupancy Status</h3>
             <div className="flex-1 flex items-center justify-center relative">
               <div
                 className="w-48 h-48 rounded-full relative"
                 style={{ background: "conic-gradient(#dcb32e 0% 35%, #4a4639 35% 85%, #b7b19f 85% 100%)" }}
               >
-                <div className="absolute inset-4 bg-gourmet-surface rounded-full flex flex-col items-center justify-center z-10">
+                <div className="absolute inset-4 bg-white dark:bg-[#2A251E] rounded-full flex flex-col items-center justify-center z-10">
                   <span className="text-3xl font-bold text-slate-900 dark:text-white">85%</span>
                   <span className="text-xs text-gourmet-muted uppercase tracking-wide">Capacity</span>
                 </div>
@@ -198,8 +195,8 @@ export default function AdminDashboardPage() {
           </div>
         </section>
 
-        <section className="rounded-xl border border-gourmet-border bg-gourmet-surface overflow-hidden flex flex-col">
-          <div className="p-6 border-b border-gourmet-border flex justify-between items-center">
+        <section className="rounded-xl border border-[#e5e5e5] dark:border-[#37322a] bg-white dark:bg-[#2A251E] overflow-hidden flex flex-col">
+          <div className="p-6 border-b border-[#e5e5e5] dark:border-[#37322a] flex justify-between items-center">
             <h2 className="text-lg font-bold text-slate-900 dark:text-white">Recent Activity</h2>
             <Link href="/admin/reservations" className="text-sm text-gourmet-primary font-semibold hover:text-yellow-400">
               View All
@@ -243,7 +240,6 @@ export default function AdminDashboardPage() {
             </table>
           </div>
         </section>
-      </main>
     </div>
   );
 }

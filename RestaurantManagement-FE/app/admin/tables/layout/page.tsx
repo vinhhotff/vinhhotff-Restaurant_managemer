@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import api from "@/lib/api";
-import { AdminSidebar } from "@/components/admin-sidebar";
 import { MdTableRestaurant, MdEdit, MdAdd } from "react-icons/md";
 
 type TableItem = {
@@ -39,9 +38,7 @@ export default function AdminTableLayoutPage() {
   }, []);
 
   return (
-    <div className="relative flex min-h-screen w-full flex-row overflow-hidden bg-gourmet-bg-dark font-display text-slate-900 dark:text-white">
-      <AdminSidebar />
-      <main className="flex-1 flex flex-col h-full overflow-y-auto bg-gourmet-bg-dark p-6 md:p-10 max-w-[1400px] w-full mx-auto flex flex-col gap-8">
+    <div className="max-w-[1400px] w-full mx-auto flex flex-col gap-8">
         <header className="flex flex-wrap justify-between items-end gap-4">
           <div className="flex flex-col gap-1">
             <h1 className="text-3xl md:text-4xl font-black leading-tight tracking-[-0.033em]">Table Layout</h1>
@@ -62,7 +59,7 @@ export default function AdminTableLayoutPage() {
           </div>
         </header>
 
-        <section className="rounded-xl border border-gourmet-border bg-gourmet-surface p-6 min-h-[400px]">
+        <section className="rounded-xl border border-[#e5e5e5] dark:border-[#37322a] bg-white dark:bg-[#2A251E] p-6 min-h-[400px]">
           <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
             <MdTableRestaurant className="text-gourmet-primary" />
             Floor Plan
@@ -76,7 +73,7 @@ export default function AdminTableLayoutPage() {
               {tables.map((t) => (
                 <div
                   key={t.id}
-                  className="aspect-square rounded-xl border-2 border-gourmet-border bg-[#201d12] flex flex-col items-center justify-center gap-1 p-2 hover:border-gourmet-primary/50 transition-colors cursor-pointer"
+                  className="aspect-square rounded-xl border-2 border-[#e5e5e5] dark:border-[#37322a] bg-[#f0f0f0] dark:bg-[#201d12] flex flex-col items-center justify-center gap-1 p-2 hover:border-gourmet-primary/50 transition-colors cursor-pointer"
                 >
                   <span className="text-gourmet-primary font-bold text-lg">{t.name ?? `T-${t.id}`}</span>
                   <span className="text-gourmet-muted text-xs">{t.capacity ?? "—"} seats</span>
@@ -93,7 +90,6 @@ export default function AdminTableLayoutPage() {
             </div>
           )}
         </section>
-      </main>
     </div>
   );
 }

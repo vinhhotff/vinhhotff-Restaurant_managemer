@@ -194,78 +194,8 @@ export default function AdminMenuPage() {
   const outOfStock = menus.filter((m) => !m.isAvailable).length;
 
   return (
-    <div className="flex h-screen w-full font-display antialiased overflow-hidden bg-[#f8f8f6] dark:bg-gourmet-surface text-white">
-      {/* Sidebar */}
-      <aside className="hidden md:flex flex-col w-72 bg-gourmet-bg-dark border-r border-gourmet-border h-full shrink-0">
-        <div className="flex items-center gap-3 p-6 border-b border-gourmet-border">
-          <div className="size-10 rounded-full border border-gourmet-primary/20 bg-gourmet-primary/10 flex items-center justify-center">
-            <span className="text-gourmet-primary font-bold">G</span>
-          </div>
-          <div className="flex flex-col">
-            <h1 className="text-white text-base font-bold leading-none tracking-tight">Gourmet Admin</h1>
-            <p className="text-gourmet-muted text-xs font-normal mt-1">Fine Dining Manager</p>
-          </div>
-        </div>
-        <nav className="flex-1 flex flex-col gap-2 p-4 overflow-y-auto">
-          <Link
-            href="/"
-            className="flex items-center gap-3 px-3 py-3 rounded-lg text-gourmet-muted hover:text-white hover:bg-white/5 transition-colors"
-          >
-            <MdDashboard className="text-[20px]" />
-            <p className="text-sm font-medium">Dashboard</p>
-          </Link>
-          <Link
-            href="/admin/menu"
-            className="flex items-center gap-3 px-3 py-3 rounded-lg bg-gourmet-primary/10 border border-gourmet-primary/20 text-gourmet-primary"
-          >
-            <MdRestaurantMenu className="text-[20px]" />
-            <p className="text-sm font-bold">Menu Catalog</p>
-          </Link>
-          <a
-            href="#"
-            className="flex items-center gap-3 px-3 py-3 rounded-lg text-gourmet-muted hover:text-white hover:bg-white/5 transition-colors"
-          >
-            <MdReceiptLong className="text-[20px]" />
-            <p className="text-sm font-medium">Orders</p>
-          </a>
-          <a
-            href="#"
-            className="flex items-center gap-3 px-3 py-3 rounded-lg text-gourmet-muted hover:text-white hover:bg-white/5 transition-colors"
-          >
-            <MdInventory2 className="text-[20px]" />
-            <p className="text-sm font-medium">Inventory</p>
-          </a>
-          <a
-            href="#"
-            className="flex items-center gap-3 px-3 py-3 rounded-lg text-gourmet-muted hover:text-white hover:bg-white/5 transition-colors"
-          >
-            <MdGroup className="text-[20px]" />
-            <p className="text-sm font-medium">Staff</p>
-          </a>
-        </nav>
-        <div className="p-4 border-t border-gourmet-border">
-          <a
-            href="#"
-            className="flex items-center gap-3 px-3 py-3 rounded-lg text-gourmet-muted hover:text-white hover:bg-white/5 transition-colors"
-          >
-            <MdSettings className="text-[20px]" />
-            <p className="text-sm font-medium">Settings</p>
-          </a>
-          <div className="flex items-center gap-3 px-3 py-3 mt-2">
-            <div className="size-8 rounded-full bg-gourmet-primary/20 flex items-center justify-center">
-              <span className="text-gourmet-primary text-sm font-medium">A</span>
-            </div>
-            <div className="flex flex-col min-w-0">
-              <p className="text-white text-sm font-medium leading-none truncate">Admin</p>
-              <p className="text-gourmet-muted text-xs mt-1">Head Chef</p>
-            </div>
-          </div>
-        </div>
-      </aside>
-
-      {/* Main Content */}
-      <main className="flex-1 flex flex-col h-full overflow-hidden bg-gourmet-surface relative">
-        <header className="h-16 flex items-center justify-between border-b border-gourmet-border px-8 bg-gourmet-bg-dark/50 backdrop-blur-sm z-10 shrink-0">
+    <div className="flex flex-col min-h-0 flex-1 overflow-hidden bg-white dark:bg-[#2A251E] relative">
+        <header className="h-16 flex items-center justify-between border-b border-[#e5e5e5] dark:border-[#37322a] px-8 bg-[#f0f0f0] dark:bg-[#201b12]/50 backdrop-blur-sm z-10 shrink-0">
           <div className="flex items-center gap-4 text-white">
             <h2 className="text-lg font-bold leading-tight tracking-tight">Catalog Management</h2>
           </div>
@@ -296,7 +226,7 @@ export default function AdminMenuPage() {
 
             {/* Stats */}
             <section className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="bg-gourmet-bg-dark border border-gourmet-border rounded-xl p-6 flex flex-col gap-2 shadow-sm">
+              <div className="bg-[#f0f0f0] dark:bg-[#201b12] border border-[#e5e5e5] dark:border-[#37322a] rounded-xl p-6 flex flex-col gap-2 shadow-sm">
                 <div className="flex items-center justify-between">
                   <p className="text-gourmet-muted text-sm font-medium">Total Dishes</p>
                   <MdRamenDining className="text-gourmet-primary text-[24px]" />
@@ -308,7 +238,7 @@ export default function AdminMenuPage() {
                   <span>+2 this week</span>
                 </div>
               </div>
-              <div className="bg-gourmet-bg-dark border border-gourmet-border rounded-xl p-6 flex flex-col gap-2 shadow-sm">
+              <div className="bg-[#f0f0f0] dark:bg-[#201b12] border border-[#e5e5e5] dark:border-[#37322a] rounded-xl p-6 flex flex-col gap-2 shadow-sm">
                 <div className="flex items-center justify-between">
                   <p className="text-gourmet-muted text-sm font-medium">Active Items</p>
                   <MdCheckCircle className="text-green-400 text-[24px]" />
@@ -317,7 +247,7 @@ export default function AdminMenuPage() {
                   {loading ? "—" : activeItems}
                 </p>
               </div>
-              <div className="bg-gourmet-bg-dark border border-gourmet-border rounded-xl p-6 flex flex-col gap-2 shadow-sm">
+              <div className="bg-[#f0f0f0] dark:bg-[#201b12] border border-[#e5e5e5] dark:border-[#37322a] rounded-xl p-6 flex flex-col gap-2 shadow-sm">
                 <div className="flex items-center justify-between">
                   <p className="text-gourmet-muted text-sm font-medium">Out of Stock</p>
                   <MdRemoveCircleOutline className="text-red-400 text-[24px]" />
@@ -340,14 +270,14 @@ export default function AdminMenuPage() {
                     placeholder="Search by name, SKU, or category..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
-                    className="block w-full pl-10 pr-3 py-2.5 bg-gourmet-bg-dark border border-gourmet-border rounded-lg text-sm text-white placeholder-gourmet-muted focus:ring-1 focus:ring-gourmet-primary focus:border-gourmet-primary transition-all"
+                    className="block w-full pl-10 pr-3 py-2.5 bg-[#f0f0f0] dark:bg-[#201b12] border border-[#e5e5e5] dark:border-[#37322a] rounded-lg text-sm text-[#171512] dark:text-white placeholder-gourmet-muted focus:ring-1 focus:ring-gourmet-primary focus:border-gourmet-primary transition-all"
                   />
                 </div>
                 <div className="relative">
                   <select
                     value={categoryFilter}
                     onChange={(e) => setCategoryFilter(e.target.value)}
-                    className="appearance-none bg-gourmet-bg-dark border border-gourmet-border text-white text-sm rounded-lg focus:ring-gourmet-primary focus:border-gourmet-primary block w-full pl-3 pr-10 py-2.5 cursor-pointer min-w-[140px]"
+                    className="appearance-none bg-[#f0f0f0] dark:bg-[#201b12] border border-[#e5e5e5] dark:border-[#37322a] text-[#171512] dark:text-white text-sm rounded-lg focus:ring-gourmet-primary focus:border-gourmet-primary block w-full pl-3 pr-10 py-2.5 cursor-pointer min-w-[140px]"
                   >
                     {CATEGORIES.map((c) => (
                       <option key={c} value={c}>
@@ -363,7 +293,7 @@ export default function AdminMenuPage() {
               <div className="flex items-center gap-3">
                 <button
                   type="button"
-                  className="flex items-center gap-2 px-4 py-2.5 bg-gourmet-bg-dark border border-gourmet-border text-white rounded-lg hover:bg-white/5 transition-all text-sm font-bold"
+                  className="flex items-center gap-2 px-4 py-2.5 bg-[#f0f0f0] dark:bg-[#201b12] border border-[#e5e5e5] dark:border-[#37322a] text-[#171512] dark:text-white rounded-lg hover:bg-[#f0f0f0] dark:hover:bg-white/5 transition-all text-sm font-bold"
                 >
                   <MdFileDownload className="text-[20px]" />
                   Export
@@ -379,19 +309,19 @@ export default function AdminMenuPage() {
             </div>
 
             {/* Table */}
-            <div className="bg-gourmet-bg-dark border border-gourmet-border rounded-xl overflow-hidden shadow-sm">
+            <div className="bg-[#f0f0f0] dark:bg-[#201b12] border border-[#e5e5e5] dark:border-[#37322a] rounded-xl overflow-hidden shadow-sm">
               <div className="overflow-x-auto">
                 {loading ? (
                   <div className="px-6 py-12 text-center text-gourmet-muted">Loading...</div>
                 ) : (
                   <table className="w-full text-left text-sm whitespace-nowrap">
                     <thead>
-                      <tr className="bg-white/5 border-b border-gourmet-border text-gourmet-muted">
+                      <tr className="bg-white/5 border-b border-[#e5e5e5] dark:border-[#37322a] text-gourmet-muted">
                         <th className="px-6 py-4 font-medium w-16" scope="col">
                           <div className="flex items-center">
                             <input
                               type="checkbox"
-                              className="w-4 h-4 bg-gourmet-surface border-gourmet-border rounded text-gourmet-primary focus:ring-gourmet-primary focus:ring-offset-gourmet-surface"
+                              className="w-4 h-4 bg-white dark:bg-[#2A251E] border-[#e5e5e5] dark:border-[#37322a] rounded text-gourmet-primary focus:ring-gourmet-primary focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-[#2A251E]"
                             />
                           </div>
                         </th>
@@ -413,14 +343,14 @@ export default function AdminMenuPage() {
                             <div className="flex items-center">
                               <input
                                 type="checkbox"
-                                className="w-4 h-4 bg-gourmet-surface border-gourmet-border rounded text-gourmet-primary focus:ring-gourmet-primary focus:ring-offset-gourmet-surface"
+                                className="w-4 h-4 bg-white dark:bg-[#2A251E] border-[#e5e5e5] dark:border-[#37322a] rounded text-gourmet-primary focus:ring-gourmet-primary focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-[#2A251E]"
                               />
                             </div>
                           </td>
                           <td className="px-6 py-4">
                             <div className="flex items-center gap-4">
                               <div
-                                className="size-12 rounded-lg border border-gourmet-border shrink-0 bg-gourmet-surface bg-cover bg-center"
+                                className="size-12 rounded-lg border border-[#e5e5e5] dark:border-[#37322a] shrink-0 bg-white dark:bg-[#2A251E] bg-cover bg-center"
                                 style={
                                   row.imageUrl
                                     ? { backgroundImage: `url(${row.imageUrl})` }
@@ -492,7 +422,7 @@ export default function AdminMenuPage() {
                 )}
               </div>
               {/* Pagination */}
-              <div className="flex items-center justify-between px-6 py-4 border-t border-gourmet-border bg-white/5">
+              <div className="flex items-center justify-between px-6 py-4 border-t border-[#e5e5e5] dark:border-[#37322a] bg-white/5">
                 <span className="text-sm text-gourmet-muted">
                   Showing <span className="font-medium text-white">{total === 0 ? 0 : start + 1}</span> to{" "}
                   <span className="font-medium text-white">{Math.min(start + pageSize, total)}</span> of{" "}
@@ -520,7 +450,6 @@ export default function AdminMenuPage() {
             </div>
           </div>
         </div>
-      </main>
     </div>
   );
 }

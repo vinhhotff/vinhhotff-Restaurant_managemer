@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import api from "@/lib/api";
-import { AdminSidebar } from "@/components/admin-sidebar";
 import { MdPerson, MdTableRestaurant, MdPayments, MdEdit, MdPrint, MdCheckCircle, MdSchedule, MdReceiptLong } from "react-icons/md";
 
 type ReservationDetail = {
@@ -51,23 +50,17 @@ export default function AdminReservationDetailPage() {
 
   if (loading) {
     return (
-      <div className="relative flex min-h-screen w-full flex-row overflow-hidden bg-gourmet-bg-dark font-display text-slate-900 dark:text-white">
-        <AdminSidebar />
-        <main className="flex-1 flex flex-col h-full overflow-y-auto p-6 md:p-10 max-w-[1400px] w-full mx-auto">
-          <p className="text-gourmet-muted">Loading…</p>
-        </main>
+      <div className="max-w-[1400px] w-full mx-auto">
+        <p className="text-gourmet-muted">Loading…</p>
       </div>
     );
   }
 
   if (!reservation) {
     return (
-      <div className="relative flex min-h-screen w-full flex-row overflow-hidden bg-gourmet-bg-dark font-display text-slate-900 dark:text-white">
-        <AdminSidebar />
-        <main className="flex-1 flex flex-col h-full overflow-y-auto p-6 md:p-10 max-w-[1400px] w-full mx-auto">
-          <p className="text-gourmet-muted">Reservation not found.</p>
-          <Link href="/admin/reservations" className="text-gourmet-primary hover:underline mt-2">Back to Reservations</Link>
-        </main>
+      <div className="max-w-[1400px] w-full mx-auto">
+        <p className="text-gourmet-muted">Reservation not found.</p>
+        <Link href="/admin/reservations" className="text-gourmet-primary hover:underline mt-2">Back to Reservations</Link>
       </div>
     );
   }
@@ -75,9 +68,7 @@ export default function AdminReservationDetailPage() {
   const code = reservation.reservationCode ?? `R-${reservation.id}`;
 
   return (
-    <div className="relative flex min-h-screen w-full flex-row overflow-hidden bg-gourmet-bg-dark font-display text-slate-900 dark:text-white">
-      <AdminSidebar />
-      <main className="flex-1 flex flex-col h-full overflow-y-auto bg-gourmet-bg-dark p-6 md:p-10 max-w-[1400px] w-full mx-auto gap-8">
+    <div className="max-w-[1400px] w-full mx-auto flex flex-col gap-8">
         <header className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex flex-col gap-1">
             <div className="flex items-center gap-2 text-gourmet-muted text-sm mb-1">
@@ -89,7 +80,7 @@ export default function AdminReservationDetailPage() {
             <p className="text-gourmet-muted text-base font-normal">Manage reservation details and payment status.</p>
           </div>
           <div className="flex items-center gap-3">
-            <button type="button" className="flex items-center gap-2 bg-[#37342a] hover:bg-[#4a4639] text-white px-4 py-2.5 rounded-lg text-sm font-medium transition-colors border border-gourmet-border">
+            <button type="button" className="flex items-center gap-2 bg-[#e5e5e5] dark:bg-[#37342a] hover:bg-[#d0d0d0] dark:hover:bg-[#4a4639] text-[#171512] dark:text-white px-4 py-2.5 rounded-lg text-sm font-medium transition-colors border border-[#e5e5e5] dark:border-[#37322a]">
               <MdEdit className="text-[20px]" />
               Edit Details
             </button>
@@ -100,7 +91,7 @@ export default function AdminReservationDetailPage() {
           </div>
         </header>
 
-        <div className="rounded-xl p-6 bg-gourmet-surface shadow-sm border border-gourmet-border flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="rounded-xl p-6 bg-white dark:bg-[#2A251E] shadow-sm border border-[#e5e5e5] dark:border-[#37322a] flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-4">
             <span className="inline-flex items-center justify-center h-12 w-12 rounded-full bg-[#0bda1d]/10 text-[#0bda1d]">
               <MdCheckCircle className="text-[28px]" />
@@ -133,8 +124,8 @@ export default function AdminReservationDetailPage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <section className="rounded-xl border border-gourmet-border bg-gourmet-surface overflow-hidden flex flex-col">
-            <div className="p-6 border-b border-gourmet-border flex justify-between items-center">
+          <section className="rounded-xl border border-[#e5e5e5] dark:border-[#37322a] bg-white dark:bg-[#2A251E] overflow-hidden flex flex-col">
+            <div className="p-6 border-b border-[#e5e5e5] dark:border-[#37322a] flex justify-between items-center">
               <h2 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                 <MdPerson className="text-gourmet-primary" />
                 Customer Information
@@ -164,8 +155,8 @@ export default function AdminReservationDetailPage() {
             </div>
           </section>
 
-          <section className="rounded-xl border border-gourmet-border bg-gourmet-surface overflow-hidden flex flex-col">
-            <div className="p-6 border-b border-gourmet-border flex justify-between items-center">
+          <section className="rounded-xl border border-[#e5e5e5] dark:border-[#37322a] bg-white dark:bg-[#2A251E] overflow-hidden flex flex-col">
+            <div className="p-6 border-b border-[#e5e5e5] dark:border-[#37322a] flex justify-between items-center">
               <h2 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                 <MdTableRestaurant className="text-gourmet-primary" />
                 Table Details
@@ -174,21 +165,21 @@ export default function AdminReservationDetailPage() {
             </div>
             <div className="p-6 flex flex-col gap-6">
               <div className="grid grid-cols-2 gap-4">
-                <div className="p-4 rounded-lg bg-[#201d12] border border-gourmet-border flex flex-col items-center justify-center text-center gap-1">
+                <div className="p-4 rounded-lg bg-[#f0f0f0] dark:bg-[#201d12] border border-[#e5e5e5] dark:border-[#37322a] flex flex-col items-center justify-center text-center gap-1">
                   <span className="text-xs text-gourmet-muted uppercase">Location</span>
                   <span className="text-lg font-bold text-slate-900 dark:text-white">—</span>
                 </div>
-                <div className="p-4 rounded-lg bg-[#201d12] border border-gourmet-border flex flex-col items-center justify-center text-center gap-1">
+                <div className="p-4 rounded-lg bg-[#f0f0f0] dark:bg-[#201d12] border border-[#e5e5e5] dark:border-[#37322a] flex flex-col items-center justify-center text-center gap-1">
                   <span className="text-xs text-gourmet-muted uppercase">Table No.</span>
                   <span className="text-lg font-bold text-slate-900 dark:text-white">{reservation.tableName ?? "—"}</span>
                 </div>
               </div>
               <div className="flex flex-col gap-3">
-                <div className="flex justify-between items-center py-2 border-b border-gourmet-border">
+                <div className="flex justify-between items-center py-2 border-b border-[#e5e5e5] dark:border-[#37322a]">
                   <span className="text-gourmet-muted">Guest Count</span>
                   <span className="font-bold text-slate-900 dark:text-white">{reservation.numberOfGuests ?? "—"} Adults</span>
                 </div>
-                <div className="flex justify-between items-center py-2 border-b border-gourmet-border">
+                <div className="flex justify-between items-center py-2 border-b border-[#e5e5e5] dark:border-[#37322a]">
                   <span className="text-gourmet-muted">Reservation Date</span>
                   <span className="font-bold text-slate-900 dark:text-white">{reservation.reservationDate ?? "—"}</span>
                 </div>
@@ -201,8 +192,8 @@ export default function AdminReservationDetailPage() {
           </section>
         </div>
 
-        <section className="rounded-xl border border-gourmet-border bg-gourmet-surface overflow-hidden">
-          <div className="p-6 border-b border-gourmet-border flex flex-wrap justify-between items-center gap-4">
+        <section className="rounded-xl border border-[#e5e5e5] dark:border-[#37322a] bg-white dark:bg-[#2A251E] overflow-hidden">
+          <div className="p-6 border-b border-[#e5e5e5] dark:border-[#37322a] flex flex-wrap justify-between items-center gap-4">
             <h2 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
               <MdPayments className="text-gourmet-primary" />
               Billing Summary
@@ -213,7 +204,7 @@ export default function AdminReservationDetailPage() {
             <div className="lg:col-span-2 flex flex-col gap-4">
               <p className="text-sm text-gourmet-muted">Order items will appear here when billing API is available.</p>
             </div>
-            <div className="flex flex-col gap-4 bg-[#201d12] p-6 rounded-lg border border-gourmet-border">
+            <div className="flex flex-col gap-4 bg-[#f0f0f0] dark:bg-[#201d12] p-6 rounded-lg border border-[#e5e5e5] dark:border-[#37322a]">
               <div className="flex justify-between items-center text-sm">
                 <span className="text-gourmet-muted">Subtotal</span>
                 <span className="font-medium text-slate-900 dark:text-white">—</span>
@@ -226,7 +217,6 @@ export default function AdminReservationDetailPage() {
             </div>
           </div>
         </section>
-      </main>
     </div>
   );
 }

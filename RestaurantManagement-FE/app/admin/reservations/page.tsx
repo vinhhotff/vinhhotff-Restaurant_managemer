@@ -3,7 +3,6 @@
 import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import api from "@/lib/api";
-import { AdminSidebar } from "@/components/admin-sidebar";
 import { MdAdd, MdSearch, MdDownload, MdFilterList, MdCalendarMonth } from "react-icons/md";
 
 type ReservationItem = {
@@ -66,9 +65,7 @@ export default function AdminReservationsPage() {
   const pendingCount = useMemo(() => list.filter((r) => (r.status ?? "PENDING").toLowerCase() === "pending").length, [list]);
 
   return (
-    <div className="relative flex min-h-screen w-full flex-row overflow-hidden bg-gourmet-bg-dark font-display text-slate-900 dark:text-white">
-      <AdminSidebar />
-      <main className="flex-1 flex flex-col h-full overflow-y-auto p-6 md:p-10 max-w-[1400px] w-full mx-auto">
+    <div className="max-w-[1400px] w-full mx-auto flex flex-col">
         <header className="flex flex-wrap justify-between items-end gap-4 mb-6">
           <div className="flex flex-col gap-1">
             <h1 className="text-3xl md:text-4xl font-black leading-tight tracking-[-0.033em]">Reservations Ledger</h1>
@@ -88,7 +85,7 @@ export default function AdminReservationsPage() {
             </Link>
           </div>
         </header>
-        <div className="border-b border-gourmet-border mb-6">
+        <div className="border-b border-[#e5e5e5] dark:border-[#37322a] mb-6">
           <nav aria-label="Tabs" className="-mb-px flex space-x-6">
             {(["all", "pending", "confirmed", "completed", "cancelled"] as const).map((t) => (
               <button
@@ -98,7 +95,7 @@ export default function AdminReservationsPage() {
                 className={`whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium transition-colors ${
                   tab === t
                     ? "border-gourmet-primary text-gourmet-primary"
-                    : "border-transparent text-gourmet-muted hover:border-gray-300 hover:text-white"
+                    : "border-transparent text-gourmet-muted hover:border-gray-300 hover:text-[#171512] dark:hover:text-white"
                 }`}
               >
                 {t === "all" ? "All Reservations" : t.charAt(0).toUpperCase() + t.slice(1)}
@@ -111,8 +108,8 @@ export default function AdminReservationsPage() {
             ))}
           </nav>
         </div>
-        <section className="rounded-xl border border-gourmet-border bg-gourmet-surface overflow-hidden flex flex-col shadow-sm">
-          <div className="p-4 border-b border-gourmet-border flex gap-4 items-center bg-[#201d12]/50">
+        <section className="rounded-xl border border-[#e5e5e5] dark:border-[#37322a] bg-white dark:bg-[#2A251E] overflow-hidden flex flex-col shadow-sm">
+          <div className="p-4 border-b border-[#e5e5e5] dark:border-[#37322a] flex gap-4 items-center bg-[#f0f0f0] dark:bg-[#201d12]/50">
             <div className="relative flex-1 max-w-sm">
               <MdSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gourmet-muted text-[20px]" />
               <input
@@ -120,13 +117,13 @@ export default function AdminReservationsPage() {
                 placeholder="Search by name, code or table..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="block w-full pl-10 pr-3 py-2 border border-gourmet-border rounded-lg bg-gourmet-bg-dark text-slate-900 dark:text-white placeholder-gourmet-muted focus:outline-none focus:ring-1 focus:ring-gourmet-primary sm:text-sm"
+                className="block w-full pl-10 pr-3 py-2 border border-[#e5e5e5] dark:border-[#37322a] rounded-lg bg-[#f0f0f0] dark:bg-[#201b12] text-slate-900 dark:text-white placeholder-gourmet-muted focus:outline-none focus:ring-1 focus:ring-gourmet-primary sm:text-sm"
               />
             </div>
-            <button type="button" className="p-2 text-gourmet-muted hover:text-white border border-gourmet-border rounded-lg bg-gourmet-bg-dark" title="Filter">
+            <button type="button" className="p-2 text-gourmet-muted hover:text-[#171512] dark:hover:text-white border border-[#e5e5e5] dark:border-[#37322a] rounded-lg bg-[#f0f0f0] dark:bg-[#201b12]" title="Filter">
               <MdFilterList className="text-[20px]" />
             </button>
-            <button type="button" className="p-2 text-gourmet-muted hover:text-white border border-gourmet-border rounded-lg bg-gourmet-bg-dark" title="Calendar">
+            <button type="button" className="p-2 text-gourmet-muted hover:text-[#171512] dark:hover:text-white border border-[#e5e5e5] dark:border-[#37322a] rounded-lg bg-[#f0f0f0] dark:bg-[#201b12]" title="Calendar">
               <MdCalendarMonth className="text-[20px]" />
             </button>
           </div>
@@ -174,13 +171,12 @@ export default function AdminReservationsPage() {
               </tbody>
             </table>
           </div>
-          <div className="p-4 border-t border-gourmet-border flex items-center justify-between bg-[#201d12]/50">
+          <div className="p-4 border-t border-[#e5e5e5] dark:border-[#37322a] flex items-center justify-between bg-[#f0f0f0] dark:bg-[#201d12]/50">
             <p className="text-sm text-gourmet-muted">
               Showing <span className="font-medium text-white">1</span> to <span className="font-medium text-white">{filtered.length}</span> of <span className="font-medium text-white">{filtered.length}</span> results
             </p>
           </div>
         </section>
-      </main>
     </div>
   );
 }
