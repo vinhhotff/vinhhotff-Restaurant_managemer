@@ -1,6 +1,7 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
+  darkMode: "class",
   content: [
     "./app/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
@@ -12,12 +13,12 @@ const config: Config = {
         display: ["var(--font-manrope)", "sans-serif"],
       },
       colors: {
-        "gourmet-primary": "#eec02b",
-        "gourmet-bg-dark": "#181611",
-        "gourmet-surface": "#221e10",
-        "gourmet-border": "#544e3b",
-        "gourmet-muted": "#b9b29d",
-        "gourmet-input": "#27241c",
+        "gourmet-primary": "var(--gourmet-primary)",
+        "gourmet-bg-dark": "var(--gourmet-bg-dark)",
+        "gourmet-surface": "var(--gourmet-surface)",
+        "gourmet-border": "var(--gourmet-border)",
+        "gourmet-muted": "var(--gourmet-muted)",
+        "gourmet-input": "var(--gourmet-input)",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

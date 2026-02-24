@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -22,8 +22,11 @@ const inputClass =
 const inputClassWithRight =
   "block w-full rounded-lg border-0 py-3 pl-10 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gourmet-primary sm:text-sm dark:bg-gourmet-input dark:text-white dark:ring-gourmet-border dark:placeholder:text-[#b9b29d] dark:focus:ring-gourmet-primary";
 
+const ALLOWED_REDIRECT_PATHS = ["/admin", "/menu", "/profile", "/cart"];
+
 export default function LoginPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { setUserFromEmail } = useAuth();
   const [serverError, setServerError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
@@ -45,7 +48,12 @@ export default function LoginPage() {
         password: data.password,
       });
       await setUserFromEmail(data.email);
-      router.push("/" as import("next").Route);
+      const redirectTo = searchParams.get("redirect");
+      const path =
+        redirectTo && ALLOWED_REDIRECT_PATHS.some((p) => redirectTo === p || redirectTo.startsWith(p + "/"))
+          ? redirectTo
+          : "/menu";
+      router.push(path as import("next").Route);
     } catch (e) {
       if (isAxiosError(e)) {
         const msg = e.response?.data?.message ?? e.response?.data?.error ?? "Đăng nhập thất bại.";

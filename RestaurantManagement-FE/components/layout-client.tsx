@@ -5,15 +5,18 @@ import { ReactNode } from "react";
 import { Header } from "@/components/header";
 
 const AUTH_PATHS = ["/register", "/login"];
-const FULLSCREEN_PATHS = ["/register", "/login", "/admin", "/menu"];
+const FULLSCREEN_PATHS = ["/register", "/login", "/admin", "/menu", "/cart", "/users", "/profile"];
 
-export function LayoutClient({ children }: { children: ReactNode }) {
-  const pathname = usePathname();
+type LayoutClientProps = { children: ReactNode; initialPathname?: string };
+
+export function LayoutClient({ children, initialPathname = "" }: LayoutClientProps) {
+  const pathnameFromHook = usePathname();
+  const pathname = pathnameFromHook ?? initialPathname;
   const isAuthPage = AUTH_PATHS.some((p) => pathname === p);
   const isFullScreen = FULLSCREEN_PATHS.some((p) => pathname === p || pathname.startsWith(p + "/"));
 
   if (isFullScreen) {
-    return <>{children}</>;
+    return <div className="min-h-screen w-full">{children}</div>;
   }
 
   return (

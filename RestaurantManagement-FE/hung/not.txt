@@ -1,0 +1,106 @@
+Hiện tượng thanh Sidebar (menu bên trái) ở 7 trang không khớp nhau, lúc bấm chuyển trang bị giật, chớp, hoặc sai lệch trạng thái là một vấn đề cực kỳ phổ biến khi ghép giao diện (stitch UI) vào Next.js.
+
+Nguyên nhân chính là do bạn đang nhúng code của cái Sidebar đó vào từng file `page.tsx` riêng lẻ. Mỗi lần chuyển trang, Next.js sẽ "đập đi xây lại" toàn bộ trang web, bao gồm cả cái Sidebar đó.
+
+Vì bạn đang dùng **Next.js App Router** (thư mục `app`), cách giải quyết chuẩn xác và mượt mà nhất là sử dụng file **`layout.tsx`**.
+
+Dưới đây là công thức 3 bước để "cố định" Sidebar, giúp nó đứng im một chỗ và không bao giờ bị lệch khi chuyển qua lại giữa 7 trang này (rất có thể đây là 7 trang trong khu vực `/admin` của bạn).
+
+### Bước 1: Tách Sidebar thành một Component độc lập
+
+Đừng để code Sidebar nằm trong `page.tsx` nữa. Hãy tạo một file riêng (ví dụ: `components/Sidebar.tsx`).
+Để Sidebar biết trang nào đang được chọn (để làm nổi bật/đổi màu), hãy dùng hook `usePathname`.
+
+```tsx
+"use client"; // Bắt buộc vì có dùng hook usePathname
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
+export default function Sidebar() {
+  const pathname = usePathname();
+
+  // Danh sách 7 menu của bạn
+  const menuItems = [
+    { name: "Dashboard", href: "/admin" },
+    { name: "Menu", href: "/admin/menu" },
+    { name: "Tables", href: "/admin/tables" },
+    // ... thêm các menu khác
+  ];
+
+  return (
+    <aside className="w-64 h-screen bg-gray-800 text-white fixed">
+      <nav className="flex flex-col mt-4">
+        {menuItems.map((item) => {
+          // Kiểm tra xem URL hiện tại có khớp với href của menu không
+          const isActive = pathname === item.href;
+          return (
+            <Link
+              key={item.name}
+              href={item.href}
+              className={`p-4 hover:bg-gray-700 ${isActive ? "bg-blue-600 font-bold" : ""}`}
+            >
+              {item.name}
+            </Link>
+          );
+        })}
+      </nav>
+    </aside>
+  );
+}
+
+```
+
+### Bước 2: Bọc Sidebar vào `layout.tsx` chung
+
+Nếu 7 trang này nằm trong thư mục `app/admin`, bạn chỉ cần tạo hoặc sửa file **`app/admin/layout.tsx`**.
+
+File Layout này sẽ là một cái khung cố định. Sidebar sẽ nằm bên trái, còn nội dung của 7 trang kia (được gọi là `children`) sẽ thay đổi linh hoạt ở bên phải.
+
+```tsx
+import Sidebar from "@/components/Sidebar"; // Đường dẫn tuỳ project của bạn
+
+export default function AdminLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="flex min-h-screen">
+      {/* Cột trái: Sidebar cố định */}
+      <Sidebar />
+
+      {/* Cột phải: Nội dung chính của các trang */}
+      {/* Thêm margin-left (ml-64) bằng đúng độ rộng của Sidebar để không bị đè */}
+      <main className="flex-1 ml-64 p-8 bg-gray-50">
+        {children}
+      </main>
+    </div>
+  );
+}
+
+```
+
+### Bước 3: Dọn dẹp lại 7 file `page.tsx`
+
+Bây giờ, bạn hãy vào 7 file `page.tsx` của bạn (như `/admin/page.tsx`, `/admin/menu/page.tsx`...) và **xóa bỏ toàn bộ code liên quan đến Sidebar ở trong đó đi**.
+
+Các file `page.tsx` giờ đây chỉ cần tập trung hiển thị nội dung chính của nó thôi:
+
+```tsx
+// Ví dụ: app/admin/menu/page.tsx
+export default function MenuManagementPage() {
+  return (
+    <div>
+      <h1>Quản lý Thực Đơn</h1>
+      {/* Bảng danh sách món ăn, form thêm món... */}
+    </div>
+  );
+}
+
+```
+
+**Kết quả:**
+Khi làm theo cách này, lúc bạn click từ `Tables` sang `Menu`, Next.js chỉ thay đổi phần `children` (ruột bên phải), còn cái `Sidebar` bên trái vẫn giữ nguyên không hề bị load lại. Trải nghiệm sẽ mượt mà giống hệt một ứng dụng điện thoại.
+
+Bạn có muốn mình hỗ trợ kiểm tra luôn phần CSS (Tailwind) đang dùng để dàn trang cho cái Sidebar này xem có bị responsive lỗi trên màn hình nhỏ không?

@@ -5,7 +5,8 @@ import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import api from "@/lib/api";
 import { useAuth } from "@/contexts/AuthContext";
-import { MdClose, MdRemove, MdAdd } from "react-icons/md";
+import { MdClose, MdRemove, MdAdd, MdRestaurantMenu, MdShoppingCart } from "react-icons/md";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 type MenuItem = {
   id: number;
@@ -106,7 +107,7 @@ export default function FoodItemDetailPage() {
     setAdding(true);
     try {
       await api.post("/api/cartItems", {
-        userId: user.id,
+        userId: Number(user.id),
         restaurantId: DEFAULT_RESTAURANT_ID,
         menuId: item.id,
         quantity,
@@ -120,23 +121,45 @@ export default function FoodItemDetailPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#121212] font-display antialiased p-4 lg:p-8">
-        <div className="text-white/60">Loading...</div>
+      <div className="min-h-screen flex flex-col bg-[#f8f7f6] dark:bg-[#201b12] font-display antialiased transition-colors duration-200">
+        <nav className="sticky top-0 z-50 w-full border-b border-[#e5e5e5] dark:border-[#37322a] bg-[#f8f7f6]/95 dark:bg-[#201b12]/95 backdrop-blur-sm px-6 py-3">
+          <div className="max-w-[1440px] mx-auto flex items-center justify-between">
+            <Link href="/menu" className="flex items-center gap-3">
+              <div className="size-10 rounded-full bg-gourmet-primary/10 text-gourmet-primary flex items-center justify-center">
+                <MdRestaurantMenu className="text-[24px]" />
+              </div>
+              <span className="text-xl font-bold text-[#171512] dark:text-white">Gourmet Haven</span>
+            </Link>
+            <ThemeToggle />
+          </div>
+        </nav>
+        <div className="flex-1 flex items-center justify-center p-4 lg:p-8">
+          <div className="text-gourmet-muted">Loading...</div>
+        </div>
       </div>
     );
   }
 
   if (notFound || !item) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-[#121212] font-display antialiased p-4 lg:p-8 gap-4">
-        <p className="text-white/80">Item not found.</p>
-        <Link
-          href="/menu"
-          className="text-gourmet-primary font-medium hover:underline"
-          style={{ color: "#f4c325" }}
-        >
-          Back to Menu
-        </Link>
+      <div className="min-h-screen flex flex-col bg-[#f8f7f6] dark:bg-[#201b12] font-display antialiased transition-colors duration-200">
+        <nav className="sticky top-0 z-50 w-full border-b border-[#e5e5e5] dark:border-[#37322a] bg-[#f8f7f6]/95 dark:bg-[#201b12]/95 backdrop-blur-sm px-6 py-3">
+          <div className="max-w-[1440px] mx-auto flex items-center justify-between">
+            <Link href="/menu" className="flex items-center gap-3">
+              <div className="size-10 rounded-full bg-gourmet-primary/10 text-gourmet-primary flex items-center justify-center">
+                <MdRestaurantMenu className="text-[24px]" />
+              </div>
+              <span className="text-xl font-bold text-[#171512] dark:text-white">Gourmet Haven</span>
+            </Link>
+            <ThemeToggle />
+          </div>
+        </nav>
+        <div className="flex-1 flex flex-col items-center justify-center p-4 lg:p-8 gap-4">
+          <p className="text-[#171512] dark:text-white/80">Item not found.</p>
+          <Link href="/menu" className="text-gourmet-primary font-medium hover:underline">
+            Back to Menu
+          </Link>
+        </div>
       </div>
     );
   }
@@ -144,143 +167,166 @@ export default function FoodItemDetailPage() {
   const totalPrice = item.price * quantity;
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#121212] font-display antialiased p-4 lg:p-8">
-      {/* Background decoration */}
-      <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 left-0 w-full h-full bg-[#121212]" />
-        <div className="absolute -top-[20%] -right-[10%] w-[50%] h-[50%] rounded-full bg-[#f4c325]/5 blur-[120px]" />
-        <div className="absolute -bottom-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-[#f4c325]/5 blur-[120px]" />
-      </div>
-
-      {/* Modal-style card */}
-      <div className="relative w-full max-w-6xl mx-auto shadow-2xl rounded-xl overflow-hidden bg-gourmet-surface flex flex-col lg:flex-row h-auto lg:min-h-[600px] animate-fade-in-up">
-        {/* Close – mobile */}
-        <Link
-          href="/menu"
-          className="absolute top-4 right-4 z-20 p-2 rounded-full bg-black/20 text-white/70 hover:bg-black/40 hover:text-white transition-all backdrop-blur-sm lg:hidden"
-          aria-label="Close"
-        >
-          <MdClose className="text-[24px]" />
-        </Link>
-
-        {/* Left: Image */}
-        <div className="w-full lg:w-7/12 relative min-h-[300px] lg:min-h-full group">
-          <div
-            className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-            style={
-              item.imageUrl
-                ? { backgroundImage: `url("${item.imageUrl}")` }
-                : undefined
-            }
-          >
-            {!item.imageUrl && (
-              <div className="w-full h-full flex items-center justify-center bg-gourmet-bg-dark text-gourmet-muted text-sm">
-                No image
-              </div>
-            )}
-          </div>
-          <div className="absolute inset-0 bg-gradient-to-t from-gourmet-surface/80 via-transparent to-transparent lg:hidden" />
-        </div>
-
-        {/* Right: Details */}
-        <div className="w-full lg:w-5/12 flex flex-col bg-gourmet-surface relative">
-          {/* Close – desktop */}
-          <div className="hidden lg:flex justify-end p-4 absolute top-0 right-0 z-10">
+    <div className="min-h-screen flex flex-col bg-[#f8f7f6] dark:bg-[#201b12] font-display antialiased transition-colors duration-200">
+      {/* Navbar - giống menu/cart, có ThemeToggle */}
+      <nav className="sticky top-0 z-50 w-full border-b border-[#e5e5e5] dark:border-[#37322a] bg-[#f8f7f6]/95 dark:bg-[#201b12]/95 backdrop-blur-sm px-6 py-3">
+        <div className="max-w-[1440px] mx-auto flex items-center justify-between gap-4">
+          <Link href="/menu" className="flex items-center gap-3">
+            <div className="size-10 flex items-center justify-center rounded-full bg-gourmet-primary/10 text-gourmet-primary">
+              <MdRestaurantMenu className="text-[24px]" />
+            </div>
+            <h1 className="text-xl font-bold tracking-tight text-[#171512] dark:text-white">
+              Gourmet Haven
+            </h1>
+          </Link>
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
             <Link
-              href="/menu"
-              className="text-white/40 hover:text-white transition-colors p-1"
-              aria-label="Close"
+              href={"/cart" as import("next").Route}
+              className="p-2 text-[#171512] dark:text-white hover:text-gourmet-primary transition-colors"
             >
-              <MdClose className="text-3xl" />
+              <MdShoppingCart className="text-[24px]" />
             </Link>
           </div>
+        </div>
+      </nav>
 
-          {/* Scrollable content */}
-          <div className="flex-1 overflow-y-auto p-6 lg:p-10">
-            <div className="mb-8">
-              <div className="flex items-start justify-between gap-4 mb-2">
-                <h1 className="text-3xl lg:text-4xl font-extrabold text-white leading-tight tracking-tight">
-                  {item.name}
-                  {item.subtitle && (
-                    <span className="block text-xl lg:text-2xl font-medium text-white/60 mt-1">
-                      {item.subtitle}
-                    </span>
-                  )}
-                </h1>
-              </div>
-              <div className="flex items-center gap-3 my-4">
-                <span className="text-gourmet-primary text-2xl font-bold" style={{ color: "#f4c325" }}>
-                  {formatPrice(item.price)}
-                </span>
-              </div>
-              <p className="text-[#bab39c] text-base leading-relaxed font-normal">
-                {item.description ?? ""}
-              </p>
+      {/* Background decoration */}
+      <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+        <div className="absolute top-0 left-0 w-full h-full bg-[#f8f7f6] dark:bg-[#201b12]" />
+        <div className="absolute -top-[20%] -right-[10%] w-[50%] h-[50%] rounded-full bg-gourmet-primary/5 blur-[120px]" />
+        <div className="absolute -bottom-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-gourmet-primary/5 blur-[120px]" />
+      </div>
+
+      <div className="flex-1 flex items-center justify-center p-4 lg:p-8">
+        {/* Modal-style card */}
+        <div className="relative w-full max-w-6xl mx-auto shadow-2xl rounded-xl overflow-hidden bg-white dark:bg-[#2A251E] border border-[#e5e5e5] dark:border-[#37322a] flex flex-col lg:flex-row h-auto lg:min-h-[600px] animate-fade-in-up">
+          {/* Close – mobile */}
+          <Link
+            href="/menu"
+            className="absolute top-4 right-4 z-20 p-2 rounded-full bg-black/10 dark:bg-black/20 text-[#171512] dark:text-white/70 hover:opacity-80 transition-all backdrop-blur-sm lg:hidden"
+            aria-label="Close"
+          >
+            <MdClose className="text-[24px]" />
+          </Link>
+
+          {/* Left: Image */}
+          <div className="w-full lg:w-7/12 relative min-h-[300px] lg:min-h-full group">
+            <div
+              className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+              style={
+                item.imageUrl
+                  ? { backgroundImage: `url("${item.imageUrl}")` }
+                  : undefined
+              }
+            >
+              {!item.imageUrl && (
+                <div className="w-full h-full flex items-center justify-center bg-[#e5e5e5] dark:bg-[#37322a] text-gourmet-muted text-sm">
+                  No image
+                </div>
+              )}
             </div>
-
-            <div className="w-full h-px bg-white/10 my-6" />
-
-            {/* Quantity */}
-            <div className="mb-6">
-              <label className="text-white text-sm font-semibold uppercase tracking-wider mb-3 block opacity-80">
-                Quantity
-              </label>
-              <div className="flex items-center gap-4 bg-[#2f2b1d]/50 w-fit p-1 pr-4 rounded-full border border-white/5">
-                <button
-                  type="button"
-                  onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                  className="w-10 h-10 rounded-full bg-gourmet-border hover:bg-gourmet-primary hover:text-gourmet-bg-dark text-white flex items-center justify-center transition-all cursor-pointer"
-                  style={{ backgroundColor: "#393528" }}
-                  aria-label="Decrease quantity"
-                >
-                  <MdRemove className="text-lg" />
-                </button>
-                <span className="text-xl font-bold text-white min-w-[30px] text-center">
-                  {quantity}
-                </span>
-                <button
-                  type="button"
-                  onClick={() => setQuantity((q) => q + 1)}
-                  className="w-10 h-10 rounded-full bg-gourmet-primary text-gourmet-bg-dark hover:bg-white hover:text-gourmet-bg-dark flex items-center justify-center cursor-pointer shadow-lg transition-all"
-                  style={{ backgroundColor: "#f4c325", boxShadow: "0 0 20px rgba(244,195,37,0.2)" }}
-                  aria-label="Increase quantity"
-                >
-                  <MdAdd className="text-lg" />
-                </button>
-              </div>
-            </div>
-
-            {/* Special Instructions */}
-            <div className="mb-8">
-              <label className="flex flex-col w-full">
-                <span className="text-white text-sm font-semibold uppercase tracking-wider mb-3 opacity-80">
-                  Special Instructions
-                </span>
-                <textarea
-                  value={specialInstructions}
-                  onChange={(e) => setSpecialInstructions(e.target.value)}
-                  className="w-full resize-none rounded-lg text-white placeholder:text-[#bab39c]/50 bg-[#2f2b1d] border border-gourmet-border focus:border-gourmet-primary focus:ring-1 focus:ring-gourmet-primary focus:outline-none min-h-[120px] p-4 text-base transition-colors"
-                  placeholder="e.g., No spicy, extra lime, no onions..."
-                />
-              </label>
-            </div>
+            <div className="absolute inset-0 bg-gradient-to-t from-white/80 dark:from-[#2A251E]/80 via-transparent to-transparent lg:hidden" />
           </div>
 
-          {/* Bottom action bar */}
-          <div className="p-6 lg:p-10 border-t border-white/10 bg-gourmet-surface z-10 mt-auto">
-            <button
-              type="button"
-              onClick={handleAddToCart}
-              disabled={!item.isAvailable || adding}
-              className="w-full group relative flex items-center justify-between overflow-hidden rounded-xl px-6 py-4 transition-all hover:opacity-95 active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed bg-[#f4c325] text-gourmet-bg-dark shadow-lg hover:shadow-gourmet-primary/20"
-            >
-              <span className="font-bold text-lg group-hover:translate-x-1 transition-transform relative z-10">
-                Add to Cart
-              </span>
-              <span className="font-bold text-lg opacity-90 relative z-10">
-                {formatPrice(totalPrice)}
-              </span>
-            </button>
+          {/* Right: Details */}
+          <div className="w-full lg:w-5/12 flex flex-col bg-white dark:bg-[#2A251E] relative">
+            {/* Close – desktop */}
+            <div className="hidden lg:flex justify-end p-4 absolute top-0 right-0 z-10">
+              <Link
+                href="/menu"
+                className="text-[#171512]/60 dark:text-white/40 hover:opacity-100 transition-colors p-1"
+                aria-label="Close"
+              >
+                <MdClose className="text-3xl" />
+              </Link>
+            </div>
+
+            {/* Scrollable content */}
+            <div className="flex-1 overflow-y-auto p-6 lg:p-10">
+              <div className="mb-8">
+                <div className="flex items-start justify-between gap-4 mb-2">
+                  <h1 className="text-3xl lg:text-4xl font-extrabold text-[#171512] dark:text-white leading-tight tracking-tight">
+                    {item.name}
+                    {item.subtitle && (
+                      <span className="block text-xl lg:text-2xl font-medium text-[#6C6A66] dark:text-white/60 mt-1">
+                        {item.subtitle}
+                      </span>
+                    )}
+                  </h1>
+                </div>
+                <div className="flex items-center gap-3 my-4">
+                  <span className="text-gourmet-primary text-2xl font-bold">
+                    {formatPrice(item.price)}
+                  </span>
+                </div>
+                <p className="text-[#6C6A66] dark:text-gourmet-muted text-base leading-relaxed font-normal">
+                  {item.description ?? ""}
+                </p>
+              </div>
+
+              <div className="w-full h-px bg-[#e5e5e5] dark:bg-white/10 my-6" />
+
+              {/* Quantity */}
+              <div className="mb-6">
+                <label className="text-[#171512] dark:text-white text-sm font-semibold uppercase tracking-wider mb-3 block opacity-80">
+                  Quantity
+                </label>
+                <div className="flex items-center gap-4 bg-[#f0f0f0] dark:bg-[#201b12]/50 w-fit p-1 pr-4 rounded-full border border-[#e5e5e5] dark:border-white/10">
+                  <button
+                    type="button"
+                    onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                    className="w-10 h-10 rounded-full bg-[#e5e5e5] dark:bg-[#37322a] hover:bg-gourmet-primary text-[#171512] dark:text-white hover:text-[#171512] dark:hover:text-white flex items-center justify-center transition-all cursor-pointer"
+                    aria-label="Decrease quantity"
+                  >
+                    <MdRemove className="text-lg" />
+                  </button>
+                  <span className="text-xl font-bold text-[#171512] dark:text-white min-w-[30px] text-center">
+                    {quantity}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setQuantity((q) => q + 1)}
+                    className="w-10 h-10 rounded-full bg-gourmet-primary text-[#171512] dark:text-white hover:opacity-90 flex items-center justify-center cursor-pointer shadow-lg transition-all"
+                    aria-label="Increase quantity"
+                  >
+                    <MdAdd className="text-lg" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Special Instructions */}
+              <div className="mb-8">
+                <label className="flex flex-col w-full">
+                  <span className="text-[#171512] dark:text-white text-sm font-semibold uppercase tracking-wider mb-3 opacity-80">
+                    Special Instructions
+                  </span>
+                  <textarea
+                    value={specialInstructions}
+                    onChange={(e) => setSpecialInstructions(e.target.value)}
+                    className="w-full resize-none rounded-lg text-[#171512] dark:text-white placeholder:text-[#6C6A66] dark:placeholder-gourmet-muted/50 bg-[#f8f7f6] dark:bg-[#201b12] border border-[#e5e5e5] dark:border-[#37322a] focus:border-gourmet-primary focus:ring-1 focus:ring-gourmet-primary focus:outline-none min-h-[120px] p-4 text-base transition-colors"
+                    placeholder="e.g., No spicy, extra lime, no onions..."
+                  />
+                </label>
+              </div>
+            </div>
+
+            {/* Bottom action bar */}
+            <div className="p-6 lg:p-10 border-t border-[#e5e5e5] dark:border-white/10 bg-white dark:bg-[#2A251E] z-10 mt-auto">
+              <button
+                type="button"
+                onClick={handleAddToCart}
+                disabled={!item.isAvailable || adding}
+                className="w-full group relative flex items-center justify-between overflow-hidden rounded-xl px-6 py-4 transition-all hover:opacity-95 active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed bg-gourmet-primary text-[#171512] dark:text-white font-bold shadow-lg hover:shadow-gourmet-primary/20"
+              >
+                <span className="text-lg group-hover:translate-x-1 transition-transform relative z-10">
+                  Add to Cart
+                </span>
+                <span className="text-lg opacity-90 relative z-10">
+                  {formatPrice(totalPrice)}
+                </span>
+              </button>
+            </div>
           </div>
         </div>
       </div>

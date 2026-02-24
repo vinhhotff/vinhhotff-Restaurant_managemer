@@ -1,0 +1,74 @@
+
+Cách chạy Backend (Spring Boot) trong project của bạn:
+
+---
+
+## 1. Yêu cầu
+
+- **Java 17**
+- **Maven** (hoặc dùng `mvnw` trong project)
+- **PostgreSQL** đang chạy, có database `restaurant_management`
+
+---
+
+## 2. Cấu hình database
+
+Trong `RestaurantManagement-BE/src/main/resources/application.properties` đang dùng:
+
+- **URL:** `jdbc:postgresql://localhost:5432/restaurant_management`
+- **User:** `postgres`
+- **Password:** `Phong@123`
+
+Nếu máy bạn khác (port, user, password), sửa 3 dòng tương ứng trong file này.
+
+Tạo database (trong PostgreSQL):
+
+```sql
+CREATE DATABASE restaurant_management;
+```
+
+---
+
+## 3. Chạy Backend
+
+Mở terminal trong thư mục **RestaurantManagement-BE** và chạy:
+
+```bash
+cd RestaurantManagement-BE
+mvn spring-boot:run
+```
+
+Hoặc dùng Maven Wrapper (không cần cài Maven):
+
+**Windows (PowerShell/CMD):**
+```bash
+cd RestaurantManagement-BE
+.\mvnw.cmd spring-boot:run
+```
+
+**macOS/Linux:**
+```bash
+cd RestaurantManagement-BE
+./mvnw spring-boot:run
+```
+
+---
+
+## 4. Kiểm tra
+
+- Backend mặc định chạy tại: **http://localhost:8080**
+- API ví dụ: `http://localhost:8080/api/...` (reservations, users, tables, cartItems, auth...)
+- Frontend đang cấu hình gọi API tại `http://localhost:8080` (biến `NEXT_PUBLIC_API_BASE_URL`).
+
+---
+
+## 5. Lỗi thường gặp
+
+| Lỗi | Cách xử lý |
+|-----|------------|
+| **Database không tồn tại** | Tạo DB: `CREATE DATABASE restaurant_management;` |
+| **Sai user/password PostgreSQL** | Sửa `spring.datasource.username` và `spring.datasource.password` trong `application.properties` |
+| **Port 8080 bị chiếm** | Thêm vào `application.properties`: `server.port=8081` (hoặc port khác), rồi cấu hình lại `NEXT_PUBLIC_API_BASE_URL` ở Frontend |
+| **Không tìm thấy lệnh mvn** | Dùng `.\mvnw.cmd spring-boot:run` (Windows) hoặc `./mvnw spring-boot:run` (macOS/Linux) |
+
+Nếu bạn gửi thêm lỗi cụ thể (copy nguyên dòng lỗi), có thể hướng dẫn sửa từng bước.

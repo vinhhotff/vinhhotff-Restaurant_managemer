@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Theme: Gourmet colors (đổi màu trang web) */
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -33,6 +34,34 @@
     --ring: 221.2 83.2% 53.3%;
 
     --radius: 0.75rem;
+
+    /* Gourmet theme - vàng gold (mặc định) */
+    --gourmet-primary: #eec02b;
+    --gourmet-bg-dark: #181611;
+    --gourmet-surface: #221e10;
+    --gourmet-border: #544e3b;
+    --gourmet-muted: #b9b29d;
+    --gourmet-input: #27241c;
+  }
+
+  /* Màu chủ đạo: Xanh lá */
+  [data-accent="green"] {
+    --gourmet-primary: #22c55e;
+  }
+
+  /* Màu chủ đạo: Xanh dương */
+  [data-accent="blue"] {
+    --gourmet-primary: #3b82f6;
+  }
+
+  /* Màu chủ đạo: Đỏ/Cam */
+  [data-accent="orange"] {
+    --gourmet-primary: #f97316;
+  }
+
+  /* Màu chủ đạo: Tím */
+  [data-accent="purple"] {
+    --gourmet-primary: #a855f7;
   }
 }
 

@@ -12,6 +12,7 @@ import {
   MdBlock,
   MdLocalFireDepartment,
 } from "react-icons/md";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 type MenuItem = {
   id: number;
@@ -144,6 +145,7 @@ export default function CustomerMenuGalleryPage() {
   const [category, setCategory] = useState("All");
   const [cartCount, setCartCount] = useState(0);
   const [addingId, setAddingId] = useState<number | null>(null);
+  const [addError, setAddError] = useState<string | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -194,10 +196,12 @@ export default function CustomerMenuGalleryPage() {
       return;
     }
     api
-      .get<{ data: unknown[] }>("/api/cartItems")
+      .get<{ data: { userId?: number }[] }>("/api/cartItems")
       .then((res) => {
         const list = res.data?.data ?? [];
-        setCartCount(Array.isArray(list) ? list.length : 0);
+        const arr = Array.isArray(list) ? list : [];
+        const mine = arr.filter((i) => Number(i.userId) === Number(user.id));
+        setCartCount(mine.length);
       })
       .catch(() => setCartCount(0));
   }, [user]);
@@ -218,23 +222,43 @@ export default function CustomerMenuGalleryPage() {
     return list;
   }, [items, search, category]);
 
+  const refetchCartCount = () => {
+    if (!user) return;
+    api
+      .get<{ data: { userId?: number }[] }>("/api/cartItems")
+      .then((res) => {
+        const list = res.data?.data ?? [];
+        const arr = Array.isArray(list) ? list : [];
+        const mine = arr.filter((i) => Number(i.userId) === Number(user.id));
+        setCartCount(mine.length);
+      })
+      .catch(() => setCartCount(0));
+  };
+
   const handleAddToCart = async (item: MenuItem) => {
     if (!item.isAvailable) return;
     if (!user) {
       window.location.href = "/login?redirect=/menu";
       return;
     }
+    setAddError(null);
     setAddingId(item.id);
     try {
       await api.post("/api/cartItems", {
-        userId: user.id,
+        userId: Number(user.id),
         restaurantId: DEFAULT_RESTAURANT_ID,
         menuId: item.id,
         quantity: 1,
       });
-      setCartCount((c) => c + 1);
-    } catch {
-      // Backend may reject if menu/restaurant invalid; keep UI consistent
+      refetchCartCount();
+    } catch (err: unknown) {
+      const msg =
+        err && typeof err === "object" && "response" in err
+          ? (err as { response?: { status?: number } }).response?.status === 401
+            ? "Vui lòng đăng nhập lại."
+            : "Món này chưa có trên hệ thống hoặc không thể thêm. Thử lại sau."
+          : "Không thể thêm vào giỏ. Thử lại sau.";
+      setAddError(msg);
     } finally {
       setAddingId(null);
     }
@@ -267,7 +291,8 @@ export default function CustomerMenuGalleryPage() {
               />
             </div>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
             <Link
               href={"/cart" as import("next").Route}
               className="relative p-2 text-[#171512] dark:text-white hover:text-gourmet-primary transition-colors"
@@ -331,6 +356,13 @@ export default function CustomerMenuGalleryPage() {
                 </button>
               ))}
             </div>
+
+            {/* Add-to-cart error */}
+            {addError && (
+              <div className="rounded-lg bg-red-500/10 border border-red-500/30 text-red-600 dark:text-red-400 px-4 py-2 text-sm mb-2">
+                {addError}
+              </div>
+            )}
 
             {/* Menu Grid */}
             {loading ? (
