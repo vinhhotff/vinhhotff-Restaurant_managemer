@@ -9,6 +9,7 @@ import com.example.project1.Service.Ipm.ICartItemService;
 import com.example.project1.dto.request.CartItemRequest;
 import com.example.project1.dto.response.CartItemResponse;
 import com.example.project1.mapper.CartItemMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -16,6 +17,7 @@ import java.time.Instant;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CartItemService implements ICartItemService {
 
     private final CartItemRepository cartItemRepository;
@@ -23,13 +25,6 @@ public class CartItemService implements ICartItemService {
     private final RestaurantRepository restaurantRepository;
     private final MenuRepository menuRepository;
     private final CartItemMapper cartItemMapper;
-    public CartItemService(CartItemRepository cartItemRepository, UserRepository userRepository, RestaurantRepository restaurantRepository, MenuRepository menuRepository, CartItemMapper cartItemMapper) {
-        this.cartItemRepository = cartItemRepository;
-        this.userRepository = userRepository;
-        this.restaurantRepository = restaurantRepository;
-        this.menuRepository = menuRepository;
-        this.cartItemMapper = cartItemMapper;
-    }
     @Override
     public List<CartItemResponse> getAllCartItem() {
         List<CartItem> cartItems = cartItemRepository.findAll();
